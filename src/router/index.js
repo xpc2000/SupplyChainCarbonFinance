@@ -111,6 +111,10 @@ const routes = [
         component: ()=>import('@/views/jianpaiMainChainEnterprise/p5-carbon-receiving-task')
       },
       {
+        path: '/jianpaiMainChainEnterprise/p5-1taskDetail',
+        component: ()=>import('@/views/jianpaiMainChainEnterprise/p5-1taskDetail')
+      },
+      {
         path: '/jianpaiMainChainEnterprise/p6-notifications-list',
         component: ()=>import('@/views/jianpaiMainChainEnterprise/p6-notifications-list')
       }

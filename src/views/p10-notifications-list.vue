@@ -45,21 +45,21 @@ export default{
             pinThis:false,
             notification:[
                 {
-                    message:"碳信签收提醒1",
+                    message:"碳信到账提醒1",
                     day:"今天",
                     time:"8:00A.M",
                     pin:false
 
                 },
                 {
-                    message:"碳信签收提醒2",
+                    message:"碳信到账提醒2",
                     day:"今天",
                     time:"8:00A.M",
                      pin:false
 
                 },
                 {
-                    message:"碳信签收提醒3",
+                    message:"碳信到账提醒3",
                     day:"今天",
                     time:"8:00A.M",
                      pin:false

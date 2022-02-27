@@ -31,7 +31,7 @@
             </el-table-column> -->
           </el-table>
           <div class="sub-content-import-export">
-            <button @click="jumpToApproval" class="button-style">审批</button>
+            <button @click="jumpToApproval" class="button-style">签收</button>
             <button class="button-style">查看</button>
           </div>
         </el-tab-pane>
@@ -98,7 +98,7 @@ export default {
       console.log(tab, event);
     },
     jumpToApproval() {
-      this.$router.push({ path: "p2-01-company-management-approval-form" });
+      this.$router.push({ path: "p5-1taskDetail" });
     },
   },
 };
