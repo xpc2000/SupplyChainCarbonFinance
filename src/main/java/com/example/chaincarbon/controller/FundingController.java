@@ -4,6 +4,7 @@ import com.example.chaincarbon.model.vo.ActionVo;
 import com.example.chaincarbon.model.vo.ApplyFactorVo;
 import com.example.chaincarbon.model.vo.FactorVo;
 import com.example.chaincarbon.service.CheckService;
+import com.example.chaincarbon.service.FundingService;
 import com.example.chaincarbon.utils.ResponseCode;
 import com.example.chaincarbon.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class FundingController {
 
     @Autowired
     CheckService checkService;
+
+    @Autowired
+    FundingService fundingService;
 
     /**
      * @Author: xpc2000

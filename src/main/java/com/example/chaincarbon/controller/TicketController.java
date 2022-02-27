@@ -1,7 +1,9 @@
 package com.example.chaincarbon.controller;
 
 import com.example.chaincarbon.model.vo.TicketVo;
+import com.example.chaincarbon.service.BalanceService;
 import com.example.chaincarbon.service.CheckService;
+import com.example.chaincarbon.service.TicketService;
 import com.example.chaincarbon.utils.ResponseCode;
 import com.example.chaincarbon.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,12 @@ public class TicketController {
 
     @Autowired
     CheckService checkService;
+
+    @Autowired
+    BalanceService balanceService;
+
+    @Autowired
+    TicketService ticketService;
 
     /**
      * @Author: xpc2000
