@@ -13,6 +13,6 @@ public class TicketVo {
     private String receiverChain;
     private String receiver;
     private Integer num;
-    private String application;
+    private String usage;
 }
 //注：如果回购sender，那么sender的字段和senderChain就统一写为55555（5个5）

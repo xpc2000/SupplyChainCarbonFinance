@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.chaincarbon.mapper.ReduceCoreMapper">
+  <resultMap id="BaseResultMap" type="com.example.chaincarbon.model.pojo.ReduceCore">
+    <result column="Name" jdbcType="VARCHAR" property="name" />
+    <result column="Email" jdbcType="VARCHAR" property="email" />
+    <result column="reduce_chain" jdbcType="VARCHAR" property="reduceChain" />
+    <result column="Login" jdbcType="VARCHAR" property="login" />
+    <result column="carbon_ticket_sign" jdbcType="VARCHAR" property="carbonTicketSign" />
+    <result column="carbon_ticket_transfer" jdbcType="VARCHAR" property="carbonTicketTransfer" />
+    <result column="financial_application" jdbcType="VARCHAR" property="financialApplication" />
+    <result column="financing_contract" jdbcType="VARCHAR" property="financingContract" />
+    <result column="chain_affiliate_relationship" jdbcType="VARCHAR" property="chainAffiliateRelationship" />
+    <result column="carbon_ticket_balance" jdbcType="INTEGER" property="carbonTicketBalance" />
+    <result column="blockchain_wallet_key" jdbcType="VARCHAR" property="blockchainWalletKey" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Name, Email, reduce_chain, Login, carbon_ticket_sign, carbon_ticket_transfer, financial_application, 
+    financing_contract, chain_affiliate_relationship, carbon_ticket_balance, blockchain_wallet_key
+  </sql>
+  <select id="selectByExample" parameterType="com.example.chaincarbon.model.pojo.ReduceCoreExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from reduce_core_company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <insert id="insert" parameterType="com.example.chaincarbon.model.pojo.ReduceCore">
+    insert into reduce_core_company (Name, Email, reduce_chain, 
+      Login, carbon_ticket_sign, carbon_ticket_transfer, 
+      financial_application, financing_contract, 
+      chain_affiliate_relationship, carbon_ticket_balance, 
+      blockchain_wallet_key)
+    values (#{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{reduceChain,jdbcType=VARCHAR}, 
+      #{login,jdbcType=VARCHAR}, #{carbonTicketSign,jdbcType=VARCHAR}, #{carbonTicketTransfer,jdbcType=VARCHAR}, 
+      #{financialApplication,jdbcType=VARCHAR}, #{financingContract,jdbcType=VARCHAR}, 
+      #{chainAffiliateRelationship,jdbcType=VARCHAR}, #{carbonTicketBalance,jdbcType=INTEGER}, 
+      #{blockchainWalletKey,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.chaincarbon.model.pojo.ReduceCore">
+    insert into reduce_core_company
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        Name,
+      </if>
+      <if test="email != null">
+        Email,
+      </if>
+      <if test="reduceChain != null">
+        reduce_chain,
+      </if>
+      <if test="login != null">
+        Login,
+      </if>
+      <if test="carbonTicketSign != null">
+        carbon_ticket_sign,
+      </if>
+      <if test="carbonTicketTransfer != null">
+        carbon_ticket_transfer,
+      </if>
+      <if test="financialApplication != null">
+        financial_application,
+      </if>
+      <if test="financingContract != null">
+        financing_contract,
+      </if>
+      <if test="chainAffiliateRelationship != null">
+        chain_affiliate_relationship,
+      </if>
+      <if test="carbonTicketBalance != null">
+        carbon_ticket_balance,
+      </if>
+      <if test="blockchainWalletKey != null">
+        blockchain_wallet_key,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="reduceChain != null">
+        #{reduceChain,jdbcType=VARCHAR},
+      </if>
+      <if test="login != null">
+        #{login,jdbcType=VARCHAR},
+      </if>
+      <if test="carbonTicketSign != null">
+        #{carbonTicketSign,jdbcType=VARCHAR},
+      </if>
+      <if test="carbonTicketTransfer != null">
+        #{carbonTicketTransfer,jdbcType=VARCHAR},
+      </if>
+      <if test="financialApplication != null">
+        #{financialApplication,jdbcType=VARCHAR},
+      </if>
+      <if test="financingContract != null">
+        #{financingContract,jdbcType=VARCHAR},
+      </if>
+      <if test="chainAffiliateRelationship != null">
+        #{chainAffiliateRelationship,jdbcType=VARCHAR},
+      </if>
+      <if test="carbonTicketBalance != null">
+        #{carbonTicketBalance,jdbcType=INTEGER},
+      </if>
+      <if test="blockchainWalletKey != null">
+        #{blockchainWalletKey,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update reduce_core_company
+    <set>
+      <if test="record.name != null">
+        Name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        Email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reduceChain != null">
+        reduce_chain = #{record.reduceChain,jdbcType=VARCHAR},
+      </if>
+      <if test="record.login != null">
+        Login = #{record.login,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carbonTicketSign != null">
+        carbon_ticket_sign = #{record.carbonTicketSign,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carbonTicketTransfer != null">
+        carbon_ticket_transfer = #{record.carbonTicketTransfer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.financialApplication != null">
+        financial_application = #{record.financialApplication,jdbcType=VARCHAR},
+      </if>
+      <if test="record.financingContract != null">
+        financing_contract = #{record.financingContract,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chainAffiliateRelationship != null">
+        chain_affiliate_relationship = #{record.chainAffiliateRelationship,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carbonTicketBalance != null">
+        carbon_ticket_balance = #{record.carbonTicketBalance,jdbcType=INTEGER},
+      </if>
+      <if test="record.blockchainWalletKey != null">
+        blockchain_wallet_key = #{record.blockchainWalletKey,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update reduce_core_company
+    set Name = #{record.name,jdbcType=VARCHAR},
+      Email = #{record.email,jdbcType=VARCHAR},
+      reduce_chain = #{record.reduceChain,jdbcType=VARCHAR},
+      Login = #{record.login,jdbcType=VARCHAR},
+      carbon_ticket_sign = #{record.carbonTicketSign,jdbcType=VARCHAR},
+      carbon_ticket_transfer = #{record.carbonTicketTransfer,jdbcType=VARCHAR},
+      financial_application = #{record.financialApplication,jdbcType=VARCHAR},
+      financing_contract = #{record.financingContract,jdbcType=VARCHAR},
+      chain_affiliate_relationship = #{record.chainAffiliateRelationship,jdbcType=VARCHAR},
+      carbon_ticket_balance = #{record.carbonTicketBalance,jdbcType=INTEGER},
+      blockchain_wallet_key = #{record.blockchainWalletKey,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

@@ -18,4 +18,5 @@ public class FactorVo {
     private Float interestRate;
     private Float serviceRate;
     private String factorDDL;
+    private String usage;
 }

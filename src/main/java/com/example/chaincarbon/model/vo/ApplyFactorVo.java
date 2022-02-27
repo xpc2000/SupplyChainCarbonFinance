@@ -13,4 +13,5 @@ public class ApplyFactorVo {
     private String bankAccount;
     private String date;
     private String bank;
+    private String usage;
 }

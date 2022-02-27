@@ -12,4 +12,5 @@ public class ApplyPledgeVo {
     private String companyOfferFund;
     private Integer pledgeNum;
     private String date;
+    private String usage;
 }

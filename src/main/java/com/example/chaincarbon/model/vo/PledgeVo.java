@@ -16,4 +16,5 @@ public class PledgeVo {
     private Float pledgeRate;
     private String pledgeDDL;
     private String date;
+    private String usage;
 }

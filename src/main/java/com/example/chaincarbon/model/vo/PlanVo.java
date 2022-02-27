@@ -11,4 +11,5 @@ public class PlanVo {
     private String company;
     private Integer ticketNum;
     private Integer ReductionNum;
+    private String year;
 }
