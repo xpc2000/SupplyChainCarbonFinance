@@ -1,19 +1,4 @@
-# vue-test
+SupplyChainCarbonFinance
+2021~2022 Citi Cup Financial Innovation Application Competition Entry from ”KuaYangHuLin“
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+2021-2022年花旗杯金融创新应用大赛 跨洋护林队参赛作品
