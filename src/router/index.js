@@ -5,11 +5,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/indexTest',
-    component: ()=>import('@/layout/indexTest'),
-    
-    },
+ 
   {
     path: '/',
     component: ()=>import('@/layout'),
