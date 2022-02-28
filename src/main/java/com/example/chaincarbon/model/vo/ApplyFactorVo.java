@@ -11,7 +11,6 @@ public class ApplyFactorVo {
     private String companyOfferFund;
     private Integer num;
     private String bankAccount;
-    private String date;
     private String bank;
     private String usage;
 }

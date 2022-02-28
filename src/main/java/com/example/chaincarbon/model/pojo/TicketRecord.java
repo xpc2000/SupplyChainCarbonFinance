@@ -17,7 +17,7 @@ public class TicketRecord {
 
     private Integer operation;
 
-    private Integer condition;
+    private Integer status;
 
     private String fundUse;
 
@@ -79,12 +79,12 @@ public class TicketRecord {
         this.operation = operation;
     }
 
-    public Integer getCondition() {
-        return condition;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setCondition(Integer condition) {
-        this.condition = condition;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getFundUse() {

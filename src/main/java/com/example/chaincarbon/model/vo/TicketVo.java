@@ -7,7 +7,6 @@ public class TicketVo {
     private String accountName;
     private Integer accountType;
     private String actionPassword;
-    private String date;
     private String senderChain;
     private String sender;
     private String receiverChain;

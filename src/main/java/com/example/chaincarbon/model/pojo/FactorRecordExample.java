@@ -665,63 +665,63 @@ public class FactorRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andConditionIsNull() {
-            addCriterion("condition is null");
+        public Criteria andStatusIsNull() {
+            addCriterion("status is null");
             return (Criteria) this;
         }
 
-        public Criteria andConditionIsNotNull() {
-            addCriterion("condition is not null");
+        public Criteria andStatusIsNotNull() {
+            addCriterion("status is not null");
             return (Criteria) this;
         }
 
-        public Criteria andConditionEqualTo(Integer value) {
-            addCriterion("condition =", value, "condition");
+        public Criteria andStatusEqualTo(Integer value) {
+            addCriterion("status =", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andConditionNotEqualTo(Integer value) {
-            addCriterion("condition <>", value, "condition");
+        public Criteria andStatusNotEqualTo(Integer value) {
+            addCriterion("status <>", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andConditionGreaterThan(Integer value) {
-            addCriterion("condition >", value, "condition");
+        public Criteria andStatusGreaterThan(Integer value) {
+            addCriterion("status >", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andConditionGreaterThanOrEqualTo(Integer value) {
-            addCriterion("condition >=", value, "condition");
+        public Criteria andStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("status >=", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andConditionLessThan(Integer value) {
-            addCriterion("condition <", value, "condition");
+        public Criteria andStatusLessThan(Integer value) {
+            addCriterion("status <", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andConditionLessThanOrEqualTo(Integer value) {
-            addCriterion("condition <=", value, "condition");
+        public Criteria andStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("status <=", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andConditionIn(List<Integer> values) {
-            addCriterion("condition in", values, "condition");
+        public Criteria andStatusIn(List<Integer> values) {
+            addCriterion("status in", values, "status");
             return (Criteria) this;
         }
 
-        public Criteria andConditionNotIn(List<Integer> values) {
-            addCriterion("condition not in", values, "condition");
+        public Criteria andStatusNotIn(List<Integer> values) {
+            addCriterion("status not in", values, "status");
             return (Criteria) this;
         }
 
-        public Criteria andConditionBetween(Integer value1, Integer value2) {
-            addCriterion("condition between", value1, value2, "condition");
+        public Criteria andStatusBetween(Integer value1, Integer value2) {
+            addCriterion("status between", value1, value2, "status");
             return (Criteria) this;
         }
 
-        public Criteria andConditionNotBetween(Integer value1, Integer value2) {
-            addCriterion("condition not between", value1, value2, "condition");
+        public Criteria andStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
 

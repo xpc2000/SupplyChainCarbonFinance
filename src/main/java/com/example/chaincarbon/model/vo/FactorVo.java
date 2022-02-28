@@ -13,8 +13,8 @@ public class FactorVo {
     private String bankAccount;
     private String date;
     private String bank;
-    private Long ID;
-    private Float fund;
+    private Integer ID;
+    private Integer fund;
     private Float interestRate;
     private Float serviceRate;
     private String factorDDL;

@@ -7,13 +7,14 @@ public class PledgeVo {
     private String accountName;
     private Integer accountType;
     private String actionPassword;
-    private Long ID;
+    private Integer ID;
     private String chain;
     private String companyNeedFund;
     private String companyOfferFund;
     private Integer pledgeNum;
-    private Float pledgeFund;
+    private Integer pledgeFund;
     private Float pledgeRate;
+    private Float interestRate;
     private String pledgeDDL;
     private String date;
     private String usage;

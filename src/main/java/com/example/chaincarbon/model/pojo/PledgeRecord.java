@@ -25,7 +25,7 @@ public class PledgeRecord {
 
     private String fundUse;
 
-    private Integer condition;
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -115,11 +115,11 @@ public class PledgeRecord {
         this.fundUse = fundUse == null ? null : fundUse.trim();
     }
 
-    public Integer getCondition() {
-        return condition;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setCondition(Integer condition) {
-        this.condition = condition;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

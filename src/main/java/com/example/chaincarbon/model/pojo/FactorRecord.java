@@ -21,7 +21,7 @@ public class FactorRecord {
 
     private Float interestRate;
 
-    private Integer condition;
+    private Integer status;
 
     private String fundUse;
 
@@ -101,12 +101,12 @@ public class FactorRecord {
         this.interestRate = interestRate;
     }
 
-    public Integer getCondition() {
-        return condition;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setCondition(Integer condition) {
-        this.condition = condition;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getFundUse() {
