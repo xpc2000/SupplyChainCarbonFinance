@@ -3,7 +3,7 @@
     <div class="sub-content-header">
       <div class="sub-content-title-left">
         <div class="sub-content-title-left-title">任务管理</div>
-        <div class="sub-content-title-left-sublist-title">签收碳信</div>
+        <div class="sub-content-title-left-sublist-title">质押审批</div>
       </div>
       <div class="sub-content-title-right">
         <el-input v-model="input" placeholder="搜索"></el-input>
@@ -22,24 +22,24 @@
               :prop="item.prop"
               :label="item.label"
               :width="item.width"
-              align="left"
+              align="center"
             >
             </el-table-column>
 
-            <!-- <el-table-column label="状态" width="180" align="center">
-              <el-tag>已审批</el-tag>
-            </el-table-column> -->
+            <el-table-column label="状态" width="180" align="center">
+              <el-tag>待审核</el-tag>
+            </el-table-column>
           </el-table>
           <div class="sub-content-import-export">
-            <button @click="jumpToApproval" class="button-style">签收</button>
+            <button @click="jumpToApproval" class="button-style">审批</button>
             <button class="button-style">查看</button>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="待签收" name="second"
-          >待签收</el-tab-pane
+        <el-tab-pane label="质押待审批" name="second"
+          >质押待审批</el-tab-pane
         >
-        <el-tab-pane label="已签收" name="third"
-          >已签收</el-tab-pane
+        <el-tab-pane label="质押已审批" name="third"
+          >质押已审批</el-tab-pane
         >
       </el-tabs>
     </div>
@@ -53,52 +53,55 @@ export default {
       activeName: "first",
       column: [
         {
-          prop: "task",
-          label: "任务列表",
-          width: "400px",
-        },
-        {
-          prop: "date",
-          label: "创建时间",
+          prop: "name",
+          label: "配额所有者",
           width: "",
         },
         {
-          prop: "status",
-          label: "签收状态",
+          prop: "pledgeAmount",
+          label: "质押金额",
           width: "",
         },
         {
-          prop: "people",
-          label: "处理人",
+          prop: "pledgeRate",
+          label: "质押率",
           width: "",
         },
-        
+        {
+          prop: "time",
+          label: "操作时间",
+          width: "",
+        },
+        {
+          prop: "loanRate",
+          label: "贷款利率",
+          width: "",
+        },
       ],
       tableData: [
-          
         {
-          task: "请您签收碳信，发行方控排链核心企业向您发行3200碳信",
-          date: "2022-03-03 12:00",
-          status: "待签收",
-          people: "",
-         
+          name: "青岛银行",
+          pledgeAmount: "3000",
+          pledgeRate: "14",
+          time: "2022-03-03",
+          loanRate: "8",
         },
         {
-          task: "请您签收碳信，发行方控排链核心企业向您发行3200碳信",
-          date: "2022-03-03 12:00",
-          status: "待签收",
-          people: "",
-         
+          name: "青岛银行",
+          pledgeAmount: "3000",
+          pledgeRate: "14",
+          time: "2022-03-03",
+          loanRate: "8",
         },
-      ]
-    }
+      ],
+    };
   },
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
     },
     jumpToApproval() {
-      this.$router.push({ path: "p5-1taskDetail" });
+      this.$router.push({ path: "PledgeAprovalDetails" });
     },
   },
 };

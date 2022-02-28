@@ -11,7 +11,7 @@
             <el-row  :gutter="40" >
                 <el-col :span="8">
                     <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
-                        <el-form-item label="销毁方所属控排链">
+                        <el-form-item label="创建方所属控排链">
                             <el-input  placeholder="控排链" v-model="formLabelAlign.kongpai"></el-input>
                         </el-form-item>
                         <el-form-item label="创建方">
@@ -27,7 +27,7 @@
                         <el-form-item label="款项余额">
                             <el-input placeholder="￥100,000.00" v-model="formLabelAlign.moneyBalance"></el-input>
                         </el-form-item>
-                        <el-form-item label="碳额度">
+                        <el-form-item label="碳信额度">
                             <el-input placeholder="￥100,000.00" v-model="formLabelAlign.carbonCreditBalance"></el-input>
                         </el-form-item>
                         <el-form-item label="碳信创建日期">
@@ -44,7 +44,7 @@
             <el-row class="subcontent-top-title">
                 <el-col :span="12">碳信创建明细</el-col> 
             </el-row>
-            <el-row class="subcontent-bellow-body">
+            <el-row class="subcontent-top-title">
                 
                 <el-table
                 :data="tableData"

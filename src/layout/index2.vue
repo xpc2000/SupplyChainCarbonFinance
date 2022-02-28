@@ -75,11 +75,11 @@
         <!-- <el-input placeholder="输入用户名" v-model="username" clearable>
         </el-input> -->
         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="用户名" prop="usernamePass">
-            <el-input type="text" v-model="ruleForm.usernamePass" autocomplete="off"></el-input>
+          <el-form-item label="用户名" prop="username">
+            <el-input type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="passwordPass">
-            <el-input type="password" v-model="ruleForm.passwordPass" autocomplete="off"></el-input>
+          <el-form-item label="密码" prop="password">
+            <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
           </el-form-item>
           
         </el-form>
@@ -120,8 +120,8 @@ export default {
       // password: "",
       centerDialogVisible: false,
       ruleForm: {
-          passwordPass: '',
-          usernamePass: '',
+          password: '',
+          username: '',
 
         },
       rules: {
@@ -192,7 +192,33 @@ export default {
 
     //     },
         submitLoginForm(ruleForm) {
-          if(ruleForm.usernamePass==1&&ruleForm.passwordPass==1){
+      //      console.log("clicked");
+      // this.$refs.ruleForm.validate((valid) => {
+      //   if (valid) {
+      //     let params = {
+      //       userName: this.ruleForm.username,
+      //       password: this.ruleForm.password,
+      //     };
+      //     //   console.log(params)
+      //     Login(params).then((res) => {
+      //       if (res.data.code == "201") {
+      //         //失败
+      //         error(res.data.msg, this);
+      //       } else {
+      //         this.$router.push({ path: "/index3" });
+      //         // getCount(params).then(res=>{
+      //         //     console.log(res)
+      //         // })
+      //         //成功
+      //         success(res.data.msg, this);
+
+      //         // let time = new Date().getTime()
+      //         // localStorage.setItem('login',time)
+      //       }
+      //     });
+      //   }
+      // });
+          if(ruleForm.username==1&&ruleForm.password==1){
           this.$router.push("/");
           this.centerDialogVisible = false;
           this.usernamePass = "";
@@ -202,7 +228,7 @@ export default {
             message: '成功登录',
             type: 'success'
           });
-          }else if(ruleForm.usernamePass==2&&ruleForm.passwordPass==2){
+          }else if(ruleForm.username==2&&ruleForm.password==2){
           this.$router.push("/index2");
           this.centerDialogVisible = false;
           this.usernamePass = "";
@@ -212,7 +238,7 @@ export default {
             message: '成功登录',
             type: 'success'
           });
-          }else if(ruleForm.usernamePass==3&&ruleForm.passwordPass==3){
+          }else if(ruleForm.username==3&&ruleForm.password==3){
           this.$router.push("/index3");
           this.centerDialogVisible = false;
           this.usernamePass = "";
@@ -222,10 +248,27 @@ export default {
             message: '成功登录',
             type: 'success'
           });
+          }else if(ruleForm.username==4&&ruleForm.password==4){
+          this.$router.push("/index4");
+          this.centerDialogVisible = false;
+          this.usernamePass = "";
+          this.usernamePass = "";
+        
+          this.$message({
+            message: '成功登录',
+            type: 'success'
+          });
+          }else if(ruleForm.username==5&&ruleForm.password==5){
+          this.$router.push("/index5");
+          this.centerDialogVisible = false;
+          this.usernamePass = "";
+          this.usernamePass = "";
+        
+          this.$message({
+            message: '成功登录',
+            type: 'success'
+          });
           }
-          
-          
-          
           else{
             this.$message.error('登陆失败');
           }

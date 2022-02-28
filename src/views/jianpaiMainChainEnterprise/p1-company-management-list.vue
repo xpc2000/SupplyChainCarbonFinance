@@ -19,7 +19,7 @@
                     <!-- 插槽1：状态 -->
                     <template #status="{ row, $index }">
                     <el-tag v-if="row.add" type="success">已办理</el-tag>
-                    <el-tag v-else type="danger">未审批</el-tag>
+                    <el-tag v-else type="danger">待审批</el-tag>
                     </template>
                     <!-- 插槽2：编辑 -->
                     <template #options="{ row, $index }">

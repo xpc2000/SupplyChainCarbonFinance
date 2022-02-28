@@ -2,8 +2,8 @@
   <div class="sub-content-box">
     <div class="sub-content-header">
       <div class="sub-content-title-left">
-        <div class="sub-content-title-left-title">任务管理</div>
-        <div class="sub-content-title-left-sublist-title">签收详情</div>
+        <div class="sub-content-title-left-title">融资管理</div>
+        <div class="sub-content-title-left-sublist-title">保理买入</div>
       </div>
     </div>
 
@@ -13,63 +13,63 @@
         审核信息
       </div>
       <div>
- 
         <el-descriptions class="description-box">
-          <el-descriptions-item label="发行方所在供应链"
-            >某控排链</el-descriptions-item
-          >
-          <el-descriptions-item label="发行方企业全称"
-            >某企业</el-descriptions-item
-          >
-          <el-descriptions-item label="发行时间"
-            >2022-03-03</el-descriptions-item
-          >
-          <el-descriptions-item label="签收方所在供应链"
+          <el-descriptions-item label="融资企业所属减排链"
             >某减排链</el-descriptions-item
           >
-          <el-descriptions-item label="签收方企业全称"
+          <el-descriptions-item label="融资企业全称"
             >某企业</el-descriptions-item
           >
-          <el-descriptions-item label="交易地址"
-            >XXXXXXXXXXXXX</el-descriptions-item
-          >
-          <el-descriptions-item label="碳信到账日期"
-            >2020-03-03</el-descriptions-item
-          >
-          <el-descriptions-item label="碳信转让金额"
+          <el-descriptions-item label="碳信数量"
             >2300</el-descriptions-item
           >
-          <el-descriptions-item label="资金用途说明">无</el-descriptions-item>
+          <el-descriptions-item label="资金用途"
+            >融资</el-descriptions-item
+          >
+          <el-descriptions-item label="收款账户"
+            >某企业</el-descriptions-item
+          >
+          <el-descriptions-item label="收款银行"
+            >某银行</el-descriptions-item
+          >
+          <el-descriptions-item label="保理企业"
+            >某企业</el-descriptions-item
+          >
+          <el-descriptions-item label="融资金额"
+            > ￥￥￥￥￥￥</el-descriptions-item
+          >
+          <el-descriptions-item label="操作时间"
+            >2022-03-03</el-descriptions-item
+          >
+          <el-descriptions-item label="利率"
+            >2300</el-descriptions-item
+          >
+          <el-descriptions-item label="服务费率"
+            >￥￥</el-descriptions-item
+          >
+          <el-descriptions-item label="融资期限"
+            >2022-03-03</el-descriptions-item
+          >
         </el-descriptions>
       </div>
       <!-- 审核信息 -->
       <div class="description-title">
         <div class="table-rec"></div>
-        签收详情
+        附件信息
       </div>
-     
-        <!-- <el-descriptions class="description-box"> -->
-            
-                <div class="description-box">
-                     <el-table
-                
-                :data="tableData"
-                style="width: 100%">
-                    <el-table-column
-                        v-for="(item, index) in column"
-                        :key="index"
-                        :prop="item.prop"
-                        :label="item.label"
-                        :width="item.width"
-                        align="center">
-                    </el-table-column>
-                    
-                </el-table>
-                </div>
-               
-         
-        <!-- </el-descriptions> -->
-  
+      <div class="upload-file-box">
+        <el-descriptions class="description-box">
+          <el-descriptions-item label="合同"
+            >融资合同.pdf</el-descriptions-item
+          >
+           <el-descriptions-item label="发票"
+            >发票.png
+            </el-descriptions-item
+          >
+        </el-descriptions>
+       
+        
+      </div>
       <div class="description-title">
         <div class="table-rec"></div>
         审批操作
@@ -145,55 +145,7 @@ export default {
             pass: [
             { validator: validatePass, trigger: 'blur' }
             ],
-        },
-          column:[ {
-
-            prop: 'sendername',
-            label: '付款方',
-            width: ""
-            },
-            
-            {
-            prop: 'receiverName',
-            label: '签收方',
-            width: ""
-            },
-            {
-
-            prop: 'date',
-            label: '碳信到账日期',
-            width: ""
-            },
-            {
-            prop: 'amount',
-            label: '碳信数量',
-            width: ""
-            },
-            {
-            prop: 'status',
-            label: '状态',
-            width: ""
-            },
-            
-            {
-            prop: 'file',
-            label: '附件',
-            width: ""
-            },
-            
-            ],
-        tableData: [{
-            sendername: '某控排链企业',
-            receiverName: '某减排链企业',
-            date: '03-03-2022',
-            amount: '2300',
-            status:'待签收',
-            file:'合同.pdf',
-          
- 
-          }
-          ]
-			
+        }
     };
   },
   methods: {
@@ -203,26 +155,15 @@ export default {
         type: "success",
       });
     },
-    submitForm(formName,formLabelAlign){
-            
-
-            console.log(formLabelAlign)
-
-            this.$refs[formName].validate((valid) => {
-
-            if (valid) {//操作密码正确
-                this.dialogVisible=false
-                 this.$message({
-                    message: '操作成功',
-                    type: 'success'
-                });
-
-
-            } else {//操作密码不正确
-                console.log('error submit!!');
-                return false;
-            }
-            });
+    submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            alert('submit!');
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
       },
   },
 };
@@ -283,8 +224,8 @@ export default {
   margin: 20px 40px;
 }
 .button-style {
-    margin: 30px 0px 30px 0px;
-
+  margin-right: 20px;
+  margin-top: 20px;
   width: 100px;
   height: 33px;
   border-radius: 7px;
@@ -301,6 +242,4 @@ export default {
   color: #209f85;
   cursor: pointer;
 }
-
-
 </style>

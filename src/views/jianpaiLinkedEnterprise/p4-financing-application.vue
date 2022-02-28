@@ -2,8 +2,8 @@
   <div class="sub-content-box">
     <div class="sub-content-header">
       <div class="sub-content-title-left">
-        <div class="sub-content-title-left-title">碳信管理</div>
-        <div class="sub-content-title-left-sublist-title">碳信转让</div>
+        <div class="sub-content-title-left-title">融资管理</div>
+        <div class="sub-content-title-left-sublist-title">融资申请</div>
       </div>
     </div>
     <div class="sub-content-body">
@@ -20,79 +20,44 @@
               label-width="80px"
               :model="formLabelAlign"
             >
-              <el-form-item label="转让方所属供应链">
+              <el-form-item label="融资企业所属控排链">
                 <el-input
-                  placeholder="某减排链"
+                  placeholder=""
                   v-model="formLabelAlign.sendername"
                 ></el-input>
               </el-form-item>
-               <el-form-item label="转让方企业全称">
+               <el-form-item label="融资企业全称">
                 <el-input
-                  placeholder="某减排链企业"
+                  placeholder=""
                   v-model="formLabelAlign.senderCompany"
                 ></el-input>
               </el-form-item>
-              <el-form-item label="碳信转让日期">
-                <el-date-picker
-                  v-model="formLabelAlign.transferDate"
-                  type="date"
-                  placeholder="选择日期"
-                >
-                </el-date-picker>
-              </el-form-item>
-              
-              
-            </el-form>
-          </el-col>
-          <el-col :span="10">
-            <el-form
-              :label-position="labelPositionForm"
-              label-width="80px"
-              :model="formLabelAlign"
-            >
-             
-              <el-form-item label="碳信可用余额">
-                <el-input
-                  placeholder="￥￥￥￥￥"
-                  v-model="formLabelAlign.carbonCreditBalance"
-                ></el-input>
-              </el-form-item>
-               <el-form-item label="碳信转让数量">
-                <el-input
-                  placeholder="￥100,000.00"
-                  v-model="formLabelAlign.carbonTransferAmount"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="附件">
+              <el-form-item label="碳信数量">
                 <el-input
                   placeholder=""
-                  v-model="formLabelAlign.file"
-                ></el-input>
-              </el-form-item>
-            </el-form>
-          </el-col>
-        </el-row>
-      </div>
-      <!-- 转让方 -->
-      <div class="description-title">
-        <div class="table-rec"></div>
-       签收方
-      </div>
-      <div class="form-body">
-        <el-row :gutter="40">
-          <el-col :span="10">
-            <el-form
-              :label-position="labelPositionForm"
-              label-width="80px"
-              :model="formLabelAlign"
-            >
-              <el-form-item label="接收方所属供应链">
-                <el-input
-                  placeholder="某减排链"
                   v-model="formLabelAlign.sendername"
                 ></el-input>
               </el-form-item>
- 
+              <el-form-item label="操作时间">
+                <el-input
+                  placeholder=""
+                  v-model="formLabelAlign.sendername"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="利率">
+                <el-input
+                  placeholder=""
+                  v-model="formLabelAlign.sendername"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="收款账户">
+                <el-input
+                  placeholder=""
+                  v-model="formLabelAlign.sendername"
+                ></el-input>
+              </el-form-item>
+              
+              
             </el-form>
           </el-col>
           <el-col :span="10">
@@ -102,17 +67,47 @@
               :model="formLabelAlign"
             >
              
-              <el-form-item label="接收方企业全称">
+              <el-form-item label="保理企业">
                 <el-input
-                  placeholder="某减排链企业"
-                  v-model="formLabelAlign.carbonCreditBalance"
+                  placeholder=""
+                  v-model="formLabelAlign.sendername"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="融资金额">
+                <el-input
+                  placeholder=""
+                  v-model="formLabelAlign.sendername"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="融资期限">
+                <el-input
+                  placeholder=""
+                  v-model="formLabelAlign.sendername"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="服务费率">
+                <el-input
+                  placeholder=""
+                  v-model="formLabelAlign.sendername"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="收款银行">
+                <el-input
+                  placeholder=""
+                  v-model="formLabelAlign.sendername"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="资金用途概述">
+                <el-input
+                  placeholder=""
+                  v-model="formLabelAlign.sendername"
                 ></el-input>
               </el-form-item>
             </el-form>
           </el-col>
         </el-row>
       </div>
-
+      
        <div class="sub-content-submit-button">
         <el-button class="button-style">修改</el-button>
         <el-button class="button-style" @click="dialogVisible=true">提交</el-button>

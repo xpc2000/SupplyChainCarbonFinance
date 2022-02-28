@@ -133,17 +133,17 @@
           label-width="100px"
           class="demo-ruleForm"
         >
-          <el-form-item label="用户名" prop="usernamePass">
+          <el-form-item label="用户名" prop="username">
             <el-input
               type="text"
-              v-model="ruleForm.usernamePass"
+              v-model="ruleForm.username"
               autocomplete="off"
             ></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="passwordPass">
+          <el-form-item label="密码" prop="password">
             <el-input
               type="password"
-              v-model="ruleForm.passwordPass"
+              v-model="ruleForm.password"
               autocomplete="off"
             ></el-input>
           </el-form-item>
@@ -244,7 +244,7 @@ export default {
 
     //     },
        submitLoginForm(ruleForm) {
-          if(ruleForm.usernamePass==1&&ruleForm.passwordPass==1){
+          if(ruleForm.username==1&&ruleForm.password==1){
           this.$router.push("/");
           this.centerDialogVisible = false;
           this.usernamePass = "";
@@ -254,7 +254,7 @@ export default {
             message: '成功登录',
             type: 'success'
           });
-          }else if(ruleForm.usernamePass==2&&ruleForm.passwordPass==2){
+          }else if(ruleForm.username==2&&ruleForm.password==2){
           this.$router.push("/index2");
           this.centerDialogVisible = false;
           this.usernamePass = "";
@@ -264,7 +264,7 @@ export default {
             message: '成功登录',
             type: 'success'
           });
-          }else if(ruleForm.usernamePass==3&&ruleForm.passwordPass==3){
+          }else if(ruleForm.username==3&&ruleForm.password==3){
           this.$router.push("/index3");
           this.centerDialogVisible = false;
           this.usernamePass = "";
@@ -274,10 +274,27 @@ export default {
             message: '成功登录',
             type: 'success'
           });
+          }else if(ruleForm.username==4&&ruleForm.password==4){
+          this.$router.push("/index4");
+          this.centerDialogVisible = false;
+          this.usernamePass = "";
+          this.usernamePass = "";
+        
+          this.$message({
+            message: '成功登录',
+            type: 'success'
+          });
+          }else if(ruleForm.username==5&&ruleForm.password==5){
+          this.$router.push("/index5");
+          this.centerDialogVisible = false;
+          this.usernamePass = "";
+          this.usernamePass = "";
+        
+          this.$message({
+            message: '成功登录',
+            type: 'success'
+          });
           }
-          
-          
-          
           else{
             this.$message.error('登陆失败');
           }

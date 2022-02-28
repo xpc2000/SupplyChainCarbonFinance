@@ -15,41 +15,9 @@
         style="height: calc(100% - 70px)"
         :router="true"
       >
-        <div class="nav-small-label">控排连核心企业</div>
-        <el-submenu index="1">
-          <template slot="title">
-            <i
-              ><img src="../assets/header-icon/nav-icon-multiple.svg" alt=""
-            /></i>
-            <span>链属企业管理</span>
-          </template>
-          <el-menu-item-group>
-            <el-menu-item index="/kongpaiMainEnterprise/p1-company-management-list">
-              <span>链属企业列表</span>
-            </el-menu-item>
-            <el-menu-item index="/kongpaiMainEnterprise/p2-company-management-approval">
-              <span>减排计划申报</span>
-            </el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
+        <div class="nav-small-label">金融机构</div>
+        
 
-        <el-submenu index="2">
-          <template slot="title">
-            <i><img src="../assets/header-icon/nav-icon-solo.svg" alt="" /></i>
-            <span>控排链碳信账户</span>
-          </template>
-          <el-menu-item-group>
-            <el-menu-item index="/kongpaiMainEnterprise/p3-kong-account-detail"
-              >账户信息</el-menu-item
-            >
-            <el-menu-item index="/kongpaiMainEnterprise/p4-carbon-credit-created"
-              >碳信创建</el-menu-item
-            >
-            <el-menu-item index="/kongpaiMainEnterprise/p5-carbon-credit-destroyed"
-              >碳信销毁</el-menu-item
-            >
-          </el-menu-item-group>
-        </el-submenu>
         <el-submenu index="3">
           <template slot="title">
             <i
@@ -57,27 +25,44 @@
                 src="../assets/header-icon/nav-icon-management-board.svg"
                 alt=""
             /></i>
-            <span>碳信管理</span>
+            <span>任务管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="/kongpaiMainEnterprise/p6-company-carbon-credit-account-detail"
-              >企业碳信账户</el-menu-item
+            <el-menu-item
+              index="/financeInstitute/PledgeAproval"
+              >质押审批</el-menu-item
             >
-            <el-menu-item index="/kongpaiMainEnterprise/p7-carbon-credit-launching"
-              >碳信发行</el-menu-item
-            >
-            <el-menu-item index="/kongpaiMainEnterprise/p8-carbon-credit-repo-list"
-              >碳信回购</el-menu-item
+            <el-menu-item
+              index="/financeInstitute/PledgeSigning"
+              >质押签订</el-menu-item
             >
           </el-menu-item-group>
         </el-submenu>
-        <el-menu-item index="/kongpaiMainEnterprise/p9-pledge-application">
-          <i
-            ><img src="../assets/header-icon/nav-icon-application.svg" alt=""
-          /></i>
-          <span>碳配额质押申请</span>
-        </el-menu-item>
-        <el-menu-item index="/kongpaiMainEnterprise/p10-notifications-list">
+
+        <el-submenu index="4">
+          <template slot="title">
+            <i
+              ><img
+                src="../assets/header-icon/nav-icon-management-board.svg"
+                alt=""
+            /></i>
+            <span>融资管理</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item
+              index="/financeInstitute/ComplianceReview"
+              >保理审核</el-menu-item
+            >
+          </el-menu-item-group>
+          <el-menu-item-group>
+            <el-menu-item
+              index="/financeInstitute/FactoringBuying"
+              >保理买入</el-menu-item
+            >
+          </el-menu-item-group>
+        </el-submenu>
+
+        <el-menu-item index="/financeInstitute/notificationList">
           <i
             ><img src="../assets/header-icon/nav-icon-message-list.svg" alt=""
           /></i>
@@ -123,14 +108,14 @@
           label-width="100px"
           class="demo-ruleForm"
         >
-          <el-form-item label="用户名" prop="usernamePass">
+          <el-form-item label="用户名" prop="username">
             <el-input
               type="text"
               v-model="ruleForm.username"
               autocomplete="off"
             ></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="passwordPass">
+          <el-form-item label="密码" prop="password">
             <el-input
               type="password"
               v-model="ruleForm.password"
@@ -153,9 +138,6 @@
 </template>
 
 <script>
-import { Login, getCount } from "@/utils/api.js";
-import { changePwd } from "@/utils/api.js";
-import { success, error } from "@/utils/notify.js";
 export default {
   data() {
     var validateUsername = (rule, value, callback) => {
@@ -170,10 +152,12 @@ export default {
       }
     };
     return {
+      // username: "",
+      // password: "",
       centerDialogVisible: false,
       ruleForm: {
-        username: "",
         password: "",
+        username: "",
       },
       rules: {
         password: [{ validator: validatePassword, trigger: "blur" }],
@@ -234,91 +218,66 @@ export default {
     //     })
 
     //     },
-    submitLoginForm(ruleForm) {
-      // console.log("clicked");
-      // this.$refs.ruleForm.validate((valid) => {
-      //   if (valid) {
-      //     let params = {
-      //       userName: this.ruleForm.username,
-      //       password: this.ruleForm.password,
-      //     };
-      //     //   console.log(params)
-      //     Login(params).then((res) => {
-      //       if (res.data.code == "201") {
-      //         //失败
-      //         error(res.data.msg, this);
-      //       } else {
-      //             success(res.data.msg, this);
-      //             this.$router.push({ path: "/index2" });
-               
-              
-      //         // getCount(params).then(res=>{
-      //         //     console.log(res)
-      //         // })
-      //         //成功
-              
+        submitLoginForm(ruleForm) {
+          if(ruleForm.username==1&&ruleForm.password==1){
+          this.$router.push("/");
+          this.centerDialogVisible = false;
+          this.usernamePass = "";
+          this.usernamePass = "";
+        
+          this.$message({
+            message: '成功登录',
+            type: 'success'
+          });
+          }else if(ruleForm.username==2&&ruleForm.password==2){
+          this.$router.push("/index2");
+          this.centerDialogVisible = false;
+          this.usernamePass = "";
+          this.usernamePass = "";
+        
+          this.$message({
+            message: '成功登录',
+            type: 'success'
+          });
+          }else if(ruleForm.username==3&&ruleForm.password==3){
+          this.$router.push("/index3");
+          this.centerDialogVisible = false;
+          this.usernamePass = "";
+          this.usernamePass = "";
+        
+          this.$message({
+            message: '成功登录',
+            type: 'success'
+          });
+          }else if(ruleForm.username==4&&ruleForm.password==4){
+          this.$router.push("/index4");
+          this.centerDialogVisible = false;
+          this.username = "";
+          this.username = "";
+        
+          this.$message({
+            message: '成功登录',
+            type: 'success'
+          });
+          }else if(ruleForm.username==5&&ruleForm.password==5){
+          this.$router.push("/index5");
+          this.centerDialogVisible = false;
+          this.username = "";
+          this.username = "";
+        
+          this.$message({
+            message: '成功登录',
+            type: 'success'
+          });
+          }
+          else{
+            this.$message.error('登陆失败');
+          }
+       
+            
 
-      //         // let time = new Date().getTime()
-      //         // localStorage.setItem('login',time)
-      //       }
-      //     });
-      //   }
-      // });
-      if(ruleForm.username==1&&ruleForm.password==1){
-      this.$router.push("/");
-      this.centerDialogVisible = false;
-      this.username = "";
-      this.password = "";
+        }
 
-      this.$message({
-        message: '成功登录',
-        type: 'success'
-      });
-      }else if(ruleForm.username==2&&ruleForm.password==2){
-      this.$router.push("/index2");
-      this.centerDialogVisible = false;
-      this.username = "";
-      this.password = "";
-
-      this.$message({
-        message: '成功登录',
-        type: 'success'
-      });
-      }else if(ruleForm.username==3&&ruleForm.password==3){
-      this.$router.push("/index3");
-      this.centerDialogVisible = false;
-      this.username = "";
-      this.password = "";
-
-      this.$message({
-        message: '成功登录',
-        type: 'success'
-      });
-      }else if(ruleForm.username==4&&ruleForm.password==4){
-      this.$router.push("/index4");
-      this.centerDialogVisible = false;
-      this.username = "";
-      this.password = "";
-
-      this.$message({
-        message: '成功登录',
-        type: 'success'
-      });
-      }else if(ruleForm.username==5&&ruleForm.password==5){
-      this.$router.push("/index5");
-      this.centerDialogVisible = false;
-      this.username = "";
-      this.password = "";
-
-      this.$message({
-        message: '成功登录',
-        type: 'success'
-      });
-      }
-      else{
-        this.$message.error('登陆失败');
-      }
-    },
   },
 };
 </script>

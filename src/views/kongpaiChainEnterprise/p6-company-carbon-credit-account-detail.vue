@@ -118,7 +118,7 @@ export default {
       ],
       tableData: [
         {
-          sender: "核心企业名字",
+          sender: "链属企业名字",
           senderCode: "#12548796",
           receiver: "减排链核属企业A",
           address: "123******EEE",
@@ -126,7 +126,7 @@ export default {
           amount: "￥￥￥￥",
         },
         {
-          sender: "核心企业名字",
+          sender: "链属企业名字",
           senderCode: "#12548796",
           receiver: "减排链核属企业A",
           address: "123******EEE",
