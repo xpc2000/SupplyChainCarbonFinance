@@ -1,38 +1,29 @@
 <template>
   <div class="sub-content-box">
-    <div class="sub-content-header">
-      <div class="sub-content-title-left">
-        <div class="sub-content-title-left-title">链属企业管理</div>
-        <div class="sub-content-title-left-sublist-title">减排计划申报</div>
-      </div>
-      <div class="sub-content-title-right">
-        <el-input v-model="input" placeholder="搜索"></el-input>
-      </div>
-    </div>
+    <header-title :headerTitle="headerTitle"></header-title>
 
     <div class="sub-content-tabs">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="全部" name="first">
-          <el-table :data="tableData" style="width: 100%">
-            <el-table-column type="selection" width="60" align="center">
-            </el-table-column>
-            <el-table-column
-              v-for="(item, index) in column"
-              :key="index"
-              :prop="item.prop"
-              :label="item.label"
-              :width="item.width"
-              align="center"
-            >
-            </el-table-column>
+ 
+         <template>
+                <div>
+                    <list-table :data="tableData" :columns="column">
+                      <!-- 插槽1：状态 -->
+                      <template #status="{ row, $index }">
+                      <el-tag v-if="row.approved" class="approved">已办理</el-tag>
+                      <el-tag v-else class="not-approved">待审批</el-tag>
+                      </template>
+                      <template  #option="{ row, $index }">
+                       <el-checkbox  name="type"></el-checkbox>
+                      </template>
+                      
 
-            <el-table-column label="状态" width="180" align="center">
-              <el-tag>已审批</el-tag>
-            </el-table-column>
-          </el-table>
+                </list-table>
+                </div>
+            </template>
           <div class="sub-content-import-export">
-            <button @click="jumpToApproval" class="button-style">审批</button>
-            <button class="button-style">查看</button>
+            <button @click="jumpToApproval(option.row, option.$index)" class="button-style">查看</button>
           </div>
         </el-tab-pane>
         <el-tab-pane label="减排申报待审批" name="second"
@@ -46,10 +37,17 @@
   </div>
 </template>
 <script>
+import headerTitle from '@/components/headerTitle.vue'
+import ListTable from "@/components/ListTable";
 export default {
   data() {
     return {
-      input: "",
+        ID:[],
+        headerTitle:{
+          largeTitle:'链属企业管理',
+          smallTitle:'减排计划申报'    
+        },
+    
       activeName: "first",
       column: [
         {
@@ -77,21 +75,37 @@ export default {
           label: "碳信总额",
           width: "",
         },
+        {
+          prop: "status",
+          label: "碳信账户状态",
+          customSlot: "status",
+        },
+        {
+          prop: "option",
+          label: "选择",
+          width: "",
+          customSlot: "option",
+        }
+       
       ],
       tableData: [
         {
+          ID:"1",
           name: "青岛银行",
           relationship: "一级链属企业",
           amount: "3695",
           time: "2020-01 - 2020-12",
           ccer: "1455.58",
+          approved: true,
         },
         {
+          ID:"2",
           name: "青岛银行",
           relationship: "一级链属企业",
           amount: "3695",
           time: "2020-01 - 2020-12",
           ccer: "1455.58",
+          approved: false,
         },
       ],
     };
@@ -100,18 +114,21 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event);
     },
-    jumpToApproval() {
-      this.$router.push({ path: "p2-01-company-management-approval-form" });
+
+    jumpToApproval(row, index) {
+      this.$router.push({ path: "/kongpaiMainEnterprise/companyManagement/approvalListForm" });
+      console.log(row+","+index)
     },
   },
+  components:{
+    headerTitle,
+    ListTable
+  }
 };
 </script>
 <style scoped>
 .sub-content-tabs {
-  padding-top: 10px;
-  padding-left: 40px;
-  padding-right: 40px;
-  margin: 0 auto;
+ margin: 20px 40px 40px;
 }
 
 .sub-content-import-export {
@@ -126,7 +143,7 @@ export default {
   font-size: 14px;
 }
 
-.sub-content-import-export .button-style {
+.button-style {
   margin-right: 20px;
   width: 100px;
   height: 33px;
@@ -148,7 +165,6 @@ export default {
 
 ::v-deep .el-input__inner {
   border-radius: 20px;
-
   height: 34px;
   padding-left: 20px;
 }
@@ -166,11 +182,18 @@ export default {
 ::v-deep .el-tabs__nav-wrap::after {
   background-color: #f5f7fa;
 }
-.el-tag {
+.approved{
   background-color: #dfefff;
   color: #369afe;
   font-weight: bold;
   width: 100px;
+}
+.not-approved{
+  background-color: #FFEAEA;
+  color: #FF4B4B;
+  font-weight: bold !important;
+  width: 100px ;
+  border-color:#FFEAEA;
 }
 ::v-deep .el-checkbox__input.is-checked .el-checkbox__inner {
   background-color: #209f85 !important;

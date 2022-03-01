@@ -1,11 +1,6 @@
 <template>
   <div class="sub-content-box">
-    <div class="sub-content-header">
-      <div class="sub-content-title-left">
-        <div class="sub-content-title-left-title">碳信管理</div>
-        <div class="sub-content-title-left-sublist-title">碳信发行</div>
-      </div>
-    </div>
+    <header-title :headerTitle="headerTitle"></header-title>
 
     <div class="sub-content-body">
       <div class="description-title">
@@ -14,7 +9,7 @@
       </div>
       <div class="form-body">
         <el-row :gutter="40">
-          <el-col :span="10">
+          <el-col :span="12">
             <el-form
               :label-position="labelPositionForm"
               label-width="80px"
@@ -32,15 +27,17 @@
                   v-model="formLabelAlign.sendername"
                 ></el-input>
               </el-form-item>
-              <el-form-item label="碳信交易数额">
+              <el-form-item label="碳信余额">
                 <el-input
+                  :disabled="true"
                   placeholder="￥￥￥￥￥"
-                  v-model="formLabelAlign.tradeAmount"
+                  v-model="formLabelAlign.carbonCreditBalance"
                 ></el-input>
               </el-form-item>
+              
             </el-form>
           </el-col>
-          <el-col :span="10">
+          <el-col :span="12">
             <el-form
               :label-position="labelPositionForm"
               label-width="80px"
@@ -54,10 +51,10 @@
                 >
                 </el-date-picker>
               </el-form-item>
-              <el-form-item label="碳信余额">
+              <el-form-item label="碳信交易数额">
                 <el-input
                   placeholder="￥￥￥￥￥"
-                  v-model="formLabelAlign.carbonCreditBalance"
+                  v-model="formLabelAlign.tradeAmount"
                 ></el-input>
               </el-form-item>
               <el-form-item label="资金用途说明">
@@ -77,7 +74,7 @@
       </div>
       <div class="form-body">
         <el-row :gutter="40">
-          <el-col :span="10">
+          <el-col :span="12">
             <el-form
               :label-position="labelPositionForm"
               label-width="80px"
@@ -91,7 +88,7 @@
               </el-form-item>
             </el-form>
           </el-col>
-          <el-col :span="10">
+          <el-col :span="12">
             <el-form
               :label-position="labelPositionForm"
               label-width="80px"
@@ -109,7 +106,6 @@
       </div>
 
       <div class="sub-content-submit-button">
-        <el-button class="button-style">修改</el-button>
         <el-button class="button-style" @click="dialogVisible=true">提交</el-button>
       </div>
 
@@ -145,6 +141,7 @@
   </div>
 </template>
 <script>
+import headerTitle from "@/components/headerTitle.vue";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -158,6 +155,10 @@ export default {
       }
     };
     return {
+       headerTitle: {
+        largeTitle: "碳信管理  ",
+        smallTitle: "碳信发行 ",
+      },
       active: 1,
       textarea: "",
       dialogVisible:false,
@@ -185,24 +186,30 @@ export default {
     submitForm(formName,formLabelAlign){
             
 
-            console.log(formLabelAlign)
 
-            this.$refs[formName].validate((valid) => {
-
-            if (valid) {//操作密码正确
-                this.dialogVisible=false
-                 this.$message({
-                    message: '操作成功',
-                    type: 'success'
-                });
-
-
-            } else {//操作密码不正确
-                console.log('error submit!!');
-                return false;
-            }
-            });
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          //操作密码正确
+          this.dialogVisible = false;
+          this.$message({
+            message: "密码正确",
+            type: "success",
+          });
+          this.$confirm("确认发行碳信？")
+            .then((_) => {
+              done();
+            })
+            .catch((_) => {});
+        } else {
+          //操作密码不正确
+          console.log("error submit!!");
+          return false;
+        }
+      });
       },
+  },
+   components: {
+    headerTitle,
   },
 };
 </script>

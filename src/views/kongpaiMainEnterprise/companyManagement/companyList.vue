@@ -1,16 +1,8 @@
 <template>
     <div class="sub-content-box">
-       
-            <div class="sub-content-header">
-                <div class="sub-content-title-left">
-                    <div class="sub-content-title-left-title">链属企业管理</div>
-                    <div class="sub-content-title-left-sublist-title">链属企业列表</div>
-                </div>
-                <div class="sub-content-title-right">
-                   <el-input v-model="input" placeholder="搜索"></el-input>
-                </div>
-            </div>
-        
+            <header-title :headerTitle="headerTitle"></header-title>
+
+            
             
        
             <div class="sub-content-tabs">
@@ -56,11 +48,18 @@
     </div>
 </template>
 <script>
-
+import headerTitle from '@/components/headerTitle.vue'
 
 export default{
     data(){
         return{
+  
+            headerTitle:{
+                largeTitle:'链属企业管理',
+                smallTitle:'链属企业列表'
+            
+              
+            },
             input:"",
             activeName: 'first',
             column:[ {
@@ -115,63 +114,25 @@ export default{
         console.log(tab, event);
       }
     
+    },
+    components:{
+        headerTitle
     }
 }
 </script>
 <style scoped>
-/* .content{
-    height: 300px;
-} */
-.right-content{
-    overflow: hidden;
-}
-/* .sub-content-box{
-    display: block;
-    
-} */
-
-/* .sub-content-header{
-    display: flex;
-    height: 44px;
-    margin-top: 50px;
-   
-    width: calc(100vw - 260px);
-    justify-content: space-between;
-}
-.sub-content-title-left{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #6E7191;
-    padding-left: 40px;
-    font-size: 32px;
-    line-height: 44px;
-  
-}
-
-
-.sub-content-title-left-sublist-title{
-    margin-left: 20px;
-    font-size: 16px;
-    background-color: #209F85;
-    padding: 3px 8px;
-    border-radius: 7px;
-    color: #fff;
-    height: 33px;
-    line-height: 33px;
-    
-} */
 
 .sub-content-title-right{
     line-height: 44px;
     padding-right: 40px;
 }
-
+.sub-content-body{
+     
+    margin: 20px 40px 40px;
+      
+  }
 .sub-content-tabs{
-padding-top: 10px;
- padding-left: 40px;
- padding-right: 40px;
- margin: 0 auto;
+  margin: 20px 40px 40px;
 }
 
 .sub-content-import-export{

@@ -1,88 +1,80 @@
 <template>
   <div class="sub-content-box">
-    <div class="sub-content-header">
-      <div class="sub-content-title-left">
-        <div class="sub-content-title-left-title">链属企业管理</div>
-        <div class="sub-content-title-left-sublist-title">账户信息</div>
-      </div>
-    </div>
+    <header-title :headerTitle="headerTitle"></header-title>
 
     <div class="sub-content-body">
       <el-row class="subcontent-title">
-      <el-col :span="12">碳控排链信账户款项流动仪表盘</el-col>
-      <el-col :span="12">碳控排链信账户款项余额 </el-col>
-    </el-row>
-        <el-row class="subcontent-top-body">
-          <!-- echarts图表 -->
-          <el-col :span="12" id="main"></el-col>
-          <!-- 企业信息卡片 -->
-          <el-col :span="12" class="detail-card">
-            <el-row :gutter="10">
-              <el-row>
-                <el-col :span="12">
-                  <el-row class="detail-card-title">控排链账户名</el-row>
-                  <el-row class="detail-card-content">控排企业链A</el-row>
-                </el-col>
-                <el-col :span="12">
-                  <el-row class="detail-card-title">最后回购时间</el-row>
-                  <el-row class="detail-card-content">5/03/22</el-row>
-                </el-col>
-              </el-row>
-
-              <el-row class="detail-card-margin">
-                <el-col :span="12">
-                  <el-row class="detail-card-title">可转换碳信额度</el-row>
-                  <el-row class="detail-card-content">￥￥￥￥￥</el-row>
-                </el-col>
-                <el-col :span="12">
-                  <el-row class="detail-card-title">可转换款项余额</el-row>
-                  <el-row class="detail-card-content">￥￥￥￥￥</el-row>
-                </el-col>
-              </el-row>
-
-              <el-row class="detail-card-margin">
-                <el-col >
-                  <el-row  class="detail-card-title">
-                    <span class="refresh" @click="refresh">刷新</span>
-                    <i  class="el-icon-refresh refresh"></i>
-                  </el-row>
-                </el-col>
-              </el-row>
-
+        <el-col :span="12">碳控排链信账户款项流动仪表盘</el-col>
+        <el-col :span="12" class="refresh-data">
+          <el-row> 企业全称 ——所属供应链</el-row> 
+           <el-row class="detail-card-title">
+                  <span class="refresh" @click="refresh">刷新</span>
+                  <i class="el-icon-refresh refresh"></i>
             </el-row>
-          </el-col>
-        </el-row>
+        </el-col>
+      </el-row>
+      <el-row class="subcontent-top-body">
+        <!-- echarts图表 -->
+        <el-col :span="12" id="main"></el-col>
+        <!-- 企业信息卡片 -->
+        <el-col :span="12" class="detail-card">
+          <el-row :gutter="10">
+            <el-row>
+              <el-col :span="12">
+                <el-row class="detail-card-title">质押碳配额数量</el-row>
+                <el-row class="detail-card-content">控排企业链A</el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row class="detail-card-title">已发行碳信余额</el-row>
+                <el-row class="detail-card-content">￥￥￥￥￥</el-row>
+              </el-col>
+            </el-row>
 
-        <el-row class="subcontent-title">
-          <el-col :span="12">碳信创建历史</el-col>
-        </el-row>
-        <el-row class="subcontent-bellow-body">
-          <el-table :data="tableData" style="width: 100%">
-            <el-table-column
-              v-for="(item, index) in column"
-              :key="index"
-              :prop="item.prop"
-              :label="item.label"
-              :width="item.width"
-              align="center"
-            >
-            </el-table-column>
-          </el-table>
-        </el-row>
+            <el-row class="detail-card-margin">
+              <el-col :span="12">
+                <el-row class="detail-card-title">已回购碳信余额</el-row>
+                <el-row class="detail-card-content">￥￥￥￥￥</el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row class="detail-card-title">可发行碳信余额</el-row>
+                <el-row class="detail-card-content">￥￥￥￥￥</el-row>
+              </el-col>
+            </el-row>
+
+
+          </el-row>
+        </el-col>
+      </el-row>
+
+      <el-row class="subcontent-title">
+        <el-col :span="12">碳信创建历史</el-col>
+      </el-row>
+      <el-row class="subcontent-bellow-body">
+        <el-table :data="tableData" style="width: 100%">
+          <el-table-column
+            v-for="(item, index) in column"
+            :key="index"
+            :prop="item.prop"
+            :label="item.label"
+            :width="item.width"
+            align="center"
+          >
+          </el-table-column>
+        </el-table>
+      </el-row>
     </div>
-    
-
-    
-
-    
   </div>
 </template>
 <script>
 import * as echarts from "echarts";
-
+import headerTitle from "@/components/headerTitle.vue";
 export default {
   data() {
     return {
+      headerTitle: {
+        largeTitle: "控排链碳信账户",
+        smallTitle: "账户信息",
+      },
       mychart: null,
       column: [
         {
@@ -136,8 +128,8 @@ export default {
     this.init();
   },
   methods: {
-    refresh(){
-      this.$message('已刷新数据');
+    refresh() {
+      this.$message("已刷新数据");
     },
     init() {
       var option = {
@@ -172,12 +164,12 @@ export default {
             axisLabel: {
               show: true,
             },
-			axisLine: {
+            axisLine: {
               show: false,
             },
             axisTick: {
               show: false,
-            },  
+            },
             cap: "round",
             splitLine: {
               show: true,
@@ -228,10 +220,12 @@ export default {
       });
     },
   },
+  components: {
+    headerTitle,
+  },
 };
 </script>
 <style scoped>
-
 #main {
   display: block;
   margin: 20px 40px 0px 0px;
@@ -240,11 +234,9 @@ export default {
   background: #fff;
   border-radius: 25px;
 }
-.sub-content-body{
-     
-    margin: 20px 40px 40px;
-      
-  }
+.sub-content-body {
+  margin: 30px 40px 40px;
+}
 .subcontent-title {
   color: #a0a3bd;
 }
@@ -253,6 +245,7 @@ export default {
   display: flex;
   height: 235px;
   margin-bottom: 40px;
+  margin-top: 15px;
 }
 .subcontent-bellow-body {
   margin: 10px 0px 0px 0px;
@@ -262,15 +255,23 @@ export default {
   border-radius: 25px;
   background: #fff;
   margin: 20px 0px 0px 0px;
-  padding: 40px 40px 0px 40px;
+  padding: 40px 40px 0px 60px;
 }
 .detail-card-title {
-  font-size: 12px;
+
+  font-size: 14px;
   color: #718ebf;
 }
+.refresh-data{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px 0px 20px;
+}
 .detail-card-content {
-  font-size: 15px;
-  color: #343c6a;
+  font-size:14px;
+  font-weight: bold;
+  color: #343C6A;
   padding-top: 5px;
 }
 .detail-card-margin {
@@ -286,7 +287,9 @@ export default {
 ::v-deep .el-table .cell {
   font-size: 14px;
 }
-.refresh{
+.refresh {
+  font-size: 16px;
+ 
   cursor: pointer;
   color: #156a59;
 }

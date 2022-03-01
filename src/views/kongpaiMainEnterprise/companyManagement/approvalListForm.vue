@@ -1,61 +1,31 @@
 <template>
   <div class="sub-content-box">
-    <div class="sub-content-header">
-      <div class="sub-content-title-left">
-        <div class="sub-content-title-left-title">链属企业管理</div>
-        <div class="sub-content-title-left-sublist-title">减排计划申报</div>
-      </div>
-    </div>
+    <header-title :headerTitle="headerTitle"></header-title>
 
     <div class="sub-content-body">
       <div class="description-title">
         <div class="table-rec"></div>
         审核信息
       </div>
-      <div>
-        <el-descriptions class="description-box">
-          <el-descriptions-item label="付款方全称"
-            >某控排链</el-descriptions-item
-          >
-          <el-descriptions-item label="签收方全称"
-            >某控排链企业</el-descriptions-item
-          >
-          <el-descriptions-item label="控排链账户可发行额度"
-            >500,000.00</el-descriptions-item
-          >
-          <el-descriptions-item label="付款方链属关系"
-            >控排链</el-descriptions-item
-          >
-          <el-descriptions-item label="签收方链属关系"
-            >控排链企业</el-descriptions-item
-          >
-          <el-descriptions-item label="审批时间"
-            >2020-03-03</el-descriptions-item
-          >
-          <el-descriptions-item label="申请提交时间"
-            >2020-03-03</el-descriptions-item
-          >
-          <el-descriptions-item label="交易地址"
-            >XXXXXXXXXXXXX</el-descriptions-item
-          >
-          <el-descriptions-item label="碳信申请额度">2300</el-descriptions-item>
+
+      <div class="description-box">
+        <el-descriptions  >
+            <el-descriptions-item v-for="(item,index) in editableText" :key="item.id " :label=item.label>
+        
+            <span v-show="!item.edit">{{ item.input }}</span>
+            <el-input v-show="item.edit" v-model=item.input></el-input>
+            <i :class="{'el-icon-edit': !item.edit, 'el-icon-check': item.edit}"
+              @click="item.edit = !item.edit"
+            ></i>
+          </el-descriptions-item>
+         
+           
         </el-descriptions>
       </div>
-      <!-- 审核信息 -->
+
       <div class="description-title">
         <div class="table-rec"></div>
-        附件信息
-      </div>
-      <div class="upload-file-box">
-        <el-descriptions class="description-box">
-          <el-descriptions-item label="减排计划录入"
-            >企业减排计划方案.word</el-descriptions-item
-          >
-        </el-descriptions>
-      </div>
-      <div class="description-title">
-        <div class="table-rec"></div>
-        审批操作
+        申报反馈
       </div>
       <div class="radio-approval-box">
         <el-radio v-model="radio" label="1">通过</el-radio>
@@ -63,8 +33,9 @@
         <div class="radio-approval-comment-title">审批意见</div>
         <div class="radio-approval-comment-content">
           <el-input
-            type="textarea"
-            :rows="2"
+     
+           type="textarea"
+            :rows="8"
             placeholder="请输入内容"
             v-model="textarea"
           >
@@ -73,31 +44,28 @@
 
         <button class="button-style" @click="dialogVisible = true">提交</button>
         <!-- 提交弹出操作密码面板 -->
-        <el-dialog
-        title="操作密码"
-        :visible.sync="dialogVisible"
-        width="30%"
-        >
-            <el-form
+        <el-dialog title="操作密码" :visible.sync="dialogVisible" width="30%">
+          <el-form
             :model="ruleForm"
             status-icon
             :rules="rules"
             ref="ruleForm"
             label-width="100px"
             class="demo-ruleForm"
-            >
+          >
             <el-form-item label="密码" prop="pass">
-                <el-input
+              <el-input
                 type="password"
                 v-model="ruleForm.pass"
                 autocomplete="off"
-                ></el-input>
+              ></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+              <el-button type="primary" @click="submitForm('ruleForm')"
+                >提交</el-button
+              >
             </el-form-item>
-            
-            </el-form>
+          </el-form>
         </el-dialog>
         <!-- 操作密码面板结束 -->
       </div>
@@ -105,6 +73,8 @@
   </div>
 </template>
 <script>
+import headerTitle from "@/components/headerTitle.vue";
+import editableText from "@/components/editableText.vue";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -118,17 +88,53 @@ export default {
       }
     };
     return {
-    dialogVisible:false,
+      headerTitle: {
+        largeTitle: "链属企业管理",
+        smallTitle: "减排计划申报",
+      },
+      edit: false,
+      editableText: [
+        {
+          id: 1,
+          label: "所在控排链",
+          input: "可编辑",
+          edit: false,
+        },
+        {
+          id: 2,
+          label: "执行企业",
+          input: "可编辑",
+          edit: false,
+        },
+        {
+          id: 3,
+          label: "计划减排量",
+          input: "可编辑",
+          edit: false,
+        },
+        {
+          id: 4,
+          label: "申报碳信额度",
+          input: "可编辑",
+          edit: false,
+        },
+        {
+          id: 5,
+          label: "年份",
+          input: "可编辑",
+          edit: false,
+        },
+      ],
+    
+      dialogVisible: false,
       radio: "1",
       textarea: "",
-        ruleForm: {
-            pass: '',
-        },
-        rules: {
-            pass: [
-            { validator: validatePass, trigger: 'blur' }
-            ],
-        }
+      ruleForm: {
+        pass: "",
+      },
+      rules: {
+        pass: [{ validator: validatePass, trigger: "blur" }],
+      },
     };
   },
   methods: {
@@ -139,15 +145,19 @@ export default {
       });
     },
     submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-      },
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert("submit!");
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+  },
+  components: {
+    headerTitle,
+    editableText,
   },
 };
 </script>
@@ -166,8 +176,10 @@ export default {
 }
 
 .description-title {
+  font-size: 18px;
   padding-top: 20px;
   margin-left: 40px;
+  margin-bottom: 30px;
   line-height: 30px;
 }
 .description-title .table-rec {
@@ -194,21 +206,21 @@ export default {
 }
 .radio-approval-comment-title {
   font-size: 14px;
-  margin: 15px 0px;
+  margin: 20px 0px 15px 0px;
   color: #6e7191;
 }
 .radio-approval-comment-content {
-  height: 30px;
+  height: 150px;
   width: calc(100vw - 380px);
   border: 1px solid #eee;
-  margin: 15px 0px;
+  margin: 15px 0px 30px 0px;
 }
+
 .approval-button {
   margin: 20px 40px;
 }
 .button-style {
-  margin-right: 20px;
-  margin-top: 20px;
+  margin: 30px 20px 50px 0px ;
   width: 100px;
   height: 33px;
   border-radius: 7px;

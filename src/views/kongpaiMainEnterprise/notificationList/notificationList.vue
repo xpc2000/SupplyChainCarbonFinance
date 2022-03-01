@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="notication-right-box" >
-                        <img @click="pin(item)" class="pin-icon" src="../../assets/header-icon/bi_pin-angle-fill.svg" alt="">
+                        <img @click="pin(item)" class="pin-icon" src="@/assets/header-icon/bi_pin-angle-fill.svg" alt="">
                         <i class="el-icon-more more-icon"></i>
                     </div>
                  </div>
