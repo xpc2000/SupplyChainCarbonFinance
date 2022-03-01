@@ -3,8 +3,10 @@ package com.example.chaincarbon.mapper;
 import com.example.chaincarbon.model.pojo.TicketRecord;
 import com.example.chaincarbon.model.pojo.TicketRecordExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+@Mapper
 public interface TicketRecordMapper {
     int deleteByPrimaryKey(Integer id);
 
