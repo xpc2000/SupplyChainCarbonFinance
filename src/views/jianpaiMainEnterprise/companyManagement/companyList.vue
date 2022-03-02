@@ -1,21 +1,11 @@
 <template>
   <div class="sub-content-box">
-    <div class="sub-content-header">
-      <div class="sub-content-title-left">
-        <div class="sub-content-title-left-title">任务管理</div>
-        <div class="sub-content-title-left-sublist-title">质押签订</div>
-      </div>
-      <div class="sub-content-title-right">
-        <el-input v-model="input" placeholder="搜索"></el-input>
-      </div>
-    </div>
+    <header-title :headerTitle="headerTitle"></header-title>
 
     <div class="sub-content-tabs">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="全部" name="first">
           <el-table :data="tableData" style="width: 100%">
-            <el-table-column type="selection" width="60" align="center">
-            </el-table-column>
             <el-table-column
               v-for="(item, index) in column"
               :key="index"
@@ -25,73 +15,81 @@
               align="center"
             >
             </el-table-column>
-
             <el-table-column label="状态" width="180" align="center">
-              <el-tag>待签订</el-tag>
+              <el-tag>已办理</el-tag>
+            </el-table-column>
+            <el-table-column prop="option" label="操作" align="center">
+              <el-button type="text">编辑</el-button>
             </el-table-column>
           </el-table>
           <div class="sub-content-import-export">
-            <button @click="jumpToApproval" class="button-style">签订</button>
-            <button class="button-style">查看</button>
+            <el-button><i class="el-icon-upload2"></i>列表导出</el-button>
+            <el-button><i class="el-icon-download"></i>列表导入</el-button>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="质押待签订" name="second"
-          >质押待签订</el-tab-pane
+        <el-tab-pane label="企业碳信账户待审批" name="second"
+          >企业碳信账户待审批</el-tab-pane
         >
-        <el-tab-pane label="质押已签订" name="third"
-          >质押已签订</el-tab-pane
+        <el-tab-pane label="企业碳信账户已办理" name="third"
+          >企业碳信账户已办理</el-tab-pane
         >
       </el-tabs>
     </div>
   </div>
 </template>
 <script>
+import headerTitle from "@/components/headerTitle.vue";
+
 export default {
   data() {
     return {
+      headerTitle: {
+        largeTitle: "链属企业管理",
+        smallTitle: "链属企业列表",
+      },
       input: "",
       activeName: "first",
       column: [
         {
           prop: "name",
-          label: "配额所有者",
+          label: "公司名称",
           width: "",
         },
         {
-          prop: "pledgeAmount",
-          label: "质押金额",
+          prop: "relationship",
+          label: "链属关系",
           width: "",
         },
         {
-          prop: "pledgeRate",
-          label: "质押率",
+          prop: "amount",
+          label: "计划减排总量",
           width: "",
         },
         {
           prop: "time",
-          label: "操作时间",
+          label: "减排时间段",
           width: "",
         },
         {
-          prop: "loanRate",
-          label: "贷款利率",
+          prop: "ccer",
+          label: "碳信总额",
           width: "",
         },
       ],
       tableData: [
         {
           name: "青岛银行",
-          pledgeAmount: "3000",
-          pledgeRate: "14",
-          time: "2022-03-03",
-          loanRate: "8",
+          relationship: "一级链属企业",
+          amount: "3695",
+          time: "2020-01 - 2020-12",
+          ccer: "1455.58",
         },
         {
           name: "青岛银行",
-          pledgeAmount: "3000",
-          pledgeRate: "14",
-          time: "2022-03-03",
-          loanRate: "8",
+          relationship: "一级链属企业",
+          amount: "3695",
+          time: "2020-01 - 2020-12",
+          ccer: "1455.58",
         },
       ],
     };
@@ -100,18 +98,22 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event);
     },
-    jumpToApproval() {
-      this.$router.push({ path: "PledgeSigningDetails" });
-    },
+  },
+  components: {
+    headerTitle,
   },
 };
 </script>
 <style scoped>
-.sub-content-tabs {
-  padding-top: 10px;
-  padding-left: 40px;
+.sub-content-title-right {
+  line-height: 44px;
   padding-right: 40px;
-  margin: 0 auto;
+}
+.sub-content-body {
+  margin: 20px 40px 40px;
+}
+.sub-content-tabs {
+  margin: 20px 40px 40px;
 }
 
 .sub-content-import-export {
@@ -125,27 +127,15 @@ export default {
   padding: 0;
   font-size: 14px;
 }
-
-.sub-content-import-export .button-style {
-  margin-right: 20px;
-  width: 100px;
-  height: 33px;
-  border-radius: 7px;
-  transition: 0.1s;
-  border: none;
-  text-align: center;
-  box-sizing: border-box;
-  background: #209f85;
-  color: #fff;
-}
-
-.button-style:hover {
-  background: transparent;
-  border: 1px solid #209f85;
+.sub-content-import-export .el-button:focus {
+  background: #fff;
   color: #209f85;
-  cursor: pointer;
 }
 
+.sub-content-import-export .el-button:hover {
+  background: #dbf7f0;
+  color: #209f85;
+}
 ::v-deep .el-input__inner {
   border-radius: 20px;
 
@@ -171,13 +161,5 @@ export default {
   color: #369afe;
   font-weight: bold;
   width: 100px;
-}
-::v-deep .el-checkbox__input.is-checked .el-checkbox__inner {
-  background-color: #209f85 !important;
-  border-color: #209f85 !important;
-}
-::v-deep .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-  background-color: #209f85;
-  border-color: #209f85;
 }
 </style>

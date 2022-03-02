@@ -1,116 +1,88 @@
 <template>
   <div class="sub-content-box">
-    <div class="sub-content-header">
-      <div class="sub-content-title-left">
-        <div class="sub-content-title-left-title">融资管理</div>
-        <div class="sub-content-title-left-sublist-title">融资申请</div>
-      </div>
-    </div>
+    <header-title :headerTitle="headerTitle"></header-title>
+
     <div class="sub-content-body">
-    <!-- 转让方 -->
       <div class="description-title">
         <div class="table-rec"></div>
-       转让方
+        申请表单
       </div>
       <div class="form-body">
         <el-row :gutter="40">
-          <el-col :span="10">
+          <el-col :span="12">
             <el-form
               :label-position="labelPositionForm"
               label-width="80px"
               :model="formLabelAlign"
             >
-              <el-form-item label="融资企业所属控排链">
+              <el-form-item label="融资企业所属减排链">
                 <el-input
-                  placeholder=""
-                  v-model="formLabelAlign.sendername"
+                  placeholder="某减排链"
+                  v-model="formLabelAlign.name"
                 ></el-input>
               </el-form-item>
-               <el-form-item label="融资企业全称">
+              <el-form-item label="融资企业全称">
                 <el-input
-                  placeholder=""
-                  v-model="formLabelAlign.senderCompany"
+                  placeholder="某企业"
+                  v-model="formLabelAlign.date"
                 ></el-input>
               </el-form-item>
               <el-form-item label="碳信数量">
                 <el-input
-                  placeholder=""
-                  v-model="formLabelAlign.sendername"
+                  placeholder="XXXXXX"
+                  v-model="formLabelAlign.date"
                 ></el-input>
               </el-form-item>
               <el-form-item label="操作时间">
-                <el-input
-                  placeholder=""
-                  v-model="formLabelAlign.sendername"
-                ></el-input>
+                <el-date-picker
+                  v-model="formLabelAlign.launchedDate"
+                  type="date"
+                  placeholder="选择日期"
+                >
+                </el-date-picker>
               </el-form-item>
-              <el-form-item label="利率">
-                <el-input
-                  placeholder=""
-                  v-model="formLabelAlign.sendername"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="收款账户">
-                <el-input
-                  placeholder=""
-                  v-model="formLabelAlign.sendername"
-                ></el-input>
-              </el-form-item>
-              
-              
             </el-form>
           </el-col>
-          <el-col :span="10">
+          <el-col :span="12">
             <el-form
               :label-position="labelPositionForm"
               label-width="80px"
               :model="formLabelAlign"
             >
-             
               <el-form-item label="保理企业">
                 <el-input
-                  placeholder=""
-                  v-model="formLabelAlign.sendername"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="融资金额">
-                <el-input
-                  placeholder=""
-                  v-model="formLabelAlign.sendername"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="融资期限">
-                <el-input
-                  placeholder=""
-                  v-model="formLabelAlign.sendername"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="服务费率">
-                <el-input
-                  placeholder=""
-                  v-model="formLabelAlign.sendername"
+                  placeholder="某企业"
+                  v-model="formLabelAlign.carbonCreditBalance"
                 ></el-input>
               </el-form-item>
               <el-form-item label="收款银行">
                 <el-input
-                  placeholder=""
-                  v-model="formLabelAlign.sendername"
+                  placeholder="某银行"
+                  v-model="formLabelAlign.carbonCreditBalance"
                 ></el-input>
               </el-form-item>
-              <el-form-item label="资金用途概述">
+              <el-form-item label="收款账户">
                 <el-input
-                  placeholder=""
-                  v-model="formLabelAlign.sendername"
+                  placeholder="某账户"
+                  v-model="formLabelAlign.carbonCreditBalance"
                 ></el-input>
               </el-form-item>
             </el-form>
           </el-col>
         </el-row>
+        <el-row>
+          <div class="usage-title">资金用途</div>
+          <div class="usage-comment">
+            <el-input type="textarea" :rows="8" placeholder="请输入内容">
+            </el-input>
+          </div>
+        </el-row>
       </div>
-      
-       <div class="sub-content-submit-button">
-        <el-button class="button-style">修改</el-button>
-        <el-button class="button-style" @click="dialogVisible=true">提交</el-button>
+
+      <div class="sub-content-submit-button">
+        <el-button class="button-style" @click="dialogVisible = true"
+          >提交</el-button
+        >
       </div>
 
       <!-- 提交弹出操作密码面板 -->
@@ -131,23 +103,21 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-
-               
-        <el-button type="primary" @click="submitForm('ruleForm', formLabelAlign)">
-            提交
-        </el-button>
-            
+            <el-button
+              type="primary"
+              @click="submitForm('ruleForm', formLabelAlign)"
+            >
+              提交
+            </el-button>
           </el-form-item>
         </el-form>
       </el-dialog>
       <!-- 操作密码面板结束 -->
-
-
-
     </div>
   </div>
 </template>
 <script>
+import headerTitle from "@/components/headerTitle.vue";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -161,20 +131,24 @@ export default {
       }
     };
     return {
-      active: 1,
+      headerTitle: {
+        largeTitle: "融资管理  ",
+        smallTitle: "融资申请",
+      },
       textarea: "",
-      dialogVisible:false,
+      active: 1,
+      dialogVisible: false,
       labelPositionTabs: "right",
       labelPositionForm: "top",
       formLabelAlign: {
+        kongpai: "",
         sendername: "",
-        senderCompany: "",
-        transferDate: "",
+        tradeAmount: "",
         launchedDate: "",
         carbonCreditBalance: "",
-        carbonTransferAmount: "",
-        file: "",
-       
+        tradingDescription: "",
+        receivername: "",
+        jianpai: "",
       },
       ruleForm: {
         pass: "",
@@ -185,27 +159,27 @@ export default {
     };
   },
   methods: {
-    submitForm(formName,formLabelAlign){
-            
+    submitForm(formName, formLabelAlign) {
+      console.log(formLabelAlign);
 
-            console.log(formLabelAlign)
-
-            this.$refs[formName].validate((valid) => {
-
-            if (valid) {//操作密码正确
-                this.dialogVisible=false
-                 this.$message({
-                    message: '操作成功',
-                    type: 'success'
-                });
-
-
-            } else {//操作密码不正确
-                console.log('error submit!!');
-                return false;
-            }
-            });
-      },
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          //操作密码正确
+          this.dialogVisible = false;
+          this.$message({
+            message: "操作成功",
+            type: "success",
+          });
+        } else {
+          //操作密码不正确
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+  },
+  components: {
+    headerTitle,
   },
 };
 </script>
@@ -248,6 +222,7 @@ export default {
   height: 35px;
   background-color: #fafcfe;
 }
+
 ::v-deep .el-input__icon {
   height: 0;
 }
@@ -286,5 +261,17 @@ export default {
   border: 1px solid #209f85;
   color: #209f85;
   cursor: pointer;
+}
+.usage-title {
+  font-size: 14px;
+  margin: 10px 0px 15px 0px;
+  color: #606266;
+}
+.usage-comment {
+  height: 150px;
+  border: 1px solid #eee;
+  margin: 10px 0px 30px 0px;
+  background-color: #fafcfe;
+  border-radius: 5px;
 }
 </style>

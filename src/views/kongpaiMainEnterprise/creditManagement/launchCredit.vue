@@ -34,7 +34,6 @@
                   v-model="formLabelAlign.carbonCreditBalance"
                 ></el-input>
               </el-form-item>
-              
             </el-form>
           </el-col>
           <el-col :span="12">
@@ -106,7 +105,9 @@
       </div>
 
       <div class="sub-content-submit-button">
-        <el-button class="button-style" @click="dialogVisible=true">提交</el-button>
+        <el-button class="button-style" @click="dialogVisible = true"
+          >提交</el-button
+        >
       </div>
 
       <!-- 提交弹出操作密码面板 -->
@@ -127,12 +128,12 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-
-               
-              <el-button type="primary" @click="submitForm('ruleForm', formLabelAlign)">
-                            提交
-                     </el-button>
-            
+            <el-button
+              type="primary"
+              @click="submitForm('ruleForm', formLabelAlign)"
+            >
+              提交
+            </el-button>
           </el-form-item>
         </el-form>
       </el-dialog>
@@ -155,13 +156,13 @@ export default {
       }
     };
     return {
-       headerTitle: {
+      headerTitle: {
         largeTitle: "碳信管理  ",
         smallTitle: "碳信发行 ",
       },
       active: 1,
       textarea: "",
-      dialogVisible:false,
+      dialogVisible: false,
       labelPositionTabs: "right",
       labelPositionForm: "top",
       formLabelAlign: {
@@ -183,32 +184,31 @@ export default {
     };
   },
   methods: {
-    submitForm(formName,formLabelAlign){
-            
-
-
+    submitForm(formName, formLabelAlign) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //操作密码正确
           this.dialogVisible = false;
-          this.$message({
-            message: "密码正确",
-            type: "success",
-          });
+
           this.$confirm("确认发行碳信？")
             .then((_) => {
-              done();
+              this.$message({
+                message: "碳信已发行",
+                type: "success",
+              });
             })
             .catch((_) => {});
         } else {
           //操作密码不正确
-          console.log("error submit!!");
-          return false;
+          this.$message({
+            message: "密码不正确",
+            type: "warning",
+          });
         }
       });
-      },
+    },
   },
-   components: {
+  components: {
     headerTitle,
   },
 };

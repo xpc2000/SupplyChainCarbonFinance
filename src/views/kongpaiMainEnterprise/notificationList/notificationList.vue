@@ -1,13 +1,7 @@
 <template>
     <div class="sub-content-box">
        
-            <div class="sub-content-header">
-                <div class="sub-content-title-left">
-                    <div class="sub-content-title-left-title">信息列表</div>
-              
-                </div>
-          
-            </div>
+             <header-title :headerTitle="headerTitle"></header-title>
 
              <div class="sub-content-body">
                  <div  class="notification-box" 
@@ -38,10 +32,14 @@
     </div>
 </template>
 <script>
-
+import headerTitle from "@/components/headerTitle.vue";
 export default{
     data() {
         return{
+            headerTitle: {
+                largeTitle: "信息通知",
+                smallTitle: "信息详情",
+            },
             pinThis:false,
             notification:[
                 {
@@ -72,11 +70,15 @@ export default{
 
     methods:{
         pin(item){
+            
            item.pin = !item.pin
          
        
         }
-    }
+    },
+     components: {
+    headerTitle,
+  },
 }
 </script>
 

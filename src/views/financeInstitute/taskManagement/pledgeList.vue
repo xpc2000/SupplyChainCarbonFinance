@@ -10,8 +10,8 @@
               <list-table :data="tableData" :columns="column">
                 <!-- 插槽1：状态 -->
                 <template #status="{ row, $index }">
-                  <el-tag v-if="row.approved" class="approved">待审核</el-tag>
-                  <el-tag v-else class="not-approved">待签约</el-tag>
+                  <el-tag v-if="row.approved" class="approved">已审核</el-tag>
+                  <el-tag v-else class="not-approved">待审核</el-tag>
                 </template>
                 <template #option="{ row, $index }">
                   <el-checkbox @change="getrows(row)" name="type"></el-checkbox>
@@ -38,8 +38,8 @@ export default {
       ID: [],
       row: {},
       headerTitle: {
-        largeTitle: "碳配额质押申请",
-        smallTitle: "申请列表",
+        largeTitle: "任务管理",
+        smallTitle: "质押列表",
       },
 
       activeName: "first",
@@ -53,17 +53,22 @@ export default {
 
         {
           prop: "name",
-          label: "金融机构",
+          label: "配额所有者",
+          width: "",
+        },
+        {
+          prop: "chain",
+          label: "配额所有所在供应链",
           width: "",
         },
         {
           prop: "amount",
-          label: "配额数量",
+          label: "质押碳配额数量",
           width: "",
         },
         {
           prop: "status",
-          label: "碳信账户状态",
+          label: "状态",
           customSlot: "status",
         },
       ],
@@ -71,12 +76,14 @@ export default {
         {
           ID: "1",
           name: "青岛银行",
+          chain: "某供应链",
           amount: "3695",
           approved: true,
         },
         {
           ID: "2",
           name: "青岛银行",
+          chain: "某供应链",
           amount: "3695",
           approved: false,
         },
@@ -95,9 +102,16 @@ export default {
     },
     // 发送ID
     sendRow() {
-      this.$router.push({
-        path: "/kongpaiMainEnterprise/pledgeManagement/pledgeSigning",
-      });
+      if (this.row.ID == "1") {
+        this.$router.push({
+          path: "/financeInstitute/taskManagement/PledgeSigning",
+        });
+      } else if (this.row.ID == "2") {
+        this.$router.push({
+          path: "/financeInstitute/taskManagement/PledgeAproval",
+        });
+      }
+
       console.log(this.row.name);
     },
   },

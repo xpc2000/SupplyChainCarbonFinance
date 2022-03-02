@@ -10,21 +10,22 @@
               <list-table :data="tableData" :columns="column">
                 <!-- 插槽1：状态 -->
                 <template #status="{ row, $index }">
-                  <el-tag v-if="row.approved" class="approved">待审核</el-tag>
-                  <el-tag v-else class="not-approved">待签约</el-tag>
+                  <el-tag v-if="row.approved" class="approved">已签收</el-tag>
+                  <el-tag v-else class="not-approved">待签收</el-tag>
                 </template>
+
                 <template #option="{ row, $index }">
-                  <el-checkbox @change="getrows(row)" name="type"></el-checkbox>
+                  <el-checkbox name="type" @change="getrows(row)"></el-checkbox>
                 </template>
               </list-table>
             </div>
           </template>
           <div class="sub-content-import-export">
-            <button @click="sendRow()" class="button-style">查看</button>
+            <button class="button-style" @click="sendRow()">查看</button>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="质押待审批" name="second">质押待审批</el-tab-pane>
-        <el-tab-pane label="质押已审批" name="third">质押已审批</el-tab-pane>
+        <el-tab-pane label="待签收" name="second"> 待签收</el-tab-pane>
+        <el-tab-pane label="已签收" name="third">已签收</el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -35,13 +36,11 @@ import ListTable from "@/components/ListTable";
 export default {
   data() {
     return {
-      ID: [],
-      row: {},
       headerTitle: {
-        largeTitle: "碳配额质押申请",
-        smallTitle: "申请列表",
+        largeTitle: "任务管理",
+        smallTitle: "签收碳信",
       },
-
+      row: {},
       activeName: "first",
       column: [
         {
@@ -50,55 +49,62 @@ export default {
           width: "100",
           customSlot: "option",
         },
-
         {
-          prop: "name",
-          label: "金融机构",
+          prop: "task",
+          label: "任务列表",
+          width: "",
+        },
+        {
+          prop: "date",
+          label: "创建时间",
           width: "",
         },
         {
           prop: "amount",
-          label: "配额数量",
+          label: "碳信数额",
           width: "",
         },
         {
           prop: "status",
-          label: "碳信账户状态",
+          label: "签收状态",
           customSlot: "status",
         },
       ],
       tableData: [
         {
           ID: "1",
-          name: "青岛银行",
+          task: "请您签收碳信，发行方控排链核心企业向您发行",
           amount: "3695",
-          approved: true,
+          date: "2022-03-03 12:00",
+          amount: "3200",
+          approved: false,
         },
         {
           ID: "2",
-          name: "青岛银行",
+          task: "请您签收碳信，转让方减排链核心企业向您转让",
           amount: "3695",
-          approved: false,
+          date: "2022-03-03 12:00",
+          amount: "3200",
+          approved: true,
         },
       ],
     };
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
-    },
-
     //获取单行数据
     getrows(row) {
       this.row = row;
-      console.log(row.name);
+      console.log(row.task);
     },
     // 发送ID
     sendRow() {
       this.$router.push({
-        path: "/kongpaiMainEnterprise/pledgeManagement/pledgeSigning",
+        path: "/jianpaiMainEnterprise/financingManagement/financingSigning",
       });
-      console.log(this.row.name);
+      console.log(this.row.task);
+    },
+    handleClick(tab, event) {
+      console.log(tab, event);
     },
   },
   components: {

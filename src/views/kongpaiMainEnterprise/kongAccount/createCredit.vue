@@ -163,11 +163,6 @@ export default {
           width: "",
         },
         {
-          prop: "carbonCode",
-          label: "碳信创建编码",
-          width: "",
-        },
-        {
           prop: "receiverName",
           label: "签收方",
           width: "",
@@ -188,22 +183,15 @@ export default {
           label: "碳信创建日期",
           width: "",
         },
-        {
-          prop: "aprovalPerson",
-          label: "审核人",
-          width: "",
-        },
       ],
       tableData: [
         {
           kongpai: "某控排链",
           sendername: "核心企业",
-          carbonCode: "E2345D",
           receiverName: "核企碳信账户",
           moneyBalance: "￥10,000.00",
           carbonCreditBalance: "￥10,000.00",
           createdDate: "02-02-2022",
-          aprovalPerson: "陈某某",
         },
       ],
     };
@@ -225,25 +213,25 @@ export default {
       //     }
       // })
 
-      console.log(tableData);
-
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //操作密码正确
           this.dialogVisible = false;
-          this.$message({
-            message: "密码正确",
-            type: "success",
-          });
+
           this.$confirm("确认创建碳信？")
             .then((_) => {
-              done();
+              this.$message({
+                message: "碳信已创建",
+                type: "success",
+              });
             })
             .catch((_) => {});
         } else {
           //操作密码不正确
-          console.log("error submit!!");
-          return false;
+          this.$message({
+            message: "密码不正确",
+            type: "warning",
+          });
         }
       });
     },

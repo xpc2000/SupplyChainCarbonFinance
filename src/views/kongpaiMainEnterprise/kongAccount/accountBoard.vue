@@ -6,11 +6,11 @@
       <el-row class="subcontent-title">
         <el-col :span="12">碳控排链信账户款项流动仪表盘</el-col>
         <el-col :span="12" class="refresh-data">
-          <el-row> 企业全称 ——所属供应链</el-row> 
-           <el-row class="detail-card-title">
-                  <span class="refresh" @click="refresh">刷新</span>
-                  <i class="el-icon-refresh refresh"></i>
-            </el-row>
+          <el-row> 企业全称 ——所属供应链</el-row>
+          <el-row class="detail-card-title">
+            <span class="refresh" @click="refresh">刷新</span>
+            <i class="el-icon-refresh refresh"></i>
+          </el-row>
         </el-col>
       </el-row>
       <el-row class="subcontent-top-body">
@@ -40,8 +40,6 @@
                 <el-row class="detail-card-content">￥￥￥￥￥</el-row>
               </el-col>
             </el-row>
-
-
           </el-row>
         </el-col>
       </el-row>
@@ -104,6 +102,27 @@ export default {
         },
       ],
       tableData: [
+        {
+          sender: "核心企业名字",
+          receiver: "减排链核属企业A",
+          address: "123******EEE",
+          time: "28 一月, 12.30 AM",
+          amount: "￥￥￥￥",
+        },
+        {
+          sender: "核心企业名字",
+          receiver: "减排链核属企业A",
+          address: "123******EEE",
+          time: "28 一月, 12.30 AM",
+          amount: "￥￥￥￥",
+        },
+        {
+          sender: "核心企业名字",
+          receiver: "减排链核属企业A",
+          address: "123******EEE",
+          time: "28 一月, 12.30 AM",
+          amount: "￥￥￥￥",
+        },
         {
           sender: "核心企业名字",
           receiver: "减排链核属企业A",
@@ -258,20 +277,19 @@ export default {
   padding: 40px 40px 0px 60px;
 }
 .detail-card-title {
-
   font-size: 14px;
   color: #718ebf;
 }
-.refresh-data{
+.refresh-data {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0px 20px 0px 20px;
 }
 .detail-card-content {
-  font-size:14px;
+  font-size: 14px;
   font-weight: bold;
-  color: #343C6A;
+  color: #343c6a;
   padding-top: 5px;
 }
 .detail-card-margin {
@@ -289,7 +307,7 @@ export default {
 }
 .refresh {
   font-size: 16px;
- 
+
   cursor: pointer;
   color: #156a59;
 }

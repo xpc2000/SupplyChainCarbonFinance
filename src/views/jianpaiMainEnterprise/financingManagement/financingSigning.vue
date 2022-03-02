@@ -15,30 +15,19 @@
             :key="item.id"
             :label="item.label"
           >
-            <span v-show="!item.edit">{{ item.input }}</span>
-            <el-input v-show="item.edit" v-model="item.input"></el-input>
-            <i
-              :class="{
-                'el-icon-edit': !item.edit,
-                'el-icon-check': item.edit,
-              }"
-              @click="item.edit = !item.edit"
-            ></i>
+            {{ item.input }}
           </el-descriptions-item>
-          <el-descriptions-item label="减排计划录入">
-            减排计划方案.word</el-descriptions-item
-          >
         </el-descriptions>
       </div>
 
       <div class="description-title">
         <div class="table-rec"></div>
-        申报反馈
+        意见
       </div>
       <div class="radio-approval-box">
-        <el-radio v-model="radio" label="1">通过</el-radio>
-        <el-radio v-model="radio" label="2">驳回</el-radio>
-        <div class="radio-approval-comment-title">审批意见</div>
+        <el-radio v-model="radio" label="1">签署</el-radio>
+        <el-radio v-model="radio" label="2">拒绝</el-radio>
+        <div class="radio-approval-comment-title">签署意见</div>
         <div class="radio-approval-comment-content">
           <el-input
             type="textarea"
@@ -96,40 +85,75 @@ export default {
     };
     return {
       headerTitle: {
-        largeTitle: "链属企业管理",
-        smallTitle: "减排计划申报",
+        largeTitle: "融资管理",
+        smallTitle: "融资签约",
       },
       edit: false,
       editableText: [
         {
           id: 1,
-          label: "所在控排链",
-          input: "可编辑",
-          edit: false,
+          label: "融资企业所属减排链",
+          input: "某减排链",
         },
         {
           id: 2,
-          label: "执行企业",
-          input: "可编辑",
-          edit: false,
+          label: "收款账户",
+          input: "某账户",
         },
         {
           id: 3,
-          label: "计划减排量",
-          input: "可编辑",
-          edit: false,
+          label: "操作时间",
+          input: "2022-03-03",
         },
         {
           id: 4,
-          label: "申报碳信额度",
-          input: "可编辑",
-          edit: false,
+          label: "融资企业全称",
+          input: "某企业",
         },
         {
           id: 5,
-          label: "年份",
-          input: "可编辑",
-          edit: false,
+          label: "收款银行",
+          input: "某银行",
+        },
+        {
+          id: 6,
+          label: "利率",
+          input: "2300",
+        },
+        {
+          id: 7,
+          label: "碳信数量",
+          input: "2300",
+        },
+        {
+          id: 8,
+          label: "保理企业",
+          input: "某企业",
+        },
+        {
+          id: 9,
+          label: "服务费率",
+          input: "￥￥",
+        },
+        {
+          id: 10,
+          label: "资金用途",
+          input: "融资",
+        },
+        {
+          id: 9,
+          label: "融资金额",
+          input: "￥￥￥￥￥￥",
+        },
+        {
+          id: 10,
+          label: "融资期限",
+          input: "2022-03-03",
+        },
+        {
+          id: 11,
+          label: "附件",
+          input: "发票.png",
         },
       ],
 
@@ -148,11 +172,14 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          //操作密码正确
+          this.dialogVisible = false;
           this.$message({
-            message: "提交成功",
+            message: "完成签约",
             type: "success",
           });
         } else {
+          //操作密码不正确
           console.log("error submit!!");
           return false;
         }

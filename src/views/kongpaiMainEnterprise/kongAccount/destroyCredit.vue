@@ -170,11 +170,6 @@ export default {
           label: "碳信销毁日期",
           width: "",
         },
-        {
-          prop: "aprovalPerson",
-          label: "审核人",
-          width: "",
-        },
       ],
       tableData: [
         {
@@ -183,32 +178,31 @@ export default {
           moneyBalance: "￥10,000.00",
           carbonCreditBalance: "￥10,000.00",
           destroyedDate: "02-02-2022",
-          aprovalPerson: "陈某某",
         },
       ],
     };
   },
   methods: {
     submitForm(formName, tableData) {
-      console.log(tableData);
-
-      this.$refs[formName].validate((valid) => {
+        this.$refs[formName].validate((valid) => {
         if (valid) {
           //操作密码正确
           this.dialogVisible = false;
-          this.$message({
-            message: "操作成功",
-            type: "success",
-          });
+
           this.$confirm("确认销毁碳信？")
             .then((_) => {
-              done();
+              this.$message({
+                message: "碳信已销毁",
+                type: "success",
+              });
             })
             .catch((_) => {});
         } else {
           //操作密码不正确
-          console.log("error submit!!");
-          return false;
+          this.$message({
+            message: "密码不正确",
+            type: "warning",
+          });
         }
       });
     },

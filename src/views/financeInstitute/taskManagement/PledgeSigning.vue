@@ -11,6 +11,13 @@
       <div class="description-box">
         <el-descriptions>
           <el-descriptions-item
+            v-for="(item, index) in text"
+            :key="item.id"
+            :label="item.label"
+          >
+            {{ item.input }}
+          </el-descriptions-item>
+          <el-descriptions-item
             v-for="(item, index) in editableText"
             :key="item.id"
             :label="item.label"
@@ -25,20 +32,17 @@
               @click="item.edit = !item.edit"
             ></i>
           </el-descriptions-item>
-          <el-descriptions-item label="减排计划录入">
-            减排计划方案.word</el-descriptions-item
-          >
         </el-descriptions>
       </div>
 
       <div class="description-title">
         <div class="table-rec"></div>
-        申报反馈
+        审批操作
       </div>
       <div class="radio-approval-box">
-        <el-radio v-model="radio" label="1">通过</el-radio>
-        <el-radio v-model="radio" label="2">驳回</el-radio>
-        <div class="radio-approval-comment-title">审批意见</div>
+        <el-radio v-model="radio" label="1">审核</el-radio>
+        <el-radio v-model="radio" label="2">拒绝</el-radio>
+        <div class="radio-approval-comment-title">签署意见</div>
         <div class="radio-approval-comment-content">
           <el-input
             type="textarea"
@@ -96,43 +100,63 @@ export default {
     };
     return {
       headerTitle: {
-        largeTitle: "链属企业管理",
-        smallTitle: "减排计划申报",
+        largeTitle: "任务管理",
+        smallTitle: "质押签订",
       },
       edit: false,
-      editableText: [
+      text: [
         {
           id: 1,
-          label: "所在控排链",
-          input: "可编辑",
-          edit: false,
+          label: "配额所属供应链",
+          input: "某控排链",
         },
         {
           id: 2,
-          label: "执行企业",
-          input: "可编辑",
-          edit: false,
+          label: "配额所有者",
+          input: "某减排链企业",
         },
         {
           id: 3,
-          label: "计划减排量",
-          input: "可编辑",
-          edit: false,
+          label: "操作日期",
+          input: "2022-03-03",
         },
         {
           id: 4,
-          label: "申报碳信额度",
+          label: "配额量",
+          input: "XXXXX",
+        },
+        {
+          id: 5,
+          label: "附件",
+          input: "合同.pdf",
+        },
+      ],
+      editableText: [
+        {
+          id: 6,
+          label: "贷款期限",
           input: "可编辑",
           edit: false,
         },
         {
-          id: 5,
-          label: "年份",
+          id: 7,
+          label: "质押率",
+          input: "可编辑",
+          edit: false,
+        },
+        {
+          id: 7,
+          label: "贷款利率",
+          input: "可编辑",
+          edit: false,
+        },
+        {
+          id: 7,
+          label: "质押金额",
           input: "可编辑",
           edit: false,
         },
       ],
-
       dialogVisible: false,
       radio: "1",
       textarea: "",
@@ -148,11 +172,14 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          //操作密码正确
+          this.dialogVisible = false;
           this.$message({
-            message: "提交成功",
+            message: "完成签约",
             type: "success",
           });
         } else {
+          //操作密码不正确
           console.log("error submit!!");
           return false;
         }

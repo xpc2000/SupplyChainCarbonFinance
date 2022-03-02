@@ -7,42 +7,55 @@
         <div class="table-rec"></div>
         审核信息
       </div>
+      <div>
+        <div class="description-box">
+          <el-descriptions>
+            <el-descriptions-item
+              v-for="(item, index) in editableText"
+              :key="item.id"
+              :label="item.label"
+            >
+              {{ item.input }}
+            </el-descriptions-item>
+          </el-descriptions>
+        </div>
+      </div>
+      <!-- 审核信息 -->
+      <div class="description-title">
+        <div class="table-rec"></div>
+        签收详情
+      </div>
+
+      <!-- <el-descriptions class="description-box"> -->
 
       <div class="description-box">
-        <el-descriptions>
-          <el-descriptions-item
-            v-for="(item, index) in editableText"
-            :key="item.id"
+        <el-table :data="tableData" style="width: 100%">
+          <el-table-column
+            v-for="(item, index) in column"
+            :key="index"
+            :prop="item.prop"
             :label="item.label"
+            :width="item.width"
+            align="center"
           >
-            <span v-show="!item.edit">{{ item.input }}</span>
-            <el-input v-show="item.edit" v-model="item.input"></el-input>
-            <i
-              :class="{
-                'el-icon-edit': !item.edit,
-                'el-icon-check': item.edit,
-              }"
-              @click="item.edit = !item.edit"
-            ></i>
-          </el-descriptions-item>
-          <el-descriptions-item label="减排计划录入">
-            减排计划方案.word</el-descriptions-item
-          >
-        </el-descriptions>
+          </el-table-column>
+        </el-table>
       </div>
+
+      <!-- </el-descriptions> -->
 
       <div class="description-title">
         <div class="table-rec"></div>
-        申报反馈
+        审批操作
       </div>
       <div class="radio-approval-box">
-        <el-radio v-model="radio" label="1">通过</el-radio>
-        <el-radio v-model="radio" label="2">驳回</el-radio>
+        <el-radio v-model="radio" label="1">签收</el-radio>
+        <el-radio v-model="radio" label="2">拒绝</el-radio>
         <div class="radio-approval-comment-title">审批意见</div>
         <div class="radio-approval-comment-content">
           <el-input
             type="textarea"
-            :rows="8"
+            :rows="2"
             placeholder="请输入内容"
             v-model="textarea"
           >
@@ -81,7 +94,6 @@
 </template>
 <script>
 import headerTitle from "@/components/headerTitle.vue";
-import editableText from "@/components/editableText.vue";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -95,44 +107,6 @@ export default {
       }
     };
     return {
-      headerTitle: {
-        largeTitle: "链属企业管理",
-        smallTitle: "减排计划申报",
-      },
-      edit: false,
-      editableText: [
-        {
-          id: 1,
-          label: "所在控排链",
-          input: "可编辑",
-          edit: false,
-        },
-        {
-          id: 2,
-          label: "执行企业",
-          input: "可编辑",
-          edit: false,
-        },
-        {
-          id: 3,
-          label: "计划减排量",
-          input: "可编辑",
-          edit: false,
-        },
-        {
-          id: 4,
-          label: "申报碳信额度",
-          input: "可编辑",
-          edit: false,
-        },
-        {
-          id: 5,
-          label: "年份",
-          input: "可编辑",
-          edit: false,
-        },
-      ],
-
       dialogVisible: false,
       radio: "1",
       textarea: "",
@@ -142,17 +116,109 @@ export default {
       rules: {
         pass: [{ validator: validatePass, trigger: "blur" }],
       },
+      headerTitle: {
+        largeTitle: "任务管理",
+        smallTitle: "签收详情",
+      },
+      editableText: [
+        {
+          id: 1,
+          label: "发行方所在供应链",
+          input: "某控排链",
+        },
+        {
+          id: 2,
+          label: "签收方所在供应链",
+          input: "某减排链",
+        },
+        {
+          id: 3,
+          label: "碳信转让金额",
+          input: "2300",
+        },
+        {
+          id: 4,
+          label: "发行方企业全称",
+          input: "某企业",
+        },
+        {
+          id: 5,
+          label: "签收方企业全称",
+          input: "某企业",
+        },
+        {
+          id: 6,
+          label: "资金用途说明",
+          input: "无",
+        },
+      ],
+
+      column: [
+        {
+          prop: "sendername",
+          label: "付款方",
+          width: "",
+        },
+
+        {
+          prop: "receiverName",
+          label: "签收方",
+          width: "",
+        },
+        {
+          prop: "date",
+          label: "碳信到账日期",
+          width: "",
+        },
+        {
+          prop: "amount",
+          label: "碳信数量",
+          width: "",
+        },
+        {
+          prop: "status",
+          label: "状态",
+          width: "",
+        },
+
+        {
+          prop: "file",
+          label: "附件",
+          width: "",
+        },
+      ],
+      tableData: [
+        {
+          sendername: "某控排链企业",
+          receiverName: "某减排链企业",
+          date: "03-03-2022",
+          amount: "2300",
+          status: "待签收",
+          file: "合同.pdf",
+        },
+      ],
     };
   },
   methods: {
-    submitForm(formName) {
+    next() {
+      this.$message({
+        message: "提交成功",
+        type: "success",
+      });
+    },
+    submitForm(formName, formLabelAlign) {
+      console.log(formLabelAlign);
+
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          //操作密码正确
+          this.dialogVisible = false;
           this.$message({
-            message: "提交成功",
+            message: "碳信已签收",
             type: "success",
           });
         } else {
+          //操作密码不正确
           console.log("error submit!!");
           return false;
         }
@@ -161,7 +227,6 @@ export default {
   },
   components: {
     headerTitle,
-    editableText,
   },
 };
 </script>
@@ -180,10 +245,8 @@ export default {
 }
 
 .description-title {
-  font-size: 18px;
   padding-top: 20px;
   margin-left: 40px;
-  margin-bottom: 30px;
   line-height: 30px;
 }
 .description-title .table-rec {
@@ -210,21 +273,21 @@ export default {
 }
 .radio-approval-comment-title {
   font-size: 14px;
-  margin: 20px 0px 15px 0px;
+  margin: 15px 0px;
   color: #6e7191;
 }
 .radio-approval-comment-content {
-  height: 150px;
+  height: 30px;
   width: calc(100vw - 380px);
   border: 1px solid #eee;
-  margin: 15px 0px 30px 0px;
+  margin: 15px 0px;
 }
-
 .approval-button {
   margin: 20px 40px;
 }
 .button-style {
-  margin: 30px 20px 50px 0px;
+  margin: 30px 0px 30px 0px;
+
   width: 100px;
   height: 33px;
   border-radius: 7px;

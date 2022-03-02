@@ -10,8 +10,8 @@
               <list-table :data="tableData" :columns="column">
                 <!-- 插槽1：状态 -->
                 <template #status="{ row, $index }">
-                  <el-tag v-if="row.approved" class="approved">待审核</el-tag>
-                  <el-tag v-else class="not-approved">待签约</el-tag>
+                  <el-tag v-if="row.approved" class="approved">已审核</el-tag>
+                  <el-tag v-else class="not-approved">待审核</el-tag>
                 </template>
                 <template #option="{ row, $index }">
                   <el-checkbox @change="getrows(row)" name="type"></el-checkbox>
@@ -23,8 +23,8 @@
             <button @click="sendRow()" class="button-style">查看</button>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="质押待审批" name="second">质押待审批</el-tab-pane>
-        <el-tab-pane label="质押已审批" name="third">质押已审批</el-tab-pane>
+        <el-tab-pane label="保理待审批" name="second">保理待审批</el-tab-pane>
+        <el-tab-pane label="保理已审批" name="third">保理已审批</el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -38,8 +38,8 @@ export default {
       ID: [],
       row: {},
       headerTitle: {
-        largeTitle: "碳配额质押申请",
-        smallTitle: "申请列表",
+        largeTitle: "融资管理",
+        smallTitle: "融资列表",
       },
 
       activeName: "first",
@@ -53,12 +53,27 @@ export default {
 
         {
           prop: "name",
-          label: "金融机构",
+          label: "融资企业",
           width: "",
         },
         {
           prop: "amount",
-          label: "配额数量",
+          label: "融资金额",
+          width: "",
+        },
+        {
+          prop: "rate",
+          label: "利率",
+          width: "",
+        },
+        {
+          prop: "date",
+          label: "操作时间",
+          width: "",
+        },
+        {
+          prop: "usage",
+          label: "资金用途",
           width: "",
         },
         {
@@ -71,13 +86,19 @@ export default {
         {
           ID: "1",
           name: "青岛银行",
-          amount: "3695",
+          amount: "3000",
+          rate: "14",
+          date: "2022-03-03",
+          usage: "资金用途",
           approved: true,
         },
         {
           ID: "2",
           name: "青岛银行",
-          amount: "3695",
+          amount: "3000",
+          rate: "14",
+          date: "2022-03-03",
+          usage: "资金用途",
           approved: false,
         },
       ],
@@ -95,9 +116,16 @@ export default {
     },
     // 发送ID
     sendRow() {
-      this.$router.push({
-        path: "/kongpaiMainEnterprise/pledgeManagement/pledgeSigning",
-      });
+      if (this.row.ID == "1") {
+        this.$router.push({
+          path: "/financeInstitute/financingManagement/factoringBuying",
+        });
+      } else if (this.row.ID == "2") {
+        this.$router.push({
+          path: "/financeInstitute/financingManagement/factoringApproval",
+        });
+      }
+
       console.log(this.row.name);
     },
   },

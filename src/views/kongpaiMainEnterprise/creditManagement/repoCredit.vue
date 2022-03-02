@@ -15,26 +15,18 @@
               label-width="80px"
               :model="formLabelAlign"
             >
-              <el-form-item label="发行方所属控排链">
-                <el-input
-                  placeholder="某控排链"
-                  v-model="formLabelAlign.kongpai"
-                ></el-input>
-              </el-form-item>
               <el-form-item label="发行方全称">
                 <el-input
                   placeholder="某控排链企业"
                   v-model="formLabelAlign.sendername"
                 ></el-input>
               </el-form-item>
-              <el-form-item label="碳信余额">
+              <el-form-item label="碳信交易数额">
                 <el-input
-                  :disabled="true"
-                  placeholder="￥￥￥￥￥"
-                  v-model="formLabelAlign.carbonCreditBalance"
+                  placeholder="￥￥￥￥￥￥"
+                  v-model="formLabelAlign.tradeAmount"
                 ></el-input>
               </el-form-item>
-              
             </el-form>
           </el-col>
           <el-col :span="12">
@@ -43,62 +35,19 @@
               label-width="80px"
               :model="formLabelAlign"
             >
-              <el-form-item label="碳信发行日期">
+              <el-form-item label="发行方所属控排链">
+                <el-input
+                  placeholder="某控排链"
+                  v-model="formLabelAlign.senderChain"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="碳信回购日期">
                 <el-date-picker
-                  v-model="formLabelAlign.launchedDate"
+                  v-model="formLabelAlign.repoDate"
                   type="date"
                   placeholder="选择日期"
                 >
                 </el-date-picker>
-              </el-form-item>
-              <el-form-item label="碳信交易数额">
-                <el-input
-                  placeholder="￥￥￥￥￥"
-                  v-model="formLabelAlign.tradeAmount"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="资金用途说明">
-                <el-input
-                  placeholder="资金用途详情"
-                  v-model="formLabelAlign.tradingDescription"
-                ></el-input>
-              </el-form-item>
-            </el-form>
-          </el-col>
-        </el-row>
-      </div>
-
-      <div class="description-title">
-        <div class="table-rec"></div>
-        签收方
-      </div>
-      <div class="form-body">
-        <el-row :gutter="40">
-          <el-col :span="12">
-            <el-form
-              :label-position="labelPositionForm"
-              label-width="80px"
-              :model="formLabelAlign"
-            >
-              <el-form-item label="签收方全称">
-                <el-input
-                  placeholder="某减排链企业"
-                  v-model="formLabelAlign.receivername"
-                ></el-input>
-              </el-form-item>
-            </el-form>
-          </el-col>
-          <el-col :span="12">
-            <el-form
-              :label-position="labelPositionForm"
-              label-width="80px"
-              :model="formLabelAlign"
-            >
-              <el-form-item label="签收方所属减排链">
-                <el-input
-                  placeholder="某减排链"
-                  v-model="formLabelAlign.jianpai"
-                ></el-input>
               </el-form-item>
             </el-form>
           </el-col>
@@ -106,7 +55,9 @@
       </div>
 
       <div class="sub-content-submit-button">
-        <el-button class="button-style" @click="dialogVisible=true">提交</el-button>
+        <el-button class="button-style" @click="dialogVisible = true"
+          >提交</el-button
+        >
       </div>
 
       <!-- 提交弹出操作密码面板 -->
@@ -127,12 +78,12 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-
-               
-              <el-button type="primary" @click="submitForm('ruleForm', formLabelAlign)">
-                            提交
-                     </el-button>
-            
+            <el-button
+              type="primary"
+              @click="submitForm('ruleForm', formLabelAlign)"
+            >
+              提交
+            </el-button>
           </el-form-item>
         </el-form>
       </el-dialog>
@@ -155,24 +106,20 @@ export default {
       }
     };
     return {
-       headerTitle: {
+      headerTitle: {
         largeTitle: "碳信管理  ",
         smallTitle: "碳信回购  ",
       },
       active: 1,
       textarea: "",
-      dialogVisible:false,
+      dialogVisible: false,
       labelPositionTabs: "right",
       labelPositionForm: "top",
       formLabelAlign: {
-        kongpai: "",
         sendername: "",
+        senderChain: "",
         tradeAmount: "",
-        launchedDate: "",
-        carbonCreditBalance: "",
-        tradingDescription: "",
-        receivername: "",
-        jianpai: "",
+        repoDate: "",
       },
       ruleForm: {
         pass: "",
@@ -183,32 +130,31 @@ export default {
     };
   },
   methods: {
-    submitForm(formName,formLabelAlign){
-            
-
-
+    submitForm(formName, formLabelAlign) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //操作密码正确
           this.dialogVisible = false;
-          this.$message({
-            message: "密码正确",
-            type: "success",
-          });
-          this.$confirm("确认发行碳信？")
+
+          this.$confirm("确认回购碳信？")
             .then((_) => {
-              done();
+              this.$message({
+                message: "碳信已回购",
+                type: "success",
+              });
             })
             .catch((_) => {});
         } else {
           //操作密码不正确
-          console.log("error submit!!");
-          return false;
+          this.$message({
+            message: "密码不正确",
+            type: "warning",
+          });
         }
       });
-      },
+    },
   },
-   components: {
+  components: {
     headerTitle,
   },
 };

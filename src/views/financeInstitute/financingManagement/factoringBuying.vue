@@ -11,6 +11,13 @@
       <div class="description-box">
         <el-descriptions>
           <el-descriptions-item
+            v-for="(item, index) in text"
+            :key="item.id"
+            :label="item.label"
+          >
+            {{ item.input }}
+          </el-descriptions-item>
+          <el-descriptions-item
             v-for="(item, index) in editableText"
             :key="item.id"
             :label="item.label"
@@ -25,20 +32,19 @@
               @click="item.edit = !item.edit"
             ></i>
           </el-descriptions-item>
-          <el-descriptions-item label="减排计划录入">
-            减排计划方案.word</el-descriptions-item
-          >
+
+          <el-descriptions-item label="附件"> 发票.png </el-descriptions-item>
         </el-descriptions>
       </div>
 
       <div class="description-title">
         <div class="table-rec"></div>
-        申报反馈
+        保理买入
       </div>
       <div class="radio-approval-box">
-        <el-radio v-model="radio" label="1">通过</el-radio>
-        <el-radio v-model="radio" label="2">驳回</el-radio>
-        <div class="radio-approval-comment-title">审批意见</div>
+        <el-radio v-model="radio" label="1">买入</el-radio>
+        <el-radio v-model="radio" label="2">拒绝</el-radio>
+        <div class="radio-approval-comment-title">签署意见</div>
         <div class="radio-approval-comment-content">
           <el-input
             type="textarea"
@@ -96,43 +102,83 @@ export default {
     };
     return {
       headerTitle: {
-        largeTitle: "链属企业管理",
-        smallTitle: "减排计划申报",
+        largeTitle: "任务管理",
+        smallTitle: "质押签订",
       },
       edit: false,
-      editableText: [
+      text: [
         {
           id: 1,
-          label: "所在控排链",
-          input: "可编辑",
-          edit: false,
+          label: "融资企业所属减排链",
+          input: "某减排链",
         },
         {
           id: 2,
-          label: "执行企业",
-          input: "可编辑",
-          edit: false,
+          label: "收款账户",
+          input: "某账户",
         },
         {
           id: 3,
-          label: "计划减排量",
-          input: "可编辑",
-          edit: false,
+          label: "操作日期",
+          input: "2022-03-03",
         },
         {
           id: 4,
-          label: "申报碳信额度",
+          label: "融资企业全称",
+          input: "某企业",
+        },
+        {
+          id: 5,
+          label: "保理企业",
+          input: "某企业",
+        },
+        {
+          id: 6,
+          label: "碳信数量",
+          input: "2300",
+        },
+        {
+          id: 7,
+          label: "收款银行",
+          input: "某银行",
+        },
+        {
+          id: 8,
+          label: "资金用途",
+          input: "融资",
+        },
+        {
+          id: 9,
+          label: "融资期限",
+          input: "2022-03-03",
+        },
+      ],
+      editableText: [
+        {
+          id: 6,
+          label: "利率",
           input: "可编辑",
           edit: false,
         },
         {
-          id: 5,
-          label: "年份",
+          id: 7,
+          label: "服务费率",
+          input: "可编辑",
+          edit: false,
+        },
+        {
+          id: 7,
+          label: "融资金额",
+          input: "可编辑",
+          edit: false,
+        },
+        {
+          id: 7,
+          label: "质押金额",
           input: "可编辑",
           edit: false,
         },
       ],
-
       dialogVisible: false,
       radio: "1",
       textarea: "",
@@ -148,11 +194,14 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          //操作密码正确
+          this.dialogVisible = false;
           this.$message({
-            message: "提交成功",
+            message: "完成签约",
             type: "success",
           });
         } else {
+          //操作密码不正确
           console.log("error submit!!");
           return false;
         }
@@ -183,7 +232,7 @@ export default {
   font-size: 18px;
   padding-top: 20px;
   margin-left: 40px;
-  margin-bottom: 30px;
+  margin-bottom: 13px;
   line-height: 30px;
 }
 .description-title .table-rec {
@@ -206,7 +255,7 @@ export default {
 }
 .radio-approval-box {
   margin-left: 40px;
-  margin-top: 30px;
+  margin-top: 14px;
 }
 .radio-approval-comment-title {
   font-size: 14px;

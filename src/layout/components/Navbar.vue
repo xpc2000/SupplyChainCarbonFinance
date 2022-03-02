@@ -12,7 +12,7 @@
             alt=""
           />
           <img
-            @click="centerDialogVisible = true"
+            @click="jumpTo()"
             class="header-right-profile-icon"
             src="@/assets/header-icon/profile-icon.svg"
             alt=""
@@ -92,62 +92,10 @@ export default {
   },
 
   methods:{
-     submitLoginForm(ruleForm) {if(ruleForm.username==1&&ruleForm.password==1){
+     jumpTo() {
       this.$router.push("/");
-      this.centerDialogVisible = false;
-      this.username = "";
-      this.password = "";
-
-      this.$message({
-        message: '成功登录',
-        type: 'success'
-      });
-      }else if(ruleForm.username==2&&ruleForm.password==2){
-      this.$router.push("/index2");
-      this.centerDialogVisible = false;
-      this.username = "";
-      this.password = "";
-
-      this.$message({
-        message: '成功登录',
-        type: 'success'
-      });
-      }else if(ruleForm.username==3&&ruleForm.password==3){
-      this.$router.push("/index3");
-      this.centerDialogVisible = false;
-      this.username = "";
-      this.password = "";
-
-      this.$message({
-        message: '成功登录',
-        type: 'success'
-      });
-      }else if(ruleForm.username==4&&ruleForm.password==4){
-      this.$router.push("/index4");
-      this.centerDialogVisible = false;
-      this.username = "";
-      this.password = "";
-
-      this.$message({
-        message: '成功登录',
-        type: 'success'
-      });
-      }else if(ruleForm.username==5&&ruleForm.password==5){
-      this.$router.push("/index5");
-      this.centerDialogVisible = false;
-      this.username = "";
-      this.password = "";
-
-      this.$message({
-        message: '成功登录',
-        type: 'success'
-      });
-      }
-      else{
-        this.$message.error('登陆失败');
-      }
-    },
-  }
+     }
+    }
 }
 </script>
 

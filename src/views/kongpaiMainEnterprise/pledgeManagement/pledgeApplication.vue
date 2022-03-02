@@ -1,11 +1,6 @@
 <template>
   <div class="sub-content-box">
-    <div class="sub-content-header">
-      <div class="sub-content-title-left">
-        <div class="sub-content-title-left-title">碳配额质押申请  </div>
-  
-      </div>
-    </div>
+    <header-title :headerTitle="headerTitle"></header-title>
 
     <div class="sub-content-body">
       <div class="description-title">
@@ -14,7 +9,7 @@
       </div>
       <div class="form-body">
         <el-row :gutter="40">
-          <el-col :span="10">
+          <el-col :span="12">
             <el-form
               :label-position="labelPositionForm"
               label-width="80px"
@@ -22,44 +17,30 @@
             >
               <el-form-item label="配额所有者">
                 <el-input
-                  placeholder="某控排链企业"
-                  v-model="formLabelAlign.kongpai"
+                  placeholder="配额所有者"
+                  v-model="formLabelAlign.name"
                 ></el-input>
               </el-form-item>
-               <el-form-item label="所属控排链">
+               <el-form-item label="操作日期">
                 <el-input
-                  placeholder="某控排链"
-                  v-model="formLabelAlign.kongpai"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="质押金额">
-                <el-input
-                  placeholder="￥￥￥￥￥"
-                  v-model="formLabelAlign.sendername"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="贷款期限">
-                <el-input
-                  placeholder="180天"
-                  v-model="formLabelAlign.tradeAmount"
+                  placeholder="操作日期"
+                  v-model="formLabelAlign.date"
                 ></el-input>
               </el-form-item>
               
             </el-form>
           </el-col>
-          <el-col :span="10">
+          <el-col :span="12">
             <el-form
               :label-position="labelPositionForm"
               label-width="80px"
               :model="formLabelAlign"
             >
-              <el-form-item label="操作日期">
-                <el-date-picker
-                  v-model="formLabelAlign.launchedDate"
-                  type="date"
-                  placeholder="选择日期"
-                >
-                </el-date-picker>
+            <el-form-item label="所属控排链">
+                <el-input
+                  placeholder="￥￥￥￥￥"
+                  v-model="formLabelAlign.carbonCreditBalance"
+                ></el-input>
               </el-form-item>
               <el-form-item label="配额量">
                 <el-input
@@ -67,20 +48,23 @@
                   v-model="formLabelAlign.carbonCreditBalance"
                 ></el-input>
               </el-form-item>
-               <el-form-item label="质押率">
-                <el-input
-                  placeholder="1.4%"
-                  v-model="formLabelAlign.carbonCreditBalance"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="质押率">
-                <el-input
-                  placeholder="1.4%"
-                  v-model="formLabelAlign.carbonCreditBalance"
-                ></el-input>
-              </el-form-item>
             </el-form>
           </el-col>
+        </el-row>
+        <el-row>
+         
+              <div class="usage-title">资金用途</div>
+          <div class="usage-comment">
+            <el-input
+      
+            type="textarea"
+              :rows="8"
+              placeholder="请输入内容"
+            >
+            </el-input>
+          </div>
+ 
+           
         </el-row>
       </div>
 
@@ -120,6 +104,7 @@
   </div>
 </template>
 <script>
+import headerTitle from '@/components/headerTitle.vue'
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -133,8 +118,12 @@ export default {
       }
     };
     return {
+       headerTitle:{
+          largeTitle:'碳配额质押申请  ',
+          smallTitle:'质押申请'    
+        },
+      textarea:"",
       active: 1,
-      textarea: "",
       dialogVisible:false,
       labelPositionTabs: "right",
       labelPositionForm: "top",
@@ -178,7 +167,12 @@ export default {
             }
             });
       },
-  },
+      
+  }, 
+  components:{
+    headerTitle,
+  
+  }
 };
 </script>
 <style scoped>
@@ -209,17 +203,19 @@ export default {
 /* ::v-deep .el-form-item {
   margin-bottom: 10px;
 } */
-::v-deep .el-form-item__label {
+/* ::v-deep .el-form-item__label {
   line-height: 14px;
-}
+} */
 ::v-deep .el-form--label-top .el-form-item__label {
   padding: 0 0 5px;
 }
 ::v-deep .el-input__inner {
+ 
   border-radius: 5px;
   height: 35px;
   background-color: #fafcfe;
 }
+
 ::v-deep .el-input__icon {
   height: 0;
 }
@@ -259,4 +255,17 @@ export default {
   color: #209f85;
   cursor: pointer;
 }
+.usage-title {
+  font-size: 14px;
+  margin: 10px 0px 15px 0px;
+  color:#606266;
+}
+.usage-comment {
+  height: 150px;
+  border: 1px solid #eee;
+  margin: 10px 0px 30px 0px;
+  background-color: #fafcfe;
+  border-radius: 5px;
+}
+
 </style>

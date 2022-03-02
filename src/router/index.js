@@ -3,15 +3,22 @@ import VueRouter from 'vue-router'
 // import layout from '@/layout'
 
 Vue.use(VueRouter)
+
+
 // const routes
 export const routes = [
- 
   {
     path: "/",
+    component: () => import("@/views/login.vue"),
+  },
+  //控排链核心企业
+  {
+    path: "/index",
     component: () => import("@/layout/index"),
     meta: {
       title: "链属企业管理",
       icon: "el-icon-user",
+
     },
     children: [
       {
@@ -19,6 +26,7 @@ export const routes = [
         component: () => import("@/views/kongpaiMainEnterprise/companyManagement/companyList.vue"),
         meta: {
           title: "链属企业列表",
+          
         },
       },
       {
@@ -137,6 +145,7 @@ export const routes = [
     meta: {
       title: "信息通知",
       icon: "el-icon-user",
+
     },
     children: [
       {
@@ -149,208 +158,198 @@ export const routes = [
       },
     ]
   },
-]
-  // {
-    // path: '/',
-    // component: ()=>import('@/layout'),
-    // children:[
 
-      
-      // {
-      //   path: '/kongpaiMainEnterprise/p1-company-management-list',
-      //   component: ()=>import('@/views/kongpaiMainEnterprise/p1-company-management-list')
-      // },
-      // {
-      //   path: '/kongpaiMainEnterprise/p2-company-management-approval',
-      //   component: ()=>import('@/views/kongpaiMainEnterprise/p2-company-management-approval')
-      // },
-      // {
-      //   path: '/kongpaiMainEnterprise/p2-01-company-management-approval-form',
-      //   component: ()=>import('@/views/kongpaiMainEnterprise/p2-01-company-management-approval-form')
-      // },
-      // {
-      //   path: '/kongpaiMainEnterprise/p3-kong-account-detail',
-      //   component: ()=>import('@/views/kongpaiMainEnterprise/p3-kong-account-detail')
-      // },
-      // {
-      //   path: '/kongpaiMainEnterprise/p4-carbon-credit-created',
-      //   component: ()=>import('@/views/kongpaiMainEnterprise/p4-carbon-credit-created')
-      // },
-      // {
-      //   path: '/kongpaiMainEnterprise/p5-carbon-credit-destroyed',
-      //   component: ()=>import('@/views/kongpaiMainEnterprise/p5-carbon-credit-destroyed')
-      // },
-      // {
-      //   path: '/kongpaiMainEnterprise/p6-company-carbon-credit-account-detail',
-      //   component: ()=>import('@/views/kongpaiMainEnterprise/p6-company-carbon-credit-account-detail')
-      // },
-      // {
-      //   path: '/kongpaiMainEnterprise/p7-carbon-credit-launching',
-      //   component: ()=>import('@/views/kongpaiMainEnterprise/p7-carbon-credit-launching')
-      // },
-      // {
-      //   path: '/kongpaiMainEnterprise/p8-carbon-credit-repo-list',
-      //   component: ()=>import('@/views/kongpaiMainEnterprise/p8-carbon-credit-repo-list')
-      // },
-      
-      // {
-      //   path: '/kongpaiMainEnterprise/p9-pledge-application',
-      //   component: ()=>import('@/views/kongpaiMainEnterprise/p9-pledge-application')
-      // },
-      // {
-      //   path: '/kongpaiMainEnterprise/p10-notifications-list',
-      //   component: ()=>import('@/views/kongpaiMainEnterprise/p10-notifications-list')
-      // },
-    // ]
-  // },
-  // {
-    // path: '/index2',
-    // component: ()=>import('@/layout/index2'),
-    // children:[
-    //   {
-    //     path: '/kongpaiChainEnterprise/p6-company-carbon-credit-account-detail',
-    //     component: ()=>import('@/views/kongpaiChainEnterprise/p6-company-carbon-credit-account-detail')
-    //   },
-    //   {
-    //     path: '/kongpaiChainEnterprise/p7-carbon-credit-launching',
-    //     component: ()=>import('@/views/kongpaiChainEnterprise/p7-carbon-credit-launching')
-    //   },
-    //   {
-    //     path: '/kongpaiChainEnterprise/p8-carbon-credit-repo-list',
-    //     component: ()=>import('@/views/kongpaiChainEnterprise/p8-carbon-credit-repo-list')
-    //   },
-      
-    //   {
-    //     path: '/kongpaiChainEnterprise/p9-pledge-application',
-    //     component: ()=>import('@/views/kongpaiChainEnterprise/p9-pledge-application')
-    //   },
-    //   {
-    //     path: '/kongpaiChainEnterprise/p10-notifications-list',
-    //     component: ()=>import('@/views/kongpaiChainEnterprise/p10-notifications-list')
-    //   },
-    // ]
-   
-  // },
-  // {
-    // path: '/index3',
-    // component: ()=>import('@/layout/index3'),
-    // children:[
-    //   {
-    //     path: '/jianpaiMainChainEnterprise/p1-company-management-list',
-    //     component: ()=>import('@/views/jianpaiMainChainEnterprise/p1-company-management-list')
-    //   },
-    //   {
-    //     path: '/jianpaiMainChainEnterprise/p2-company-carbon-credit-account-detail',
-    //     component: ()=>import('@/views/jianpaiMainChainEnterprise/p2-company-carbon-credit-account-detail')
-    //   },
-    //   {
-    //     path: '/jianpaiMainChainEnterprise/p3-carbon-credit-transfer',
-    //     component: ()=>import('@/views/jianpaiMainChainEnterprise/p3-carbon-credit-transfer')
-    //   },
-    //   {
-    //     path: '/jianpaiMainChainEnterprise/p4-financing-application',
-    //     component: ()=>import('@/views/jianpaiMainChainEnterprise/p4-financing-application')
-    //   },
-    //   {
-    //     path: '/jianpaiMainChainEnterprise/p5-carbon-receiving-task',
-    //     component: ()=>import('@/views/jianpaiMainChainEnterprise/p5-carbon-receiving-task')
-    //   },
-    //   {
-    //     path: '/jianpaiMainChainEnterprise/p5-1taskDetail',
-    //     component: ()=>import('@/views/jianpaiMainChainEnterprise/p5-1taskDetail')
-    //   },
-    //   {
-    //     path: '/jianpaiMainChainEnterprise/p6-notifications-list',
-    //     component: ()=>import('@/views/jianpaiMainChainEnterprise/p6-notifications-list')
-    //   }
+  // 减排链核心企业
+  {
+    path: "/jianpaiMain",
+    component: () => import("@/layout/index"),
+    meta: {
+      title: "链属企业管理",
+      icon: "el-icon-user",
 
-     
-    // ]
-   
-  // },
+    },
+    children: [
+      {
+        path: "/jianpaiMainEnterprise/companyManagement/companyList",
+        component: () => import("@/views/jianpaiMainEnterprise/companyManagement/companyList.vue"),
+        meta: {
+          title: "链属企业列表",
+          
+        },
+      },
+    ],
+  },
+  {
+    path: "/jianpaiMainEnterprise/creditManagement",
+    component: () => import("@/layout/index"),
+    meta: {
+      title: "碳信管理",
+      icon: "el-icon-user",
+    },
+    children: [
+      {
+        path: "/jianpaiMainEnterprise/creditManagement/companyBoard",
+        component: () => import("@/views/kongpaiMainEnterprise/creditManagement/companyBoard.vue"),
+        meta: {
+          title: "企业碳信账户",
+        },
+      },
+      {
+        path: "/jianpaiMainEnterprise/creditManagement/transferCredit",
+        component: () => import("@/views/jianpaiMainEnterprise/creditManagement/transferCredit.vue"),
+        meta: {
+          title: "碳信转让",
+        },
+      },
+    ],
+  },
+  {
+    path: "/jianpaiMainEnterprise/financingManagement",
+    component: () => import("@/layout/index"),
+    meta: {
+      title: "融资管理",
+      icon: "el-icon-user",
+    },
+    children: [
+      {
+        path: "/jianpaiMainEnterprise/financingManagement/financingList",
+        component: () => import("@/views/jianpaiMainEnterprise/financingManagement/financingList.vue"),
+        meta: {
+          title: "融资列表",
+        },
+      },
+      {
+        path: "/jianpaiMainEnterprise/financingManagement/financingApplication",
+        component: () => import("@/views/jianpaiMainEnterprise/financingManagement/financingApplication.vue"),
+        meta: {
+          title: "融资申请",
+        },
+      },
+      {
+        path: "/jianpaiMainEnterprise/financingManagement/financingSigning",
+        component: () => import("@/views/jianpaiMainEnterprise/financingManagement/financingSigning.vue"),
+        meta: {
+          title: "融资签约",
+        },
+        
+      },
+    ],
+  },
+  {
+    path: "/jianpaiMainEnterprise/taskManagement",
+    component: () => import("@/layout/index"),
+    meta: {
+      title: "任务管理",
+      icon: "el-icon-user",
+    },
+    children: [
+      {
+        path: "/jianpaiMainEnterprise/taskManagement/receiveCredit",
+        component: () => import("@/views/jianpaiMainEnterprise/taskManagement/receiveCredit.vue"),
+        meta: {
+          title: "签收碳信",
+        },
+      },
+      {
+        path: "/jianpaiMainEnterprise/taskManagement/receivingDetails",
+        component: () => import("@/views/jianpaiMainEnterprise/taskManagement/receivingDetails.vue"),
+        meta: {
+          title: "签收详情",
+        },
+      },
+    ],
+  },
+  //金融机构
+  {
+    path: "/financeInstitute/taskManagement",
+    component: () => import("@/layout/index"),
+    meta: {
+      title: "任务管理",
+      icon: "el-icon-user",
+    },
+    children: [
+      {
+        path: "/financeInstitute/taskManagement/pledgeList",
+        component: () => import("@/views/financeInstitute/taskManagement/pledgeList.vue"),
+        meta: {
+          title: "质押列表",
+        },
+      },
+      {
+        path: "/financeInstitute/taskManagement/PledgeAproval",
+        component: () => import("@/views/financeInstitute/taskManagement/PledgeAproval.vue"),
+        meta: {
+          title: "质押审批",
+        },
+      },
+      {
+        path: "/financeInstitute/taskManagement/PledgeSigning",
+        component: () => import("@/views/financeInstitute/taskManagement/PledgeSigning.vue"),
+        meta: {
+          title: "质押签订",
+        },
+      },
+    ],
+  },
+  {
+    path: "/financeInstitute/financingManagement",
+    component: () => import("@/layout/index"),
+    meta: {
+      title: "融资管理",
+      icon: "el-icon-user",
+    },
+    children: [
+      {
+        path: "/financeInstitute/financingManagement/financingList",
+        component: () => import("@/views/financeInstitute/financingManagement/financingList.vue"),
+        meta: {
+          title: "融资列表",
+        },
+      },
+      {
+        path: "/financeInstitute/financingManagement/factoringApproval",
+        component: () => import("@/views/financeInstitute/financingManagement/factoringApproval.vue"),
+        meta: {
+          title: "保理审核",
+        },
+      },
+      {
+        path: "/financeInstitute/financingManagement/factoringBuying",
+        component: () => import("@/views/financeInstitute/financingManagement/factoringBuying.vue"),
+        meta: {
+          title: "保理买入",
+        },
+      },
+    ],
+  },
 
-  // {
-    // path: '/index4',
-    // component: ()=>import('@/layout/index4'),
-    // children:[
-    //   {
-    //     path: '/jianpaiLinkedEnterprise/p2-company-carbon-credit-account-detail',
-    //     component: ()=>import('@/views/jianpaiLinkedEnterprise/p2-company-carbon-credit-account-detail')
-    //   },
-    //   {
-    //     path: '/jianpaiLinkedEnterprise/p3-carbon-credit-transfer',
-    //     component: ()=>import('@/views/jianpaiLinkedEnterprise/p3-carbon-credit-transfer')
-    //   },
-    //   {
-    //     path: '/jianpaiLinkedEnterprise/p4-financing-application',
-    //     component: ()=>import('@/views/jianpaiLinkedEnterprise/p4-financing-application')
-    //   },
-    //   {
-    //     path: '/jianpaiLinkedEnterprise/p5-carbon-receiving-task',
-    //     component: ()=>import('@/views/jianpaiLinkedEnterprise/p5-carbon-receiving-task')
-    //   },
-    //   {
-    //     path: '/jianpaiLinkedEnterprise/p5-1taskDetail',
-    //     component: ()=>import('@/views/jianpaiLinkedEnterprise/p5-1taskDetail')
-    //   },
-    //   {
-    //     path: '/jianpaiLinkedEnterprise/p6-notifications-list',
-    //     component: ()=>import('@/views/jianpaiLinkedEnterprise/p6-notifications-list')
-    //   }
-
-     
-    // ]
-   
-  // },
-  // {
-  //   path: '/index5',
-  //   component: ()=>import('@/layout/index5'),
-  //   children:[
-  //     {
-  //       path: '/financeInstitute/PledgeAproval',
-  //       component: ()=>import('@/views/financeInstitute/PledgeAproval')
-  //     },
-  //     {
-  //       path: '/financeInstitute/PledgeAprovalDetails',
-  //       component: ()=>import('@/views/financeInstitute/PledgeAprovalDetails')
-  //     },
-  //     {
-  //       path: '/financeInstitute/PledgeSigning',
-  //       component: ()=>import('@/views/financeInstitute/PledgeSigning')
-  //     },
-  //     {
-  //       path: '/financeInstitute/PledgeSigningDetails',
-  //       component: ()=>import('@/views/financeInstitute/PledgeSigningDetails')
-  //     },
-  //     {
-  //       path: '/financeInstitute/ComplianceReview',
-  //       component: ()=>import('@/views/financeInstitute/ComplianceReview')
-  //     },
-  //     {
-  //       path: '/financeInstitute/ComplianceReviewDetails',
-  //       component: ()=>import('@/views/financeInstitute/ComplianceReviewDetails')
-  //     },
-  //     {
-  //       path: '/financeInstitute/FactoringBuying',
-  //       component: ()=>import('@/views/financeInstitute/FactoringBuying')
-  //     },
-  //     {
-  //       path: '/financeInstitute/notificationList',
-  //       component: ()=>import('@/views/financeInstitute/notificationList')
-  //     }
-  //   ]
-   
-  // },
-// const routeform=[ {
   
-//     path: '/financeInstitute/notificationList',
-//     component: ()=>import('@/views/financeInstitute/notificationList')
 
-// }
-// ]
+]
+
+//登录判断
+export function getUserRoutes(userName) {
+  let indexList = []
+  switch(userName){
+    case "Ada":
+      indexList = [1,2,3,4,5,6,7,8,9,10,11]
+    break;
+
+    case "user2":
+      indexList = [2,3,4,5]
+    break;
+  }
+
+  if(indexList.length == 0) return routes;
+  console.log("test")
+  return indexList.map((index) => routes[index]);
+}
+
 export const router = new VueRouter({
   routes,
 });
+
+
 
 // const routeform = new VueRouter({
 //   routeform
