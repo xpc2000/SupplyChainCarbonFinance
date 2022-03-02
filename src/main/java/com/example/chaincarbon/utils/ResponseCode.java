@@ -3,7 +3,8 @@ package com.example.chaincarbon.utils;
 public enum ResponseCode {
     OK(0, "成功"),
     LoginFailure(601, "登录失败，用户名或密码错误"),
-    InsufficientPermissions(602,"操作密码错误");
+    InsufficientPermissions(602,"操作密码错误"),
+    DataBaseError(603,"数据库操作失败");
     @Override
     public String toString() {
         return "ResponseCode{" +
