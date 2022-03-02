@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class PledgeVo {
+    //注：时间格式应为"yyyy-MM-dd HH:mm:ss"
     private String accountName;
     private Integer accountType;
     private String actionPassword;

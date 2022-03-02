@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class FactorVo {
+    //注：日期格式应为"yyyy-MM-dd HH:mm:ss"
     private String accountName;
     private Integer accountType;
     private String actionPassword;
