@@ -1,7 +1,12 @@
 package com.example.chaincarbon.controller;
 
+import com.example.chaincarbon.dao.*;
+import com.example.chaincarbon.model.pojo.*;
+import com.example.chaincarbon.model.vo.ControlVo;
 import com.example.chaincarbon.model.vo.LoginVo;
+import com.example.chaincarbon.model.vo.UserVo;
 import com.example.chaincarbon.service.UserService;
+import com.example.chaincarbon.utils.AccountType;
 import com.example.chaincarbon.utils.ResponseCode;
 import com.example.chaincarbon.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +15,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
 
     @Autowired
-    UserService userService;
+    FinanceDao financeDao;
+
+    @Autowired
+    ControlCoreDao controlCoreDao;
+
+    @Autowired
+    ControlSubDao controlSubDao;
+
+    @Autowired
+    ReduceCoreDao reduceCoreDao;
+
+    @Autowired
+    ReduceSubDao reduceSubDao;
 
     /**
      * @Author: xpc2000
@@ -26,16 +45,84 @@ public class UserController {
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public Result login(@RequestBody LoginVo loginVo){
-        Boolean checkResult= userService.loginCheck(loginVo.getUserEmail(),loginVo.getPassword());
+//        String checkResult= userService.loginCheck(loginVo.getUserEmail(),loginVo.getPassword(),loginVo.getAccountType());
         //成功返回账户信息，失败返回失败提示
-        if (checkResult){
-            //查找整理账户信息
+        Result result=new Result(ResponseCode.LoginFailure);
+        if(Objects.equals(loginVo.getAccountType(), AccountType.Finance.getCode())){
+            FinanceInstitution financeInstitution=financeDao.getFinanceByEmail(loginVo.getUserEmail());
+            if(financeInstitution!=null&& Objects.equals(financeInstitution.getLoginPassword(), loginVo.getPassword())){
+                result.setConde(ResponseCode.OK.getCode());
+                result.setMessage(ResponseCode.OK.getMessage());
+                //数据包装
+                UserVo userVo=new UserVo();
+                userVo.setName(financeInstitution.getCompanyName());
+                userVo.setChain("金融业");
+                userVo.setCarbinTicket(financeInstitution.getCarbonTicketNumber());
+                result.setData(userVo);
+            }
+        }
+        else if(Objects.equals(loginVo.getAccountType(), AccountType.ControlCore.getCode())){
+            ControlCore controlCore=controlCoreDao.getControlCoreByEmail(loginVo.getUserEmail());
+            if(controlCore!=null&& Objects.equals(controlCore.getLogin(), loginVo.getPassword())){
+                result.setConde(ResponseCode.OK.getCode());
+                result.setMessage(ResponseCode.OK.getMessage());
+                //数据包装
+                ControlVo controlVo=new ControlVo();
+                controlVo.setName(controlCore.getName());
+                controlVo.setChain(controlCore.getControlChain());
+                controlVo.setCarbonLimit(controlCore.getCarbontTicket());
+                controlVo.setEmisssionPledged(controlCore.getNumberCarbonEmission());
+                controlVo.setTicketUnissued(controlCore.getUnissuedCarbonTicket());
+                controlVo.setTicketBuyback(controlCore.getRepurchasedCarbonTicket());
+                result.setData(controlVo);
+            }
+        }
 
-            return new Result(ResponseCode.OK,new Object());
+        else if (Objects.equals(loginVo.getAccountType(), AccountType.ControlSub.getCode())){
+            ControlSub controlSub=controlSubDao.getControlSubByEmail(loginVo.getUserEmail());
+            if(controlSub!=null&& Objects.equals(controlSub.getLogin(), loginVo.getPassword())){
+                result.setConde(ResponseCode.OK.getCode());
+                result.setMessage(ResponseCode.OK.getMessage());
+                //数据包装
+                ControlVo controlVo=new ControlVo();
+                controlVo.setName(controlSub.getName());
+                controlVo.setChain(controlSub.getControlChain());
+                controlVo.setCarbonLimit(controlSub.getCatbonTicket());
+                controlVo.setEmisssionPledged(controlSub.getNumberCarbonEmission());
+                controlVo.setTicketUnissued(controlSub.getUnissuedCarbonTicket());
+                controlVo.setTicketBuyback(controlSub.getRepurchasedCarbonTicket());
+                result.setData(controlVo);
+            }
         }
+
+        else if(Objects.equals(loginVo.getAccountType(), AccountType.ReduceCore.getCode())){
+            ReduceCore reduceCore=reduceCoreDao.getReduceCoreByEmail(loginVo.getUserEmail());
+            if(reduceCore!=null&& Objects.equals(reduceCore.getLogin(), loginVo.getPassword())){
+                result.setConde(ResponseCode.OK.getCode());
+                result.setMessage(ResponseCode.OK.getMessage());
+                //数据包装
+                UserVo userVo=new UserVo();
+                userVo.setName(reduceCore.getName());
+                userVo.setChain(reduceCore.getReduceChain());
+                userVo.setCarbinTicket(reduceCore.getCarbonTicketBalance());
+                result.setData(userVo);
+            }
+        }
+
         else{
-            return new Result(ResponseCode.LoginFailure);
+            ReduceSub reduceSub=reduceSubDao.getReduceSubByEmail(loginVo.getUserEmail());
+            if(reduceSub!=null&& Objects.equals(reduceSub.getLogin(), loginVo.getPassword())){
+                result.setConde(ResponseCode.OK.getCode());
+                result.setMessage(ResponseCode.OK.getMessage());
+                //数据包装
+                UserVo userVo=new UserVo();
+                userVo.setName(reduceSub.getName());
+                userVo.setChain(reduceSub.getReduceChain());
+                userVo.setCarbinTicket(reduceSub.getCarbonTicketBalance());
+                result.setData(userVo);
+            }
         }
+        return result;
     }
 
 

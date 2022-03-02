@@ -27,7 +27,7 @@ public class SearchController {
      * @Description:获取碳信记录
      */
     @RestController
-    @RequestMapping(value = "/tickets")
+    @RequestMapping(value = "/ticketSearch")
     class SearchTicket{
         /**
          * @Author:周文峰
@@ -57,7 +57,7 @@ public class SearchController {
          */
         @RequestMapping(value = "/signed",method = RequestMethod.GET)
         public Result getSignedTicketRecords(@RequestParam String chain, @RequestParam String company){
-            return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,4,0,Arrays.asList(1,2,3,4,5,6)));
+            return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,4,0,Arrays.asList(2,3)));
         }
         /**
          * @Author:周文峰
@@ -67,7 +67,7 @@ public class SearchController {
          */
         @RequestMapping(value = "/canceled",method = RequestMethod.GET)
         public Result getCanceledTicketRecords(@RequestParam String chain, @RequestParam String company){
-            return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,2,0,Arrays.asList(1,2,3,4,5,6)));
+            return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,2,0,Arrays.asList(2,3)));
         }
         /**
          * @Author:周文峰
@@ -77,7 +77,7 @@ public class SearchController {
          */
         @RequestMapping(value = "/reject",method = RequestMethod.GET)
         public Result getRejectTicketRecords(@RequestParam String chain, @RequestParam String company){
-            return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,3,0,Arrays.asList(1,2,3,4,5,6)));
+            return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,3,0,Arrays.asList(2,3)));
         }
     }
 
@@ -88,7 +88,7 @@ public class SearchController {
      * @Description:获取碳质押记录
      */
     @RestController
-    @RequestMapping(value = "/pledges")
+    @RequestMapping(value = "/pledgeSerach")
     class SearchPledge{
         /**
          * @Author:周文峰
@@ -110,21 +110,21 @@ public class SearchController {
         public Result getSubmitPledge(@RequestParam String chain, @RequestParam String company){
             return new Result(ResponseCode.OK, emissionService.getCompanyPledgeRecords(chain,company,0));
         }
+//        /**
+//         * @Author:周文峰
+//         * @Date:2022/3/1
+//         * @Param:企业所属控排链，企业名称
+//         * @Description:获取企业已经审批的碳质押记录
+//         */
+//        @RequestMapping(value = "/approved",method = RequestMethod.GET)
+//        public Result getApprovedPledge(@RequestParam String chain, @RequestParam String company){
+//            return new Result(ResponseCode.OK, emissionService.getCompanyPledgeRecords(chain,company,1));
+//        }
         /**
          * @Author:周文峰
          * @Date:2022/3/1
          * @Param:企业所属控排链，企业名称
-         * @Description:获取企业已经审批的碳质押记录
-         */
-        @RequestMapping(value = "/approved",method = RequestMethod.GET)
-        public Result getApprovedPledge(@RequestParam String chain, @RequestParam String company){
-            return new Result(ResponseCode.OK, emissionService.getCompanyPledgeRecords(chain,company,1));
-        }
-        /**
-         * @Author:周文峰
-         * @Date:2022/3/1
-         * @Param:企业所属控排链，企业名称
-         * @Description:获取企业已经签约的碳质押记录
+         * @Description:获取企业可以签约的碳质押记录
          */
         @RequestMapping(value = "/signed-company",method = RequestMethod.GET)
         public Result getCompanySignedPledge(@RequestParam String chain, @RequestParam String company){
@@ -150,16 +150,16 @@ public class SearchController {
         public Result getSigningPledge(@RequestParam String company){
             return new Result(ResponseCode.OK, emissionService.getInstitutionPledgeRecords(company,1));
         }
-        /**
-         * @Author:周文峰
-         * @Date:2022/3/1
-         * @Param:金融机构名称
-         * @Description:获取金融机构已经签约的碳质押记录
-         */
-        @RequestMapping(value = "/signed-institution",method = RequestMethod.GET)
-        public Result getInstitutionSignedPledge(@RequestParam String company){
-            return new Result(ResponseCode.OK, emissionService.getInstitutionPledgeRecords(company,2));
-        }
+//        /**
+//         * @Author:周文峰
+//         * @Date:2022/3/1
+//         * @Param:金融机构名称
+//         * @Description:获取金融机构已经签约的碳质押记录
+//         */
+//        @RequestMapping(value = "/signed-institution",method = RequestMethod.GET)
+//        public Result getInstitutionSignedPledge(@RequestParam String company){
+//            return new Result(ResponseCode.OK, emissionService.getInstitutionPledgeRecords(company,2));
+//        }
     }
 
 
@@ -169,7 +169,7 @@ public class SearchController {
      * @Description:获取融资记录
      */
     @RestController
-    @RequestMapping(value = "factors")
+    @RequestMapping(value = "/factorSearch")
     class SearchFactor{
         /**
          * @Author:周文峰
@@ -189,48 +189,48 @@ public class SearchController {
          */
         @RequestMapping(value = "/applying",method = RequestMethod.GET)
         public Result getApplyingFactorRecord(@RequestParam String company){
-            return new Result(ResponseCode.OK, fundingService.getCompanyFactorRecords(company,1));
+            return new Result(ResponseCode.OK, fundingService.getCompanyFactorRecords(company,0));
         }
+//        /**
+//         * @Author:周文峰
+//         * @Date:2022/3/1
+//         * @Param:企业名称
+//         * @Description:获取企业通过审核的融资记录
+//         */
+//        @RequestMapping(value = "/pass",method = RequestMethod.GET)
+//        public Result getPassFactorRecord(@RequestParam String company){
+//            return new Result(ResponseCode.OK, fundingService.getCompanyFactorRecords(company,1));
+//        }
         /**
          * @Author:周文峰
          * @Date:2022/3/1
          * @Param:企业名称
-         * @Description:获取企业通过审核的融资记录
-         */
-        @RequestMapping(value = "/pass",method = RequestMethod.GET)
-        public Result getPassFactorRecord(@RequestParam String company){
-            return new Result(ResponseCode.OK, fundingService.getCompanyFactorRecords(company,2));
-        }
-        /**
-         * @Author:周文峰
-         * @Date:2022/3/1
-         * @Param:企业名称
-         * @Description:获取企业签约中的融资记录
+         * @Description:获取企业可签约的融资记录
          */
         @RequestMapping(value = "/signing-company",method = RequestMethod.GET)
         public Result getCompanySigningFactorRecord(@RequestParam String company){
-            return new Result(ResponseCode.OK, fundingService.getCompanyFactorRecords(company,3));
+            return new Result(ResponseCode.OK, fundingService.getCompanyFactorRecords(company,2));
         }
-        /**
-         * @Author:周文峰
-         * @Date:2022/3/1
-         * @Param:企业名称
-         * @Description:获取企业已经签约的融资记录
-         */
-        @RequestMapping(value = "/signed-company",method = RequestMethod.GET)
-        public Result getCompanySignedFactorRecord(@RequestParam String company){
-            return new Result(ResponseCode.OK, fundingService.getCompanyFactorRecords(company,4));
-        }
-        /**
-         * @Author:周文峰
-         * @Date:2022/3/1
-         * @Param:企业名称
-         * @Description:获取企业申请失败的融资记录
-         */
-        @RequestMapping(value = "/failed-company",method = RequestMethod.GET)
-        public Result getCompanyFailedFactorRecord(@RequestParam String company){
-            return new Result(ResponseCode.OK, fundingService.getCompanyFactorRecords(company,5));
-        }
+//        /**
+//         * @Author:周文峰
+//         * @Date:2022/3/1
+//         * @Param:企业名称
+//         * @Description:获取企业已经签约的融资记录
+//         */
+//        @RequestMapping(value = "/signed-company",method = RequestMethod.GET)
+//        public Result getCompanySignedFactorRecord(@RequestParam String company){
+//            return new Result(ResponseCode.OK, fundingService.getCompanyFactorRecords(company,3));
+//        }
+//        /**
+//         * @Author:周文峰
+//         * @Date:2022/3/1
+//         * @Param:企业名称
+//         * @Description:获取企业申请失败的融资记录
+//         */
+//        @RequestMapping(value = "/failed-company",method = RequestMethod.GET)
+//        public Result getCompanyFailedFactorRecord(@RequestParam String company){
+//            return new Result(ResponseCode.OK, fundingService.getCompanyFactorRecords(company,4));
+//        }
         /**
          * @Author:周文峰
          * @Date:2022/3/1
@@ -239,7 +239,7 @@ public class SearchController {
          */
         @RequestMapping(value = "/pending",method = RequestMethod.GET)
         public Result getPendingFactorRecord(@RequestParam String company){
-            return new Result(ResponseCode.OK, fundingService.getInstitutionFactorRecords(company,1));
+            return new Result(ResponseCode.OK, fundingService.getInstitutionFactorRecords(company,0));
         }
         /**
          * @Author:周文峰
@@ -249,37 +249,37 @@ public class SearchController {
          */
         @RequestMapping(value = "/approved",method = RequestMethod.GET)
         public Result getApprovedFactorRecord(@RequestParam String company){
-            return new Result(ResponseCode.OK, fundingService.getInstitutionFactorRecords(company,2));
+            return new Result(ResponseCode.OK, fundingService.getInstitutionFactorRecords(company,1));
         }
-        /**
-         * @Author:周文峰
-         * @Date:2022/3/1
-         * @Param:金融机构名称
-         * @Description:获取金融机构待签约的融资记录
-         */
-        @RequestMapping(value = "/signing-institution",method = RequestMethod.GET)
-        public Result getInstitutionSigningFactorRecord(@RequestParam String company){
-            return new Result(ResponseCode.OK, fundingService.getInstitutionFactorRecords(company,3));
-        }
-        /**
-         * @Author:周文峰
-         * @Date:2022/3/1
-         * @Param:金融机构名称
-         * @Description:获取金融机构已经签约的融资记录
-         */
-        @RequestMapping(value = "/signed-institution",method = RequestMethod.GET)
-        public Result getInstitutionSignedFactorRecord(@RequestParam String company){
-            return new Result(ResponseCode.OK, fundingService.getInstitutionFactorRecords(company,4));
-        }
-        /**
-         * @Author:周文峰
-         * @Date:2022/3/1
-         * @Param:金融机构名称
-         * @Description:获取金融机构签约失败的融资记录
-         */
-        @RequestMapping(value = "/failed-institution",method = RequestMethod.GET)
-        public Result getInstitutionFailedFactorRecord(@RequestParam String company){
-            return new Result(ResponseCode.OK, fundingService.getInstitutionFactorRecords(company,5));
-        }
+//        /**
+//         * @Author:周文峰
+//         * @Date:2022/3/1
+//         * @Param:金融机构名称
+//         * @Description:获取金融机构待签约的融资记录
+//         */
+//        @RequestMapping(value = "/signing-institution",method = RequestMethod.GET)
+//        public Result getInstitutionSigningFactorRecord(@RequestParam String company){
+//            return new Result(ResponseCode.OK, fundingService.getInstitutionFactorRecords(company,2));
+//        }
+//        /**
+//         * @Author:周文峰
+//         * @Date:2022/3/1
+//         * @Param:金融机构名称
+//         * @Description:获取金融机构已经签约的融资记录
+//         */
+//        @RequestMapping(value = "/signed-institution",method = RequestMethod.GET)
+//        public Result getInstitutionSignedFactorRecord(@RequestParam String company){
+//            return new Result(ResponseCode.OK, fundingService.getInstitutionFactorRecords(company,2));
+//        }
+//        /**
+//         * @Author:周文峰
+//         * @Date:2022/3/1
+//         * @Param:金融机构名称
+//         * @Description:获取金融机构签约失败的融资记录
+//         */
+//        @RequestMapping(value = "/failed-institution",method = RequestMethod.GET)
+//        public Result getInstitutionFailedFactorRecord(@RequestParam String company){
+//            return new Result(ResponseCode.OK, fundingService.getInstitutionFactorRecords(company,4));
+//        }
     }
 }

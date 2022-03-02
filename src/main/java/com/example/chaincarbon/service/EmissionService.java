@@ -1,16 +1,23 @@
 package com.example.chaincarbon.service;
 
-import com.example.chaincarbon.dao.FinanceDao;
-import com.example.chaincarbon.dao.PlanDao;
 import com.example.chaincarbon.dao.PledgeDao;
 import com.example.chaincarbon.model.pojo.PledgeRecord;
 import com.example.chaincarbon.model.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * @Author: xpc2000
+ * @Date: 2022/03/02
+ * @Description: 碳质押记录子模块
+ */
 @Service
 public class EmissionService {
     @Autowired
@@ -18,23 +25,55 @@ public class EmissionService {
 
     public Boolean apply(ApplyPledgeVo applyPledgeVo){
         //插入碳质押记录
-        return false;
+        PledgeRecord pledgeRecord=new PledgeRecord();
+        pledgeRecord.setControlChain(applyPledgeVo.getChain());
+        pledgeRecord.setQuotaOwner(applyPledgeVo.getCompanyNeedFund());
+        pledgeRecord.setCompany(applyPledgeVo.getCompanyOfferFund());
+        pledgeRecord.setFundUse(applyPledgeVo.getUsage());
+        pledgeRecord.setQuotaQuantity(applyPledgeVo.getPledgeNum());
+        pledgeRecord.setStatus(0);
+        int result=pledgeDao.insertPledge(pledgeRecord);
+        return result!=-1;
     }
 
-    public Boolean examine(ActionVo actionVo){
+    public Boolean examine(Boolean comment, Integer id){
         //修改碳质押记录的状态
-        return false;
+        int result;
+        if(comment) result=pledgeDao.updateStatus(1,id);
+        else result=pledgeDao.updateStatus(4,id);
+        return result!=-1;
     }
 
     public Boolean financePledge(PledgeVo pledgeVo){
         //修改碳质押记录的状态和部分字段
-        return false;
+        int result;
+        PledgeRecord pledgeRecord=new PledgeRecord();
+        pledgeRecord.setOperationData(new Date());
+        pledgeRecord.setPledgeAmount(pledgeVo.getPledgeFund());
+        pledgeRecord.setLoanInterestRate(pledgeVo.getInterestRate());
+        pledgeRecord.setPledgeRate(pledgeVo.getPledgeRate());
+        pledgeRecord.setStatus(2);
+        DateFormat fmt =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date= null;
+        try {
+            date = fmt.parse(pledgeVo.getPledgeDDL());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+        pledgeRecord.setLoanTerm(date);
+        result=pledgeDao.updateInfo(pledgeRecord,pledgeVo.getID(),pledgeVo.getCompanyOfferFund(),pledgeVo.getCompanyNeedFund());
+        return result!=-1;
     }
 
-    public Boolean companyPledge(ActionVo actionVo){
+    public Boolean companyPledge(Boolean comment, Integer id){
         //修改碳质押记录的状态
-        return false;
+        int result;
+        if(comment) result=pledgeDao.updateStatus(3,id);
+        else result=pledgeDao.updateStatus(4,id);
+        return result!=-1;
     }
+
     /**
      * @Author:周文峰
      * @Date:2022/2/28
@@ -43,7 +82,7 @@ public class EmissionService {
      * @Description:获取碳质押记录
      */
     public PledgeRecord getPledgeRecord(Integer id){
-        return pledgeDao.getPledgeRecord(id);
+        return pledgeDao.getPledge(id);
     }
     /**
      * @Author:周文峰

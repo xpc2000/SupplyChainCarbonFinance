@@ -1,6 +1,7 @@
 package com.example.chaincarbon.controller;
 
 import com.example.chaincarbon.model.vo.PlanVo;
+import com.example.chaincarbon.service.ChainService;
 import com.example.chaincarbon.service.CheckService;
 import com.example.chaincarbon.utils.ResponseCode;
 import com.example.chaincarbon.utils.Result;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.swing.*;
+import java.text.ParseException;
+
 /**
  * @Author: xpc2000
  * @Date:2022/2/26
@@ -23,6 +26,9 @@ public class ChainController {
     @Autowired
     CheckService checkService;
 
+    @Autowired
+    ChainService chainService;
+
     /**
      * @Author: xpc2000
      * @Date: 2022/2/26
@@ -31,9 +37,11 @@ public class ChainController {
      *@Description: 提交减排计划
      */
     @RequestMapping(value = "/plan",method = RequestMethod.POST)
-    public Result submitPlan(@RequestBody PlanVo planVo){
-        Boolean check=checkService.controlChainCheck(planVo.getAccountName(),planVo.getActionPassword(),30);
+    public Result submitPlan(@RequestBody PlanVo planVo) throws ParseException {
+        boolean check=checkService.controlChainCheck(planVo.getAccountName(),planVo.getActionPassword(),30);
         if(!check) return new Result(ResponseCode.InsufficientPermissions);
-        return new Result();
+        Boolean insertResult= chainService.insertPlan(planVo);
+        if (!insertResult) return new Result(ResponseCode.DataBaseError);
+        else return new Result(ResponseCode.OK);
     }
 }

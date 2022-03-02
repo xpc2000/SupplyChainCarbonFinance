@@ -7,11 +7,56 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+/**
+ * @Author: xpc2000
+ * @Date: 2022/03/02
+ * @Description: 碳信转账记录的CRUD
+ */
 @Repository
 public class TicketDao {
     @Autowired
     TicketRecordMapper ticketRecordMapper;
+
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/02
+     * @Param: TicketRecord ticketRecord
+     * @Return: 执行结果
+     * @Description: 插入碳信记录
+     */
+    public int insertTicket(TicketRecord ticketRecord){
+        int result=0;
+        try{
+            result=ticketRecordMapper.insertSelective(ticketRecord);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = -1;
+        }
+        return result;
+    }
+
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/02
+     * @Param: Integer id, Integer status
+     * @Return: 执行结果
+     * @Description: 更新碳信状态
+     */
+    public int updateTicket(Integer id, Integer status){
+        int result=0;
+        TicketRecordExample ticketRecordExample=new TicketRecordExample();
+        TicketRecordExample.Criteria criteria=ticketRecordExample.createCriteria();
+        criteria.andIdEqualTo(id);
+        TicketRecord ticketRecord=new TicketRecord();
+        ticketRecord.setStatus(status);
+        try{
+            result=ticketRecordMapper.updateByExampleSelective(ticketRecord,ticketRecordExample);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result=-1;
+        }
+        return result;
+    }
     /**
      * @Author:周文峰
      * @Date:2022/2/28
@@ -28,6 +73,7 @@ public class TicketDao {
             return null;
         }
     }
+
     /**
      * @Author:周文峰
      * @Date:2022/2/28
@@ -70,4 +116,5 @@ public class TicketDao {
             return null;
         }
     }
+
 }
