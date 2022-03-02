@@ -2,6 +2,8 @@
   <div class="content">
     <div class="container">
       <h4 class="font-weight-bold text-center">登录</h4>
+
+      <!-- 登录面板 -->
       <el-form
         :model="formLogin"
         :rules="rules"
@@ -14,18 +16,20 @@
         <el-form-item label="密 码：" prop="password">
           <el-input v-model="formLogin.password" type="password"></el-input>
         </el-form-item>
-        <el-form-item label="用户：" prop="usertype">
-          <el-select v-model="value" placeholder="请选择"> </el-select>
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
+        <el-form-item label="角色：" prop="usertype">
+          <el-select v-model="formLogin.usertype" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
 
+      <!-- 登录按钮 -->
       <el-button
         class="login-button"
         @click="loginSubmit(formLogin)"
@@ -33,43 +37,14 @@
       >
         <span class="logintext">登录</span>
       </el-button>
-      <el-button class="login-button2" @click="loginReturn" type="success">
+
+      <!-- 返回主页 -->
+      <el-button class="login-button2" type="success">
         <span class="logintext">返回主页</span>
       </el-button>
-      <div class="tip" @click="register">没有账号？点击这里注册</div>
+
+      <div class="tip">没有账号？点击这里注册</div>
     </div>
-    <!-- 修改弹框 -->
-    <el-dialog
-      title="修改密码"
-      :visible.sync="editDialogVisible"
-      width="30%"
-      height="270px"
-      style="margin-top: 10vh"
-    >
-      <el-form
-        :model="editPassForm"
-        :rules="editFormRules"
-        ref="editPassFormRef"
-        label-width="100px"
-      >
-        <el-form-item label="用户名：" prop="userName">
-          <el-input v-model="editPassForm.userName" class="userName"></el-input>
-        </el-form-item>
-        <el-form-item label="原密码：" prop="beforePass">
-          <el-input
-            v-model="editPassForm.beforePass"
-            class="beforePass"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="新密码：" prop="newPass">
-          <el-input v-model="editPassForm.newPass" class="newPass"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer">
-        <el-button @click="editDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="editPass()">确定</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 <script>
@@ -83,43 +58,42 @@ export default {
       formLogin: {
         username: "",
         password: "",
-      },
-      editDialogVisible: false,
-      editPassForm: {
-        userName: "",
-        beforePass: "",
-        newPass: "",
+        usertype: "",
       },
 
-      editFormRules: {
-        userName: [
-          {
-            required: true,
-            message: "请输入用户名",
-            trigger: "blur",
-          },
-        ],
-        beforePass: [
-          {
-            required: true,
-            message: "请输入原密码",
-            trigger: "blur",
-          },
-        ],
-        newPass: [
-          {
-            required: true,
-            message: "请输入新密码",
-            trigger: "blur",
-          },
-        ],
-      },
       rules: {
         username: [
           { trigger: "blur", required: true, message: "请输入用户名" },
         ],
         password: [{ trigger: "blur", required: true, message: "请输入密码" }],
+        usertype: [
+          { trigger: "blur", required: true, message: "请选择用户类型" },
+        ],
       },
+
+      options: [
+        {
+          value: "选项1",
+          label: "控排链核心企业",
+        },
+        {
+          value: "选项2",
+          label: "控排链链属企业",
+        },
+        {
+          value: "选项3",
+          label: "减排链核心企业",
+        },
+        {
+          value: "选项4",
+          label: "减排链链属企业",
+        },
+        {
+          value: "选项5",
+          label: "金融机构",
+        },
+      ],
+      value: "",
     };
   },
   mounted() {},
@@ -156,19 +130,6 @@ export default {
           });
         }
       });
-    },
-    showEditDialog() {
-      this.editDialogVisible = true;
-    },
-    editPass() {
-      let params = {
-        userName: this.editPassForm.userName,
-        password: this.editPassForm.beforePass,
-        newPass: this.editPassForm.newPass,
-      };
-    },
-    register() {
-      this.$router.push("/Register");
     },
   },
 };

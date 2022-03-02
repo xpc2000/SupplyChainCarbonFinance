@@ -13,6 +13,8 @@
                   <el-tag v-if="row.approved" class="approved">待审核</el-tag>
                   <el-tag v-else class="not-approved">待签约</el-tag>
                 </template>
+
+                <!-- 插槽2：选择 -->
                 <template #option="{ row, $index }">
                   <el-checkbox @change="getrows(row)" name="type"></el-checkbox>
                 </template>

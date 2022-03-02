@@ -22,7 +22,7 @@
             <el-row>
               <el-col :span="12">
                 <el-row class="detail-card-title">质押碳配额数量</el-row>
-                <el-row class="detail-card-content">控排企业链A</el-row>
+                <el-row class="detail-card-content">￥￥￥￥￥￥</el-row>
               </el-col>
               <el-col :span="12">
                 <el-row class="detail-card-title">已发行碳信余额</el-row>

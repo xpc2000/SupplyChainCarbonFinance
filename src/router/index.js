@@ -158,6 +158,7 @@ export const routes = [
       },
     ]
   },
+  //控排链链属企业
 
   // 减排链核心企业
   {
@@ -259,6 +260,8 @@ export const routes = [
       },
     ],
   },
+
+  // 减排链链属企业
   //金融机构
   {
     path: "/financeInstitute/taskManagement",
