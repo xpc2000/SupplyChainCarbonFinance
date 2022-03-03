@@ -55,7 +55,7 @@
             <el-form-item label="碳信创建日期">
               <el-date-picker
                 v-model="formLabelAlign.createdDate"
-                type="date"
+                type="datetime"
                 placeholder="选择日期"
               >
               </el-date-picker>

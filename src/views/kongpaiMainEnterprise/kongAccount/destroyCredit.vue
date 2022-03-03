@@ -42,7 +42,7 @@
             <el-form-item label="碳信销毁日期">
               <el-date-picker
                 v-model="formLabelAlign.destroyedDate"
-                type="date"
+                type="datetime"
                 placeholder="选择日期"
               >
               </el-date-picker>

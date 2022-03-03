@@ -22,7 +22,7 @@ export const routes = [
     },
     children: [
       {
-        path: "/kongpaiMainEnterprise/companyManagement/approvalList",
+        path: "/kongpaiMainEnterprise/companyManagement/companyList",
         component: () => import("@/views/kongpaiMainEnterprise/companyManagement/companyList.vue"),
         meta: {
           title: "链属企业列表",
@@ -30,7 +30,7 @@ export const routes = [
         },
       },
       {
-        path: "/kongpaiMainEnterprise/companyManagement/companyList",
+        path: "/kongpaiMainEnterprise/companyManagement/approvalList",
         component: () => import("@/views/kongpaiMainEnterprise/companyManagement/approvalList.vue"),
         meta: {
           title: "减排计划申报",

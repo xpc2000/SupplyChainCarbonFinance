@@ -44,7 +44,7 @@
               <el-form-item label="碳信回购日期">
                 <el-date-picker
                   v-model="formLabelAlign.repoDate"
-                  type="date"
+                  type="datetime"
                   placeholder="选择日期"
                 >
                 </el-date-picker>

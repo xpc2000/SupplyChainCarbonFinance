@@ -22,10 +22,11 @@
                 ></el-input>
               </el-form-item>
                <el-form-item label="操作日期">
-                <el-input
+                <el-date-picker
                   placeholder="操作日期"
+                  type="datetime"
                   v-model="formLabelAlign.date"
-                ></el-input>
+                ></el-date-picker>
               </el-form-item>
               
             </el-form>
