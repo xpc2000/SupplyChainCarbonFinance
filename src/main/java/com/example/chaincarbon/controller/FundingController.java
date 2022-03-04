@@ -94,7 +94,7 @@ public class FundingController {
      * @Description: 减排链企业决定是否答应金融机构提出的融资条件
      */
     @RequestMapping(value = "/companySign",method = RequestMethod.PUT)
-    public Result companySign(@RequestBody ActionVo actionVo, @RequestParam Integer ticketNUm){
+    public Result companySign(@RequestBody ActionVo actionVo, @RequestParam Integer ticketNum){
         ReduceCore reduceCore;
         ReduceSub reduceSub;
         String chain="";
@@ -104,7 +104,7 @@ public class FundingController {
                 return new Result(ResponseCode.InsufficientPermissions);
             chain=reduceCore.getReduceChain();
             //修改转让方碳信余额
-            if(!balanceService.transferCore(reduceCore,ticketNUm)) return new Result(ResponseCode.DataBaseError);
+            if(!balanceService.transferCore(reduceCore,ticketNum)) return new Result(ResponseCode.DataBaseError);
         }
         else if(Objects.equals(actionVo.getAccountType(), AccountType.ControlSub.getCode())){
             reduceSub=userService.getRSAccount(actionVo.getAccountName());
@@ -112,7 +112,7 @@ public class FundingController {
                 return new Result(ResponseCode.InsufficientPermissions);
             chain=reduceSub.getReduceChain();
             //修改转让方碳信余额
-            if(balanceService.transfetSub(reduceSub,ticketNUm)) return new Result(ResponseCode.DataBaseError);
+            if(!balanceService.transfetSub(reduceSub,ticketNum)) return new Result(ResponseCode.DataBaseError);
         }
         //修改金融机构碳信余额
         Boolean dbResult=fundingService.companyFactor(actionVo.getComment(), actionVo.getID());
@@ -120,7 +120,7 @@ public class FundingController {
         String finance=ticketService.ticketFactor(actionVo.getID(), chain);
         //BalanceService更改账户余额
         if(finance==null) return new Result(ResponseCode.DataBaseError);
-        boolean checkResult=balanceService.financeRece(finance,ticketNUm);
+        boolean checkResult=balanceService.financeRece(finance,ticketNum);
         if ((!checkResult)) return new Result(ResponseCode.DataBaseError);
         else return new Result(ResponseCode.OK);
     }
