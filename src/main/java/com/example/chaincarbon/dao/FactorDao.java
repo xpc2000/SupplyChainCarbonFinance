@@ -32,7 +32,7 @@ public class FactorDao {
             e.printStackTrace();
             result=-1;
         }
-        return -1;
+        return result;
     }
 
     /**
