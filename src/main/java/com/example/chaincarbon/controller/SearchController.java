@@ -47,7 +47,7 @@ public class SearchController {
          */
         @RequestMapping(value = "/pending",method = RequestMethod.GET)
         public Result getPendingTicketRecords(@RequestParam String chain, @RequestParam String company){
-            return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,1,0,Arrays.asList(1,2,3,4,5,6)));
+            return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,0,0,Arrays.asList(1,2,3,4,5,6)));
         }
         /**
          * @Author:周文峰
@@ -57,7 +57,7 @@ public class SearchController {
          */
         @RequestMapping(value = "/signed",method = RequestMethod.GET)
         public Result getSignedTicketRecords(@RequestParam String chain, @RequestParam String company){
-            return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,4,0,Arrays.asList(2,3)));
+            return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,3,0,Arrays.asList(2,3)));
         }
         /**
          * @Author:周文峰
@@ -67,7 +67,7 @@ public class SearchController {
          */
         @RequestMapping(value = "/canceled",method = RequestMethod.GET)
         public Result getCanceledTicketRecords(@RequestParam String chain, @RequestParam String company){
-            return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,2,0,Arrays.asList(2,3)));
+            return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,1,0,Arrays.asList(2,3)));
         }
         /**
          * @Author:周文峰
@@ -77,7 +77,7 @@ public class SearchController {
          */
         @RequestMapping(value = "/reject",method = RequestMethod.GET)
         public Result getRejectTicketRecords(@RequestParam String chain, @RequestParam String company){
-            return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,3,0,Arrays.asList(2,3)));
+            return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,2,0,Arrays.asList(2,3)));
         }
     }
 
@@ -126,7 +126,7 @@ public class SearchController {
          * @Param:企业所属控排链，企业名称
          * @Description:获取企业可以签约的碳质押记录
          */
-        @RequestMapping(value = "/signed-company",method = RequestMethod.GET)
+        @RequestMapping(value = "/signing-company",method = RequestMethod.GET)
         public Result getCompanySignedPledge(@RequestParam String chain, @RequestParam String company){
             return new Result(ResponseCode.OK, emissionService.getCompanyPledgeRecords(chain,company,2));
         }
@@ -146,7 +146,7 @@ public class SearchController {
          * @Param:金融机构名称
          * @Description:获取金融机构需要签约的碳质押记录
          */
-        @RequestMapping(value = "/signing",method = RequestMethod.GET)
+        @RequestMapping(value = "/signing-institution",method = RequestMethod.GET)
         public Result getSigningPledge(@RequestParam String company){
             return new Result(ResponseCode.OK, emissionService.getInstitutionPledgeRecords(company,1));
         }
@@ -269,7 +269,7 @@ public class SearchController {
 //         */
 //        @RequestMapping(value = "/signed-institution",method = RequestMethod.GET)
 //        public Result getInstitutionSignedFactorRecord(@RequestParam String company){
-//            return new Result(ResponseCode.OK, fundingService.getInstitutionFactorRecords(company,2));
+//            return new Result(ResponseCode.OK, fundingService.getInstitutionFactorRecords(company,3));
 //        }
 //        /**
 //         * @Author:周文峰
