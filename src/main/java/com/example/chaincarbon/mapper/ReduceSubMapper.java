@@ -3,8 +3,10 @@ package com.example.chaincarbon.mapper;
 import com.example.chaincarbon.model.pojo.ReduceSub;
 import com.example.chaincarbon.model.pojo.ReduceSubExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+@Mapper
 public interface ReduceSubMapper {
     int deleteByPrimaryKey(String name);
 

@@ -3,8 +3,10 @@ package com.example.chaincarbon.mapper;
 import com.example.chaincarbon.model.pojo.ControlChain;
 import com.example.chaincarbon.model.pojo.ControlChainExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+@Mapper
 public interface ControlChainMapper {
     int deleteByPrimaryKey(Integer id);
 
