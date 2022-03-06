@@ -47,7 +47,7 @@ public class EmissionController {
      *@Return: Result
      *@Description: 控排链企业提交碳质押申请
      */
-    @RequestMapping(value = "/apply",method = RequestMethod.POST)
+    @RequestMapping(value = "/apply",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     public Result apply(@RequestBody ApplyPledgeVo applyPledgeVo){
         boolean check=checkService.controlCheck(applyPledgeVo.getAccountName(),applyPledgeVo.getActionPassword(),10,applyPledgeVo.getAccountType());
         if(!check) return new Result(ResponseCode.InsufficientPermissions);
@@ -63,7 +63,7 @@ public class EmissionController {
      *@Return: Result
      *@Description: 金融机构审核碳质押申请
      */
-    @RequestMapping(value = "/examine",method = RequestMethod.PUT)
+    @RequestMapping(value = "/examine",method = RequestMethod.PUT,produces = "application/json;charset=utf-8")
     public Result examine(@RequestBody ActionVo actionVo){
         boolean check=checkService.financeCheck(actionVo.getAccountName(),actionVo.getActionPassword(),11);
         if(!check) return new Result(ResponseCode.InsufficientPermissions);
@@ -79,7 +79,7 @@ public class EmissionController {
      *@Return: Result
      *@Description: 金融机构草拟质押条件并签署合约
      */
-    @RequestMapping(value = "/financeSign",method = RequestMethod.PUT)
+    @RequestMapping(value = "/financeSign",method = RequestMethod.PUT,produces = "application/json;charset=utf-8")
     public Result financeSign(@RequestBody PledgeVo pledgeVo){
         boolean check=checkService.financeCheck(pledgeVo.getAccountName(),pledgeVo.getActionPassword(),12);
         if(!check) return new Result(ResponseCode.InsufficientPermissions);
@@ -95,8 +95,8 @@ public class EmissionController {
      *@Return: Result
      *@Description: 控排链企业决定是否答应金融机构的贷款条件
      */
-    @RequestMapping(value = "/companySign",method = RequestMethod.PUT)
-    public Result companySign(@RequestBody ActionVo actionVo, @RequestParam Integer ticketNum){
+    @RequestMapping(value = "/companySign",method = RequestMethod.PUT,produces = "application/json;charset=utf-8")
+    public Result companySign(@RequestBody ActionVo actionVo, @RequestParam("ticketNum") Integer ticketNum){
         ControlCore controlCore;
         ControlSub controlSub;
         if(Objects.equals(actionVo.getAccountType(), AccountType.ControlCore.getCode())){

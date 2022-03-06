@@ -45,7 +45,7 @@ public class FundingController {
      * @Return: Result
      * @Description: 减排链企业申请供应链金融服务（本demo中以保理为例）
      */
-    @RequestMapping(value = "/apply",method = RequestMethod.POST)
+    @RequestMapping(value = "/apply",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     public Result apply(@RequestBody ApplyFactorVo applyFactorVo){
         boolean check=checkService.reductionCheck(applyFactorVo.getAccountName(),applyFactorVo.getActionPassword(),20,applyFactorVo.getAccountType());
         if(!check) return new Result(ResponseCode.InsufficientPermissions);
@@ -61,7 +61,7 @@ public class FundingController {
      * @Return: Result
      * @Description: 金融机构对控排链企业的申请进行合规检查
      */
-    @RequestMapping(value = "/examine",method = RequestMethod.PUT)
+    @RequestMapping(value = "/examine",method = RequestMethod.PUT,produces = "application/json;charset=utf-8")
     public Result examine(@RequestBody ActionVo actionVo){
         boolean check=checkService.financeCheck(actionVo.getAccountName(),actionVo.getActionPassword(),21);
         if(!check) return new Result(ResponseCode.InsufficientPermissions);
@@ -77,7 +77,7 @@ public class FundingController {
      * @Return: Result
      * @Description: 金融机构对供应链申请提出融资条件并签约
      */
-    @RequestMapping(value = "/financeSign",method = RequestMethod.PUT)
+    @RequestMapping(value = "/financeSign",method = RequestMethod.PUT,produces = "application/json;charset=utf-8")
     public Result financeSign(@RequestBody FactorVo factorVo){
         boolean check=checkService.financeCheck(factorVo.getAccountName(),factorVo.getActionPassword(),22);
         if(!check) return new Result(ResponseCode.InsufficientPermissions);
@@ -93,8 +93,8 @@ public class FundingController {
      * @Return: Result
      * @Description: 减排链企业决定是否答应金融机构提出的融资条件
      */
-    @RequestMapping(value = "/companySign",method = RequestMethod.PUT)
-    public Result companySign(@RequestBody ActionVo actionVo, @RequestParam Integer ticketNum){
+    @RequestMapping(value = "/companySign",method = RequestMethod.PUT,produces = "application/json;charset=utf-8")
+    public Result companySign(@RequestBody ActionVo actionVo, @RequestParam("ticketNum") Integer ticketNum){
         ReduceCore reduceCore;
         ReduceSub reduceSub;
         String chain="";

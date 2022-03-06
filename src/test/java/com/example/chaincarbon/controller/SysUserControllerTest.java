@@ -1,5 +1,6 @@
 package com.example.chaincarbon.controller;
 
+import com.example.chaincarbon.model.vo.LoginVo;
 import com.example.chaincarbon.testData.SysUser;
 import com.example.chaincarbon.utils.JsonUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,6 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,18 +39,31 @@ class SysUserControllerTest {
     @Test
     void login() {
         mvc = MockMvcBuilders.webAppContextSetup(wac).build();
-        SysUser sysUser=new SysUser();
-        sysUser.setUsername("zszxz");
-        sysUser.setPassword("zszxz");
+//        SysUser sysUser=new SysUser();
+//        sysUser.setUsername("zszxz");
+//        sysUser.setPassword("zszxz");
+//        String responseString=null;
+//        RequestBuilder request = MockMvcRequestBuilders.post("https://127.0.0.1:8081/login")
+//                .content(Objects.requireNonNull(JsonUtils.toJson(sysUser))).contentType(MediaType.APPLICATION_JSON);
+//        try{
+//            responseString=mvc.perform(request).andReturn().getResponse().getContentAsString();
+//            System.out.println(responseString);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        LoginVo loginVo =new LoginVo();
+        loginVo.setUserEmail("xyzswasz@163.com");
+        loginVo.setAccountType(0);
+        loginVo.setPassword("123123");
         String responseString=null;
-        RequestBuilder request = MockMvcRequestBuilders.post("https://127.0.0.1:8081/login")
-                .content(Objects.requireNonNull(JsonUtils.toJson(sysUser))).contentType(MediaType.APPLICATION_JSON);
+        RequestBuilder requestBuilder=MockMvcRequestBuilders.post("https://127.0.0.1:8081/user/login")
+                .content(Objects.requireNonNull(JsonUtils.toJson(loginVo))).contentType("application/json;charset=UTF-8");
         try{
-            responseString=mvc.perform(request).andReturn().getResponse().getContentAsString();
-            System.out.println(responseString);
+            responseString=mvc.perform(requestBuilder).andReturn().getResponse().getContentAsString();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println(responseString);
     }
 
     public static String asJsonString(final Object obj) {
@@ -69,4 +84,6 @@ class SysUserControllerTest {
         responseString=mvc.perform(request).andReturn().getResponse().getContentAsString();
         System.out.println(responseString);
     }
+
+
 }

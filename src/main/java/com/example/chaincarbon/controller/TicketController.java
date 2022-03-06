@@ -46,7 +46,7 @@ public class TicketController {
      * @Return: Result
      * @Description: 创建碳信
      */
-    @RequestMapping(value = "/create",method = RequestMethod.POST)
+    @RequestMapping(value = "/create",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     public Result create(@RequestBody TicketVo table){
         boolean privilege=checkService.controlChainCheck(table.getAccountName(),table.getActionPassword(),0);
         if(!privilege) return new Result(ResponseCode.InsufficientPermissions);
@@ -63,7 +63,7 @@ public class TicketController {
      * @Return: Result
      * @Description: 发行碳信
      */
-    @RequestMapping(value = "/publish",method = RequestMethod.POST)
+    @RequestMapping(value = "/publish",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     public Result publish(@RequestBody TicketVo table){
         ControlCore controlCore;
         ControlSub controlSub;
@@ -94,8 +94,8 @@ public class TicketController {
      * @Return: Result
      * @Description: 接收发行碳信
      */
-    @RequestMapping(value = "/publishCheck",method = RequestMethod.PUT)
-    public Result publishCheck(@RequestBody ActionVo table,@RequestParam Integer ticketNum){
+    @RequestMapping(value = "/publishCheck",method = RequestMethod.PUT,produces = "application/json;charset=utf-8")
+    public Result publishCheck(@RequestBody ActionVo table,@RequestParam("tickeNum") Integer ticketNum){
 //        boolean privilege=checkService.reductionCheck(table.getAccountName(),table.getActionPassword(),3, table.getAccountType());
 //        if(!privilege) return new Result(ResponseCode.InsufficientPermissions);
         ReduceCore reduceCore=userService.getRCAccount(table.getAccountName());
@@ -114,7 +114,7 @@ public class TicketController {
      * @Return: Result
      * @Description: 转让碳信
      */
-    @RequestMapping(value = "/transfer",method = RequestMethod.POST)
+    @RequestMapping(value = "/transfer",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     public Result transfer(@RequestBody TicketVo table){
         ReduceCore reduceCore;
         ReduceSub reduceSub;
@@ -146,8 +146,8 @@ public class TicketController {
      * @Return: Result
      * @Description: 接收转让碳信
      */
-    @RequestMapping(value = "/transferCheck",method = RequestMethod.PUT)
-    public Result transferCheck(@RequestBody ActionVo table,@RequestParam Integer ticketNum){
+    @RequestMapping(value = "/transferCheck",method = RequestMethod.PUT,produces = "application/json;charset=utf-8")
+    public Result transferCheck(@RequestBody ActionVo table,@RequestParam("ticketNum") Integer ticketNum){
         ReduceCore reduceCore;
         ReduceSub reduceSub;
         if(Objects.equals(table.getAccountType(), AccountType.ReduceCore.getCode())){
@@ -178,7 +178,7 @@ public class TicketController {
      * @Return: Result
      * @Description: 回购碳信
      */
-    @RequestMapping(value = "/buyback",method = RequestMethod.POST)
+    @RequestMapping(value = "/buyback",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     public Result buyback(@RequestBody TicketVo table){
         ControlCore controlCore;
         ControlSub controlSub;
@@ -211,7 +211,7 @@ public class TicketController {
      * @Return: Result
      * @Description: 碳信销毁
      */
-    @RequestMapping(value = "/destroy",method = RequestMethod.POST)
+    @RequestMapping(value = "/destroy",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     public Result destroy(@RequestBody TicketVo table){
         ControlCore controlCore=userService.getCCAccount(table.getAccountName());
         if(!Objects.equals(controlCore.getCarbonTicketDestruction(), table.getActionPassword()))

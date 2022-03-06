@@ -36,7 +36,7 @@ public class ChainController {
      *@Return: Result(成功或失败)
      *@Description: 提交减排计划
      */
-    @RequestMapping(value = "/plan",method = RequestMethod.POST)
+    @RequestMapping(value = "/plan",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     public Result submitPlan(@RequestBody PlanVo planVo) throws ParseException {
         boolean check=checkService.controlChainCheck(planVo.getAccountName(),planVo.getActionPassword(),30);
         if(!check) return new Result(ResponseCode.InsufficientPermissions);

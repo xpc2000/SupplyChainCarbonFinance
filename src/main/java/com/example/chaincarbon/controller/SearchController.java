@@ -35,7 +35,7 @@ public class SearchController {
          * @Param:记录id
          * @Description:获取特定碳信记录
          */
-        @RequestMapping(value = "/{id}",method = RequestMethod.GET)
+        @RequestMapping(value = "/{id}",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
         public Result getTicketRecord(@PathVariable Integer id){
             return new Result(ResponseCode.OK, ticketService.getTicketRecord(id));
         }
@@ -45,7 +45,7 @@ public class SearchController {
          * @Param:企业所属减排链，企业名称
          * @Description:获取企业需要签收的碳信记录
          */
-        @RequestMapping(value = "/pending",method = RequestMethod.GET)
+        @RequestMapping(value = "/pending",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
         public Result getPendingTicketRecords(@RequestParam String chain, @RequestParam String company){
             return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,0,0,Arrays.asList(1,2,3,4,5,6)));
         }
@@ -55,7 +55,7 @@ public class SearchController {
          * @Param:企业所属减排链，企业名称
          * @Description:获取企业已经签收的碳信记录
          */
-        @RequestMapping(value = "/signed",method = RequestMethod.GET)
+        @RequestMapping(value = "/signed",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
         public Result getSignedTicketRecords(@RequestParam String chain, @RequestParam String company){
             return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,3,0,Arrays.asList(2,3)));
         }
@@ -65,7 +65,7 @@ public class SearchController {
          * @Param:企业所属减排链，企业名称
          * @Description:获取企业被对方取消的碳信记录
          */
-        @RequestMapping(value = "/canceled",method = RequestMethod.GET)
+        @RequestMapping(value = "/canceled",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
         public Result getCanceledTicketRecords(@RequestParam String chain, @RequestParam String company){
             return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,1,0,Arrays.asList(2,3)));
         }
@@ -75,7 +75,7 @@ public class SearchController {
          * @Param:企业所属减排链，企业名称
          * @Description:获取企业已经拒收的碳信记录
          */
-        @RequestMapping(value = "/reject",method = RequestMethod.GET)
+        @RequestMapping(value = "/reject",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
         public Result getRejectTicketRecords(@RequestParam String chain, @RequestParam String company){
             return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,2,0,Arrays.asList(2,3)));
         }
@@ -96,7 +96,7 @@ public class SearchController {
          * @Param:记录id
          * @Description:获取特定碳质押记录
          */
-        @RequestMapping(value = "/{id}",method = RequestMethod.GET)
+        @RequestMapping(value = "/{id}",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
         public Result getPledgeRecord(@PathVariable Integer id){
             return new Result(ResponseCode.OK, emissionService.getPledgeRecord(id));
         }
@@ -106,7 +106,7 @@ public class SearchController {
          * @Param:企业所属控排链，企业名称
          * @Description:获取企业已经提交的碳质押记录
          */
-        @RequestMapping(value = "/submit",method = RequestMethod.GET)
+        @RequestMapping(value = "/submit",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
         public Result getSubmitPledge(@RequestParam String chain, @RequestParam String company){
             return new Result(ResponseCode.OK, emissionService.getCompanyPledgeRecords(chain,company,0));
         }
@@ -126,7 +126,7 @@ public class SearchController {
          * @Param:企业所属控排链，企业名称
          * @Description:获取企业可以签约的碳质押记录
          */
-        @RequestMapping(value = "/signing-company",method = RequestMethod.GET)
+        @RequestMapping(value = "/signing-company",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
         public Result getCompanySignedPledge(@RequestParam String chain, @RequestParam String company){
             return new Result(ResponseCode.OK, emissionService.getCompanyPledgeRecords(chain,company,2));
         }
@@ -136,7 +136,7 @@ public class SearchController {
          * @Param:金融机构名称
          * @Description:获取金融机构待审批的碳质押记录
          */
-        @RequestMapping(value = "/pending",method = RequestMethod.GET)
+        @RequestMapping(value = "/pending",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
         public Result getPendingPledge(@RequestParam String company){
             return new Result(ResponseCode.OK, emissionService.getInstitutionPledgeRecords(company,0));
         }
@@ -146,7 +146,7 @@ public class SearchController {
          * @Param:金融机构名称
          * @Description:获取金融机构需要签约的碳质押记录
          */
-        @RequestMapping(value = "/signing-institution",method = RequestMethod.GET)
+        @RequestMapping(value = "/signing-institution",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
         public Result getSigningPledge(@RequestParam String company){
             return new Result(ResponseCode.OK, emissionService.getInstitutionPledgeRecords(company,1));
         }
@@ -177,7 +177,7 @@ public class SearchController {
          * @Param:记录id
          * @Description:获取特定融资记录
          */
-        @RequestMapping(value = "/{id}",method = RequestMethod.GET)
+        @RequestMapping(value = "/{id}",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
         public Result getFactorRecord(@PathVariable Integer id){
             return new Result(ResponseCode.OK, fundingService.getFactorRecord(id));
         }
@@ -187,7 +187,7 @@ public class SearchController {
          * @Param:企业名称
          * @Description:获取企业申请中的融资记录
          */
-        @RequestMapping(value = "/applying",method = RequestMethod.GET)
+        @RequestMapping(value = "/applying",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
         public Result getApplyingFactorRecord(@RequestParam String company){
             return new Result(ResponseCode.OK, fundingService.getCompanyFactorRecords(company,0));
         }
@@ -207,7 +207,7 @@ public class SearchController {
          * @Param:企业名称
          * @Description:获取企业可签约的融资记录
          */
-        @RequestMapping(value = "/signing-company",method = RequestMethod.GET)
+        @RequestMapping(value = "/signing-company",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
         public Result getCompanySigningFactorRecord(@RequestParam String company){
             return new Result(ResponseCode.OK, fundingService.getCompanyFactorRecords(company,2));
         }
@@ -237,7 +237,7 @@ public class SearchController {
          * @Param:金融机构名称
          * @Description:获取金融机构待审批的融资记录
          */
-        @RequestMapping(value = "/pending",method = RequestMethod.GET)
+        @RequestMapping(value = "/pending",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
         public Result getPendingFactorRecord(@RequestParam String company){
             return new Result(ResponseCode.OK, fundingService.getInstitutionFactorRecords(company,0));
         }
@@ -247,7 +247,7 @@ public class SearchController {
          * @Param:金融机构名称
          * @Description:获取金融机构已审批的融资记录
          */
-        @RequestMapping(value = "/approved",method = RequestMethod.GET)
+        @RequestMapping(value = "/approved",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
         public Result getApprovedFactorRecord(@RequestParam String company){
             return new Result(ResponseCode.OK, fundingService.getInstitutionFactorRecords(company,1));
         }

@@ -43,7 +43,7 @@ public class UserController {
      * @Return: Result
      * @Description: 登录
      */
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @RequestMapping(value = "/login",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     public Result login(@RequestBody LoginVo loginVo){
 //        String checkResult= userService.loginCheck(loginVo.getUserEmail(),loginVo.getPassword(),loginVo.getAccountType());
         //成功返回账户信息，失败返回失败提示
