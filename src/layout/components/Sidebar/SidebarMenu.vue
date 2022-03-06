@@ -23,7 +23,7 @@ import { routes, getUserRoutes } from "@/router";
 export default {
   data() {
     return {
-      routes: getUserRoutes(localStorage.getItem("username")),
+      routes: getUserRoutes(localStorage.getItem("accountType")),
     };
   },
 
@@ -31,7 +31,9 @@ export default {
     SidebarItem,
   },
   mounted() {
-    console.log("Logged in user name: " + localStorage.getItem("username"));
+    console.log("Logged in user name: " + localStorage.getItem("accountType"));
+    
+    // console.log("Logged in user name: " + localStorage.getItem("userEmail"));
     console.log(this.routes);
   },
 };

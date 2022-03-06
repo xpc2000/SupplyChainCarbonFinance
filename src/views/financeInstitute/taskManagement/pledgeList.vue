@@ -1,13 +1,12 @@
 <template>
-  <div class="sub-content-box">
+   <div class="sub-content-box">
     <header-title :headerTitle="headerTitle"></header-title>
-
     <div class="sub-content-tabs">
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="全部" name="first">
+        <el-tab-pane label="质押待审批" name='first'>
           <template>
             <div>
-              <list-table :data="tableData" :columns="column">
+              <list-table :data="pendingTableData" :columns="column">
                 <!-- 插槽1：状态 -->
                 <template #status="{ row, $index }">
                   <el-tag v-if="row.approved" class="approved">已审核</el-tag>
@@ -23,8 +22,24 @@
             <button @click="sendRow()" class="button-style">查看</button>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="质押待审批" name="second">质押待审批</el-tab-pane>
-        <el-tab-pane label="质押已审批" name="third">质押已审批</el-tab-pane>
+        <el-tab-pane label="质押已审批">
+          <template>
+            <div>
+              <list-table data="signingTableData" :columns="column">
+                <!-- 插槽1：状态 -->
+                <template #status="{ row, $index }">
+                  <el-tag v-if="row.approved" class="approved">已审核</el-tag>
+                  <el-tag v-else class="not-approved">待审核</el-tag>
+                </template>
+                <template #option="{ row, $index }">
+                  <el-checkbox @change="getrows(row)" name="type"></el-checkbox>
+                </template>
+              </list-table>
+            </div>
+          </template>
+          <div class="sub-content-import-export">
+            <button @click="sendRow()" class="button-style">查看</button>
+          </div></el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -32,6 +47,7 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import ListTable from "@/components/ListTable";
+import { loadInstitutionPendingPledge, loadInstitutionSigningPledge, loadSinglePledgeRow } from "@/utils/api.js";
 export default {
   data() {
     return {
@@ -41,7 +57,6 @@ export default {
         largeTitle: "任务管理",
         smallTitle: "质押列表",
       },
-
       activeName: "first",
       column: [
         {
@@ -72,27 +87,41 @@ export default {
           customSlot: "status",
         },
       ],
-      tableData: [
+      pendingTableData: [
         {
-          ID: "1",
+          id: "1",
           name: "青岛银行",
           chain: "某供应链",
           amount: "3695",
           approved: true,
         },
         {
-          ID: "2",
+          id: "2",
           name: "青岛银行",
           chain: "某供应链",
           amount: "3695",
           approved: false,
         },
       ],
+      signingTableData:[],
+      allTableData:[],
     };
   },
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
+    },
+
+    loadInstitutionPendingPledge(){
+      loadInstitutionPendingPledge().then((res) =>{
+        this.pendingTableData = res
+      })
+    },
+
+    loadInstitutionSigningPledge(){
+      loadInstitutionSigningPledge().then((res) =>{
+        this.signingTableData = res
+      })
     },
 
     //获取单行数据
@@ -102,15 +131,28 @@ export default {
     },
     // 发送ID
     sendRow() {
-      if (this.row.ID == "1") {
+      if(this.row.approved == false){
+        console.log(this.row.id)
         this.$router.push({
-          path: "/financeInstitute/taskManagement/PledgeSigning",
-        });
-      } else if (this.row.ID == "2") {
-        this.$router.push({
-          path: "/financeInstitute/taskManagement/PledgeAproval",
+          name: "PledgeApprovalDetail",
+          params:{id: this.row.id}
         });
       }
+      else if(this.row.approved == true){
+        this.$router.push({
+          path: "/financeInstitute/taskManagement/PledgeSigning/id" + this.row.id,
+          // name:'signPage',
+        });
+      }
+      // if (this.row.id == "1") {
+      //   this.$router.push({
+      //     path: "/financeInstitute/taskManagement/PledgeSigning",
+      //   });
+      // } else if (this.row.id == "2") {
+      //   this.$router.push({
+      //     path: "/financeInstitute/taskManagement/PledgeApproval",
+      //   });
+      // }
 
       console.log(this.row.name);
     },

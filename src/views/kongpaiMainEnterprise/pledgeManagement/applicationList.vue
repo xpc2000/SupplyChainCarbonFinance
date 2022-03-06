@@ -7,7 +7,7 @@
         <el-tab-pane label="全部" name="first">
           <template>
             <div>
-              <list-table :data="tableData" :columns="column">
+              <list-table :data=allTableData :columns="column" >
                 <!-- 插槽1：状态 -->
                 <template #status="{ row, $index }">
                   <el-tag v-if="row.approved" class="approved">待审核</el-tag>
@@ -18,6 +18,7 @@
                 <template #option="{ row, $index }">
                   <el-checkbox @change="getrows(row)" name="type"></el-checkbox>
                 </template>
+
               </list-table>
             </div>
           </template>
@@ -25,7 +26,8 @@
             <button @click="sendRow()" class="button-style">查看</button>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="质押待审批" name="second">质押待审批</el-tab-pane>
+        <el-tab-pane label="质押待审批" name="second">
+        </el-tab-pane>
         <el-tab-pane label="质押已审批" name="third">质押已审批</el-tab-pane>
       </el-tabs>
     </div>
@@ -69,7 +71,7 @@ export default {
           customSlot: "status",
         },
       ],
-      tableData: [
+      allTableData: [
         {
           ID: "1",
           name: "青岛银行",
@@ -83,6 +85,9 @@ export default {
           approved: false,
         },
       ],
+      pendingTableData:[
+        
+      ]
     };
   },
   methods: {
@@ -95,6 +100,9 @@ export default {
       this.row = row;
       console.log(row.name);
     },
+
+    
+
     // 发送ID
     sendRow() {
       this.$router.push({

@@ -22,7 +22,7 @@ export const routes = [
     },
     children: [
       {
-        path: "/kongpaiMainEnterprise/companyManagement/companyList",
+        path: "/kongpaiMainEnterprise/companyManagement/companylList",
         component: () => import("@/views/kongpaiMainEnterprise/companyManagement/companyList.vue"),
         meta: {
           title: "链属企业列表",
@@ -159,6 +159,87 @@ export const routes = [
     ]
   },
   //控排链链属企业
+  {
+    path: "/kongpaiAffliatedEnterprise/creditManagement",
+    component: () => import("@/layout/index"),
+    meta: {
+      title: "碳信管理",
+      icon: "el-icon-user",
+    },
+    children: [
+      {
+        path: "/kongpaiAffliatedEnterprise/creditManagement/companyBoard",
+        component: () => import("@/views/kongpaiMainEnterprise/creditManagement/companyBoard.vue"),
+        meta: {
+          title: "企业碳信账户",
+        },
+      },
+      {
+        path: "/kongpaiAffliatedEnterprise/creditManagement/launchCredit",
+        component: () => import("@/views/kongpaiMainEnterprise/creditManagement/launchCredit.vue"),
+        meta: {
+          title: "碳信发行",
+        },
+      },
+      {
+        path: "/kongpaiAffliatedEnterprise/creditManagement/repoCredit",
+        component: () => import("@/views/kongpaiMainEnterprise/creditManagement/repoCredit.vue"),
+        meta: {
+          title: "碳信回购",
+        },
+      },
+    ],
+  },
+  {
+    path: "/kongpaiAffliatedEnterprise/pledgeManagement",
+    component: () => import("@/layout/index"),
+    meta: {
+      title: "碳配额质押申请",
+      icon: "el-icon-user",
+    },
+    children: [
+      {
+        path: "/kongpaiAffliatedEnterprise/pledgeManagement/applicationList",
+        component: () => import("@/views/kongpaiMainEnterprise/pledgeManagement/applicationList.vue"),
+        meta: {
+          title: "申请列表",
+        },
+      },
+      {
+        path: "/kongpaiAffliatedEnterprise/pledgeManagement/pledgeApplication",
+        component: () => import("@/views/kongpaiMainEnterprise/pledgeManagement/pledgeApplication.vue"),
+        meta: {
+          title: "质押申请",
+        },
+      },
+      {
+        path: "/kongpaiAffliatedEnterprise/pledgeManagement/pledgeSigning",
+        component: () => import("@/views/kongpaiMainEnterprise/pledgeManagement/pledgeSigning.vue"),
+        meta: {
+          title: "质押签约",
+        },
+      },
+    ],
+  },
+  {
+    path: "/kongpaiAffliatedEnterprise/notificationList",
+    component: () => import("@/layout/index"),
+    meta: {
+      title: "信息通知",
+      icon: "el-icon-user",
+
+    },
+    children: [
+      {
+        path: "/kongpaiAffliatedEnterprise/notificationList/notificationList",
+        component: () => import("@/views/kongpaiMainEnterprise/notificationList/notificationList.vue"),
+        meta: {
+          title: "信息通知",
+          icon: "el-icon-user",
+        },
+      },
+    ]
+  },
 
   // 减排链核心企业
   {
@@ -260,8 +341,126 @@ export const routes = [
       },
     ],
   },
+  {
+    path: "/jianpaiMainEnterprise/notificationList",
+    component: () => import("@/layout/index"),
+    meta: {
+      title: "信息通知",
+      icon: "el-icon-user",
+
+    },
+    children: [
+      {
+        path: "/jianpaiMainEnterprise/notificationList/notificationList",
+        component: () => import("@/views/kongpaiMainEnterprise/notificationList/notificationList.vue"),
+        meta: {
+          title: "信息通知",
+          icon: "el-icon-user",
+        },
+      },
+    ]
+  },
 
   // 减排链链属企业
+  {
+    path: "/jianpaiAffliatedEnterprise/creditManagement",
+    component: () => import("@/layout/index"),
+    meta: {
+      title: "碳信管理",
+      icon: "el-icon-user",
+    },
+    children: [
+      {
+        path: "/jianpaiAffliatedEnterprise/creditManagement/companyBoard",
+        component: () => import("@/views/kongpaiMainEnterprise/creditManagement/companyBoard.vue"),
+        meta: {
+          title: "企业碳信账户",
+        },
+      },
+      {
+        path: "/jianpaiAffliatedEnterprise/creditManagement/transferCredit",
+        component: () => import("@/views/jianpaiMainEnterprise/creditManagement/transferCredit.vue"),
+        meta: {
+          title: "碳信转让",
+        },
+      },
+    ],
+  },
+  {
+    path: "/jianpaiAffliatedEnterprise/financingManagement",
+    component: () => import("@/layout/index"),
+    meta: {
+      title: "融资管理",
+      icon: "el-icon-user",
+    },
+    children: [
+      {
+        path: "/jianpaiAffliatedEnterprise/financingManagement/financingList",
+        component: () => import("@/views/jianpaiMainEnterprise/financingManagement/financingList.vue"),
+        meta: {
+          title: "融资列表",
+        },
+      },
+      {
+        path: "/jianpaiAffliatedEnterprise/financingManagement/financingApplication",
+        component: () => import("@/views/jianpaiMainEnterprise/financingManagement/financingApplication.vue"),
+        meta: {
+          title: "融资申请",
+        },
+      },
+      {
+        path: "/jianpaiAffliatedEnterprise/financingManagement/financingSigning",
+        component: () => import("@/views/jianpaiMainEnterprise/financingManagement/financingSigning.vue"),
+        meta: {
+          title: "融资签约",
+        },
+        
+      },
+    ],
+  },
+  {
+    path: "/jianpaiAffliatedEnterprise/taskManagement",
+    component: () => import("@/layout/index"),
+    meta: {
+      title: "任务管理",
+      icon: "el-icon-user",
+    },
+    children: [
+      {
+        path: "/jianpaiAffliatedEnterprise/taskManagement/receiveCredit",
+        component: () => import("@/views/jianpaiMainEnterprise/taskManagement/receiveCredit.vue"),
+        meta: {
+          title: "签收碳信",
+        },
+      },
+      {
+        path: "/jianpaiAffliatedEnterprise/taskManagement/receivingDetails",
+        component: () => import("@/views/jianpaiMainEnterprise/taskManagement/receivingDetails.vue"),
+        meta: {
+          title: "签收详情",
+        },
+      },
+    ],
+  },
+  {
+    path: "/jianpaiAffliatedEnterprise/notificationList",
+    component: () => import("@/layout/index"),
+    meta: {
+      title: "信息通知",
+      icon: "el-icon-user",
+
+    },
+    children: [
+      {
+        path: "/jianpaiAffliatedEnterprise/notificationList/notificationList",
+        component: () => import("@/views/kongpaiMainEnterprise/notificationList/notificationList.vue"),
+        meta: {
+          title: "信息通知",
+          icon: "el-icon-user",
+        },
+      },
+    ]
+  },
   //金融机构
   {
     path: "/financeInstitute/taskManagement",
@@ -279,14 +478,16 @@ export const routes = [
         },
       },
       {
-        path: "/financeInstitute/taskManagement/PledgeAproval",
-        component: () => import("@/views/financeInstitute/taskManagement/PledgeAproval.vue"),
+        path: "/financeInstitute/taskManagement/PledgeApproval/:id",
+        name: "PledgeApprovalDetail",
+        component: () => import("@/views/financeInstitute/taskManagement/PledgeApproval.vue"),
         meta: {
           title: "质押审批",
         },
       },
       {
-        path: "/financeInstitute/taskManagement/PledgeSigning",
+        path: "/financeInstitute/taskManagement/PledgeSigning/:id",
+        name: "PledgeSigningDetail",
         component: () => import("@/views/financeInstitute/taskManagement/PledgeSigning.vue"),
         meta: {
           title: "质押签订",
@@ -324,22 +525,55 @@ export const routes = [
         },
       },
     ],
+    
   },
+  {
+    path: "/financeInstitute/notificationList",
+    component: () => import("@/layout/index"),
+    meta: {
+      title: "信息通知",
+      icon: "el-icon-user",
+
+    },
+    children: [
+      {
+        path: "/financeInstitute/notificationList/notificationList",
+        component: () => import("@/views/kongpaiMainEnterprise/notificationList/notificationList.vue"),
+        meta: {
+          title: "信息通知",
+          icon: "el-icon-user",
+        },
+      },
+    ]
+  },
+  
 
   
 
 ]
 
 //登录判断
-export function getUserRoutes(userName) {
+export function getUserRoutes(accountType) {
   let indexList = []
-  switch(userName){
-    case "Ada":
-      indexList = [1,2,3,4,5,6,7,8,9,10,11]
+  switch(accountType){
+    case "1":
+      indexList = [1,2,3,4,5]
     break;
 
-    case "user2":
-      indexList = [2,3,4,5]
+    case "2":
+      indexList = [6, 7, 8]
+    break;
+
+    case "3":
+      indexList = [9,10,11,12,13]
+    break;
+
+    case "4":
+      indexList = [14,15,16,17]
+    break;
+
+    case "0":
+      indexList = [18,19,20]
     break;
   }
 

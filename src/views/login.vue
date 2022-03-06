@@ -10,14 +10,14 @@
         label-width="80px"
         ref="formLogin"
       >
-        <el-form-item label="用户名：" class="logininput1" prop="username">
-          <el-input v-model="formLogin.username"></el-input>
+        <el-form-item label="用户名：" class="logininput1" prop="userEmail">
+          <el-input v-model="formLogin.userEmail"></el-input>
         </el-form-item>
         <el-form-item label="密 码：" prop="password">
           <el-input v-model="formLogin.password" type="password"></el-input>
         </el-form-item>
-        <el-form-item label="角色：" prop="usertype">
-          <el-select v-model="formLogin.usertype" placeholder="请选择">
+        <el-form-item label="角色：" prop="accountType">
+          <el-select v-model="formLogin.accountType" placeholder="请选择">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -48,7 +48,7 @@
   </div>
 </template>
 <script>
-import { Login, getCount } from "@/utils/api.js";
+import { loginVerification } from "@/utils/api.js";
 import { success, error } from "@/utils/notify.js";
 export default {
   name: "login",
@@ -56,41 +56,41 @@ export default {
   data() {
     return {
       formLogin: {
-        username: "",
+        userEmail: "",
         password: "",
-        usertype: "",
+        accountType: "",
       },
 
       rules: {
-        username: [
+        userEmail: [
           { trigger: "blur", required: true, message: "请输入用户名" },
         ],
         password: [{ trigger: "blur", required: true, message: "请输入密码" }],
-        usertype: [
+        accountType: [
           { trigger: "blur", required: true, message: "请选择用户类型" },
         ],
       },
 
       options: [
         {
-          value: "选项1",
+          value: 0,
+          label: "金融机构",
+        },
+        {
+          value: 1,
           label: "控排链核心企业",
         },
         {
-          value: "选项2",
+          value: 2,
           label: "控排链链属企业",
         },
         {
-          value: "选项3",
+          value: 3,
           label: "减排链核心企业",
         },
         {
-          value: "选项4",
+          value: 4,
           label: "减排链链属企业",
-        },
-        {
-          value: "选项5",
-          label: "金融机构",
         },
       ],
       value: "",
@@ -103,29 +103,25 @@ export default {
     },
     loginSubmit(formLogin) {
       // 表单验证
-      // console.log(this.formLogin.username)
       this.$refs.formLogin.validate((valid) => {
         if (valid) {
           let params = {
-            userName: this.formLogin.username,
+            userEmail: this.formLogin.userEmail,
+            accountType: this.formLogin.accountType,
             password: this.formLogin.password,
           };
-          //   console.log(params)
-          Login(params).then((res) => {
+          // console.log(params)
+          loginVerification(params).then((res) => {
+            // console.log(params)
             if (res.data.code == "201") {
               error(res.data.msg, this);
             } else {
-              // getCount({userName:this.userName}).then(res=>{
-              //     console.log(res)
-              // })
               console.log(res);
-              localStorage.setItem("username", this.formLogin.username);
+              // localStorage.setItem("userEmail", this.formLogin.userEmail);
+              localStorage.setItem("accountType", this.formLogin.accountType);
               success(res.data.msg, this);
 
               this.$router.push({ path: "/index" });
-
-              // let time = new Date().getTime()
-              // localStorage.setItem('login',time)
             }
           });
         }

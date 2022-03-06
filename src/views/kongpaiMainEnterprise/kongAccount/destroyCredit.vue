@@ -139,7 +139,7 @@ export default {
         moneyBalance: "",
         carbonCreditBalance: "",
         destroyedDate: "",
-        aprovalPerson: "",
+        approvalPerson: "",
       },
 
       column: [

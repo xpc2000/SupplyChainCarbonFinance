@@ -27,7 +27,7 @@
         width="30%"
         center
       >
-        <!-- <el-input placeholder="输入用户名" v-model="username" clearable>
+        <!-- <el-input placeholder="输入用户名" v-model="userEmail" clearable>
         </el-input> -->
         <el-form
           :model="ruleForm"
@@ -37,10 +37,10 @@
           label-width="100px"
           class="demo-ruleForm"
         >
-          <el-form-item label="用户名" prop="usernamePass">
+          <el-form-item label="用户名" prop="userEmailPass">
             <el-input
               type="text"
-              v-model="ruleForm.username"
+              v-model="ruleForm.userEmail"
               autocomplete="off"
             ></el-input>
           </el-form-item>
@@ -67,7 +67,7 @@
 <script>
 export default {
  data() {
-    var validateUsername = (rule, value, callback) => {
+    var validateuserEmail = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入用户名"));
       }
@@ -81,12 +81,12 @@ export default {
     return {
       centerDialogVisible: false,
       ruleForm: {
-        username: "",
+        userEmail: "",
         password: "",
       },
       rules: {
         password: [{ validator: validatePassword, trigger: "blur" }],
-        username: [{ validator: validateUsername, trigger: "blur" }],
+        userEmail: [{ validator: validateuserEmail, trigger: "blur" }],
       },
     };
   },

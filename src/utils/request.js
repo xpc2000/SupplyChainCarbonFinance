@@ -3,8 +3,8 @@ import axios from 'axios'
 
 //创建实例
 const instance = axios.create({
-    baseURL: "http://39.99.139.14/api",//请求后台的地址
-    // baseURL: "https://127.0.0.1:8081/api",
+    baseURL: "https://39.99.139.14:8081",//请求后台的地址
+    // baseURL: "https://127.0.0.1:8081",
     timeout:3000
 })
 
