@@ -9,8 +9,10 @@ import echarts from 'echarts';
 import axios from 'axios' 
 
 
-Vue.prototype.$axios = axios
-Vue.prototype.$echarts = echarts
+Vue.prototype.$http = axios
+axios.defaults.baseURL="http://127.0.0.1:8081"
+
+// Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 new Vue({

@@ -98,21 +98,13 @@ export default {
   },
   mounted() {},
   methods: {
-    loginReturn() {
-      this.$router.push({ path: "/Count" });
-    },
     loginSubmit(formLogin) {
       // 表单验证
-      this.$refs.formLogin.validate((valid) => {
-        if (valid) {
-          let params = {
-            userEmail: this.formLogin.userEmail,
-            accountType: this.formLogin.accountType,
-            password: this.formLogin.password,
-          };
-          // console.log(params)
-          loginVerification(params).then((res) => {
-            // console.log(params)
+      this.$refs.formLogin.validate(async valid => {
+        if (!valid) return; 
+        const {data:res} = await this.$http.post("user/login", this.formLogin);
+        console.log(res)
+        console.log("any");
             if (res.data.code == "201") {
               error(res.data.msg, this);
             } else {
@@ -120,11 +112,9 @@ export default {
               // localStorage.setItem("userEmail", this.formLogin.userEmail);
               localStorage.setItem("accountType", this.formLogin.accountType);
               success(res.data.msg, this);
-
               this.$router.push({ path: "/index" });
             }
-          });
-        }
+        
       });
     },
   },
