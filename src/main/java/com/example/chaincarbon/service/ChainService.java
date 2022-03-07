@@ -21,7 +21,13 @@ public class ChainService {
     @Autowired
     PlanDao planDao;
 
-
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: PlanVo
+     * @Return: Boolean
+     * @Description: 插入减排计划
+     */
     public Boolean insertPlan(PlanVo planVo)  {
         Plan plan=new Plan();
         plan.setControlChain(planVo.getChain());

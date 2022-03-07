@@ -31,6 +31,13 @@ public class CheckService {
     @Autowired
     ReduceSubDao reduceSubDao;
 
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: String name, String actionPassword, int actionType
+     * @Return: boolean
+     * @Description: 金融机构权限认证
+     */
     public boolean financeCheck(String name, String actionPassword, int actionType){
         boolean checkResult=false;
         FinanceInstitution financeInstitution;
@@ -57,6 +64,13 @@ public class CheckService {
         return checkResult;
     }
 
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: String name, String actionPassword, int actionType
+     * @Return: boolean
+     * @Description: 控排链核心企业专属功能权限认证
+     */
     public boolean controlChainCheck(String name, String actionPassword, int actionType){
         boolean checkResult=false;
         ControlCore controlCore;
@@ -78,6 +92,13 @@ public class CheckService {
         return checkResult;
     }
 
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: String name, String actionPassword, int actionType,Integer accountType
+     * @Return: 控排链企业质押操作权限认证
+     * @Description:
+     */
     public boolean controlCheck(String name, String actionPassword, int actionType,Integer accountType){
         boolean checkResult=false;
         ControlCore controlCore;
@@ -112,6 +133,13 @@ public class CheckService {
         return checkResult;
     }
 
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: String name, String actionPassword, int actionType,Integer accountType
+     * @Return: boolean
+     * @Description: 减排链企业保理操作-碳信签收权限认证
+     */
     public boolean reductionCheck(String name, String actionPassword, int actionType,Integer accountType){
         boolean checkResult=false;
         ReduceCore reduceCore;

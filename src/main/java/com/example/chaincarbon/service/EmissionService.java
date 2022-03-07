@@ -23,6 +23,13 @@ public class EmissionService {
     @Autowired
     PledgeDao pledgeDao;
 
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: ApplyPledgeVo applyPledgeVo
+     * @Return: Boolean
+     * @Description: 碳配额质押申请的业务逻辑实现
+     */
     public Boolean apply(ApplyPledgeVo applyPledgeVo){
         //插入碳质押记录
         PledgeRecord pledgeRecord=new PledgeRecord();
@@ -36,6 +43,13 @@ public class EmissionService {
         return result!=-1;
     }
 
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: Boolean comment, Integer id
+     * @Return: Boolean
+     * @Description: 碳配额质押审查的业务逻辑实现
+     */
     public Boolean examine(Boolean comment, Integer id){
         //修改碳质押记录的状态
         int result;
@@ -44,6 +58,13 @@ public class EmissionService {
         return result!=-1;
     }
 
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: PledgeVo pledgeVo
+     * @Return: Boolean
+     * @Description: 金融机构质押签约的业务逻辑实现
+     */
     public Boolean financePledge(PledgeVo pledgeVo){
         //修改碳质押记录的状态和部分字段
         int result;
@@ -66,6 +87,13 @@ public class EmissionService {
         return result!=-1;
     }
 
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: Boolean comment, Integer id
+     * @Return: Boolean
+     * @Description: 融资企业碳质押签约的业务逻辑实现
+     */
     public Boolean companyPledge(Boolean comment, Integer id){
         //修改碳质押记录的状态
         int result;

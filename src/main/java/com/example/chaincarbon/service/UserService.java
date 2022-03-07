@@ -26,23 +26,57 @@ public class UserService {
     @Autowired
     ReduceSubDao reduceSubDao;
 
-
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: String name
+     * @Return: FinanceInstitution
+     * @Description: 获取金融机构账户信息
+     */
     public FinanceInstitution getFIAccount(String name){
         return financeDao.getFinance(name);
     }
 
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: String name
+     * @Return: ControlCore
+     * @Description: 获取控排链核心企业账户信息
+     */
     public ControlCore getCCAccount(String name){
         return controlCoreDao.getControlCore(name);
     }
 
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: String name
+     * @Return: ControlSub
+     * @Description: 获取控排链链属企业账户信息
+     */
     public ControlSub getCSAccount(String name){
         return controlSubDao.getControlSub(name);
     }
 
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: String name
+     * @Return: ReduceCore
+     * @Description: 获取减排链核心企业账户信息
+     */
     public ReduceCore getRCAccount(String name){
         return reduceCoreDao.getReduceCore(name);
     }
 
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: String name
+     * @Return: ReduceSub
+     * @Description: 获取减排链链属企业账户信息
+     */
     public ReduceSub getRSAccount(String name){
         return reduceSubDao.getReduceSub(name);
     }

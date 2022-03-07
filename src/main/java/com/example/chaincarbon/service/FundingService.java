@@ -23,6 +23,14 @@ public class FundingService {
 
     @Autowired
     FactorDao factorDao;
+
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: ApplyFactorVo applyFactorVo
+     * @Return: Boolean
+     * @Description: 碳信保理申请的业务逻辑实现
+     */
     public Boolean apply(ApplyFactorVo applyFactorVo){
         FactorRecord factorRecord=new FactorRecord();
         factorRecord.setCompany(applyFactorVo.getCompanyNeedFund());
@@ -36,6 +44,13 @@ public class FundingService {
         return result!=-1;
     }
 
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: Boolean comment, Integer id
+     * @Return: Boolean
+     * @Description: 碳信保理合规审查的业务逻辑实现
+     */
     public Boolean examine(Boolean comment, Integer id){
         int result;
         if (comment) result=factorDao.updateStatus(1,id);
@@ -43,6 +58,13 @@ public class FundingService {
         return result!=-1;
     }
 
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: FactorVo factorVo
+     * @Return: Boolean
+     * @Description: 金融机构保理签约的业务逻辑实现
+     */
     public Boolean financeFactor(FactorVo factorVo){
         int result;
         FactorRecord factorRecord=new FactorRecord();
@@ -64,6 +86,13 @@ public class FundingService {
         return result!=-1;
     }
 
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: Boolean comment, Integer id
+     * @Return: Boolean
+     * @Description: 融资企业保理签约的业务逻辑实现
+     */
     public Boolean companyFactor(Boolean comment, Integer id){
         int result;
         if (comment) result=factorDao.updateStatus(1,id);
@@ -71,6 +100,13 @@ public class FundingService {
         return result!=-1;
     }
 
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: Integer id
+     * @Return: FactorRecord
+     * @Description: 获取特定保理记录
+     */
     public FactorRecord getFactorRecord(Integer id){
         return factorDao.getFactor(id);
     }

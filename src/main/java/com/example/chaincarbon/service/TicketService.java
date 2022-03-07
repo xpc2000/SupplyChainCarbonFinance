@@ -49,6 +49,13 @@ public class TicketService {
         return result!=-1;
     }
 
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/07
+     * @Param: Integer id, String chain
+     * @Return: String
+     * @Description: 保理完成签约后插入碳信记录
+     */
     public String ticketFactor(Integer id, String chain){
         int result;
         String financeName;
