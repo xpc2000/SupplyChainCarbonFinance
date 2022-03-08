@@ -42,6 +42,10 @@ CREATE TABLE `carbon_quota_pledge_records`  (
 -- ----------------------------
 -- Records of carbon_quota_pledge_records
 -- ----------------------------
+INSERT INTO `carbon_quota_pledge_records` VALUES (1, 10, "quota_owner提交", "光大石材工程有限公司", 9.9, 100, "2022-01-01 23:23:23", 3.3, "2022-02-02 22:22:22", "control_chain", "fund_use", 0);
+INSERT INTO `carbon_quota_pledge_records` VALUES (2, 10, "quota_owner完成审批", "光大石材工程有限公司", 9.9, 100, "2022-01-01 23:23:23", 3.3, "2022-02-02 22:22:22", "control_chain", "fund_use", 1);
+INSERT INTO `carbon_quota_pledge_records` VALUES (3, 10, "quota_owner完成签约", "光大石材工程有限公司", 9.9, 100, "2022-01-01 23:23:23", 3.3, "2022-02-02 22:22:22", "control_chain", "fund_use", 2);
+
 
 -- ----------------------------
 -- Table structure for carbon_ticket_financing_records
