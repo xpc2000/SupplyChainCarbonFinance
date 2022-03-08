@@ -39,8 +39,8 @@
             >
             <el-form-item label="所属控排链">
                 <el-input
-                  placeholder="￥￥￥￥￥"
-                  v-model="formLabelAlign.carbonCreditBalance"
+                  placeholder="所属控排链"
+                  v-model="formLabelAlign.controlChain"
                 ></el-input>
               </el-form-item>
               <el-form-item label="配额量">
@@ -94,7 +94,7 @@
           </el-form-item>
           <el-form-item>
 
-              <el-button type="primary" @click="submitForm('ruleForm', formLabelAlign)">
+              <el-button type="primary" @click="loganything">
                             提交
                      </el-button>
           </el-form-item>
@@ -147,9 +147,10 @@ export default {
     };
   },
   methods: {
+    loganything(){
+      console.log()
+    },
     submitForm(formName,formLabelAlign){
-            
-
             console.log(formLabelAlign)
 
             this.$refs[formName].validate((valid) => {
@@ -163,7 +164,7 @@ export default {
 
 
             } else {//操作密码不正确
-                console.log('error submit!!');
+                //console.log('error submit!!');
                 return false;
             }
             });

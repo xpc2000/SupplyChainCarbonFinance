@@ -34,6 +34,7 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import ListTable from "@/components/ListTable";
+import {loadInstitutionPendingPledge} from "@/utils/api.js"
 export default {
   data() {
     return {
@@ -45,6 +46,8 @@ export default {
       },
 
       activeName: "first",
+      company:localStorage.getItem("name"),
+      chain:localStorage.getItem("chain"),
       column: [
         {
           prop: "option",
@@ -85,22 +88,27 @@ export default {
       ],
     };
   },
+  async mounted(){
+    console.log(await this.$http.get("/pledgeSearch/pending?company=" + this.company))
+    // const {param:res} = await loadInstitutionPendingPledge(this.company)
+  },
+
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
+      //console.log(tab, event);
     },
 
     //获取单行数据
     getrows(row) {
       this.row = row;
-      console.log(row.name);
+      //console.log(row.name);
     },
     // 发送ID
     sendRow() {
       this.$router.push({
-        path: "/kongpaiMainEnterprise/pledgeManagement/pledgeSigning",
+        path: "/kongpaiAffiliateEnterprise/pledgeManagement/pledgeSigning",
       });
-      console.log(this.row.name);
+      //console.log(this.row.name);
     },
   },
   components: {

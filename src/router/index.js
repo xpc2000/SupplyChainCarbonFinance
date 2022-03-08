@@ -160,7 +160,7 @@ export const routes = [
   },
   //控排链链属企业
   {
-    path: "/kongpaiAffliatedEnterprise/creditManagement",
+    path: "/kongpaiAffiliateEnterprise/creditManagement",
     component: () => import("@/layout/index"),
     meta: {
       title: "碳信管理",
@@ -168,22 +168,22 @@ export const routes = [
     },
     children: [
       {
-        path: "/kongpaiAffliatedEnterprise/creditManagement/companyBoard",
-        component: () => import("@/views/kongpaiMainEnterprise/creditManagement/companyBoard.vue"),
+        path: "/kongpaiAffiliateEnterprise/creditManagement/companyBoard",
+        component: () => import("@/views/kongpaiAffiliateEnterprise/creditManagement/companyBoard.vue"),
         meta: {
           title: "企业碳信账户",
         },
       },
       {
-        path: "/kongpaiAffliatedEnterprise/creditManagement/launchCredit",
-        component: () => import("@/views/kongpaiMainEnterprise/creditManagement/launchCredit.vue"),
+        path: "/kongpaiAffiliateEnterprise/creditManagement/launchCredit",
+        component: () => import("@/views/kongpaiAffiliateEnterprise/creditManagement/launchCredit.vue"),
         meta: {
           title: "碳信发行",
         },
       },
       {
-        path: "/kongpaiAffliatedEnterprise/creditManagement/repoCredit",
-        component: () => import("@/views/kongpaiMainEnterprise/creditManagement/repoCredit.vue"),
+        path: "/kongpaiAffiliateEnterprise/creditManagement/repoCredit",
+        component: () => import("@/views/kongpaiAffiliateEnterprise/creditManagement/repoCredit.vue"),
         meta: {
           title: "碳信回购",
         },
@@ -191,7 +191,7 @@ export const routes = [
     ],
   },
   {
-    path: "/kongpaiAffliatedEnterprise/pledgeManagement",
+    path: "/kongpaiAffiliateEnterprise/pledgeManagement",
     component: () => import("@/layout/index"),
     meta: {
       title: "碳配额质押申请",
@@ -199,22 +199,22 @@ export const routes = [
     },
     children: [
       {
-        path: "/kongpaiAffliatedEnterprise/pledgeManagement/applicationList",
-        component: () => import("@/views/kongpaiMainEnterprise/pledgeManagement/applicationList.vue"),
+        path: "/kongpaiAffiliateEnterprise/pledgeManagement/applicationList",
+        component: () => import("@/views/kongpaiAffiliateEnterprise/pledgeManagement/applicationList.vue"),
         meta: {
           title: "申请列表",
         },
       },
       {
-        path: "/kongpaiAffliatedEnterprise/pledgeManagement/pledgeApplication",
-        component: () => import("@/views/kongpaiMainEnterprise/pledgeManagement/pledgeApplication.vue"),
+        path: "/kongpaiAffiliateEnterprise/pledgeManagement/pledgeApplication",
+        component: () => import("@/views/kongpaiAffiliateEnterprise/pledgeManagement/pledgeApplication.vue"),
         meta: {
           title: "质押申请",
         },
       },
       {
-        path: "/kongpaiAffliatedEnterprise/pledgeManagement/pledgeSigning",
-        component: () => import("@/views/kongpaiMainEnterprise/pledgeManagement/pledgeSigning.vue"),
+        path: "/kongpaiAffiliateEnterprise/pledgeManagement/pledgeSigning",
+        component: () => import("@/views/kongpaiAffiliateEnterprise/pledgeManagement/pledgeSigning.vue"),
         meta: {
           title: "质押签约",
         },
@@ -222,7 +222,7 @@ export const routes = [
     ],
   },
   {
-    path: "/kongpaiAffliatedEnterprise/notificationList",
+    path: "/kongpaiAffiliateEnterprise/notificationList",
     component: () => import("@/layout/index"),
     meta: {
       title: "信息通知",
@@ -231,8 +231,8 @@ export const routes = [
     },
     children: [
       {
-        path: "/kongpaiAffliatedEnterprise/notificationList/notificationList",
-        component: () => import("@/views/kongpaiMainEnterprise/notificationList/notificationList.vue"),
+        path: "/kongpaiAffiliateEnterprise/notificationList/notificationList",
+        component: () => import("@/views/kongpaiAffiliateEnterprise/notificationList/notificationList.vue"),
         meta: {
           title: "信息通知",
           icon: "el-icon-user",
@@ -363,7 +363,7 @@ export const routes = [
 
   // 减排链链属企业
   {
-    path: "/jianpaiAffliatedEnterprise/creditManagement",
+    path: "/jianpaiAffiliateEnterprise/creditManagement",
     component: () => import("@/layout/index"),
     meta: {
       title: "碳信管理",
@@ -371,14 +371,14 @@ export const routes = [
     },
     children: [
       {
-        path: "/jianpaiAffliatedEnterprise/creditManagement/companyBoard",
+        path: "/jianpaiAffiliateEnterprise/creditManagement/companyBoard",
         component: () => import("@/views/kongpaiMainEnterprise/creditManagement/companyBoard.vue"),
         meta: {
           title: "企业碳信账户",
         },
       },
       {
-        path: "/jianpaiAffliatedEnterprise/creditManagement/transferCredit",
+        path: "/jianpaiAffiliateEnterprise/creditManagement/transferCredit",
         component: () => import("@/views/jianpaiMainEnterprise/creditManagement/transferCredit.vue"),
         meta: {
           title: "碳信转让",
@@ -387,7 +387,7 @@ export const routes = [
     ],
   },
   {
-    path: "/jianpaiAffliatedEnterprise/financingManagement",
+    path: "/jianpaiAffiliateEnterprise/financingManagement",
     component: () => import("@/layout/index"),
     meta: {
       title: "融资管理",
@@ -395,21 +395,21 @@ export const routes = [
     },
     children: [
       {
-        path: "/jianpaiAffliatedEnterprise/financingManagement/financingList",
+        path: "/jianpaiAffiliateEnterprise/financingManagement/financingList",
         component: () => import("@/views/jianpaiMainEnterprise/financingManagement/financingList.vue"),
         meta: {
           title: "融资列表",
         },
       },
       {
-        path: "/jianpaiAffliatedEnterprise/financingManagement/financingApplication",
+        path: "/jianpaiAffiliateEnterprise/financingManagement/financingApplication",
         component: () => import("@/views/jianpaiMainEnterprise/financingManagement/financingApplication.vue"),
         meta: {
           title: "融资申请",
         },
       },
       {
-        path: "/jianpaiAffliatedEnterprise/financingManagement/financingSigning",
+        path: "/jianpaiAffiliateEnterprise/financingManagement/financingSigning",
         component: () => import("@/views/jianpaiMainEnterprise/financingManagement/financingSigning.vue"),
         meta: {
           title: "融资签约",
@@ -419,7 +419,7 @@ export const routes = [
     ],
   },
   {
-    path: "/jianpaiAffliatedEnterprise/taskManagement",
+    path: "/jianpaiAffiliateEnterprise/taskManagement",
     component: () => import("@/layout/index"),
     meta: {
       title: "任务管理",
@@ -427,14 +427,14 @@ export const routes = [
     },
     children: [
       {
-        path: "/jianpaiAffliatedEnterprise/taskManagement/receiveCredit",
+        path: "/jianpaiAffiliateEnterprise/taskManagement/receiveCredit",
         component: () => import("@/views/jianpaiMainEnterprise/taskManagement/receiveCredit.vue"),
         meta: {
           title: "签收碳信",
         },
       },
       {
-        path: "/jianpaiAffliatedEnterprise/taskManagement/receivingDetails",
+        path: "/jianpaiAffiliateEnterprise/taskManagement/receivingDetails",
         component: () => import("@/views/jianpaiMainEnterprise/taskManagement/receivingDetails.vue"),
         meta: {
           title: "签收详情",
@@ -443,7 +443,7 @@ export const routes = [
     ],
   },
   {
-    path: "/jianpaiAffliatedEnterprise/notificationList",
+    path: "/jianpaiAffiliateEnterprise/notificationList",
     component: () => import("@/layout/index"),
     meta: {
       title: "信息通知",
@@ -452,7 +452,7 @@ export const routes = [
     },
     children: [
       {
-        path: "/jianpaiAffliatedEnterprise/notificationList/notificationList",
+        path: "/jianpaiAffiliateEnterprise/notificationList/notificationList",
         component: () => import("@/views/kongpaiMainEnterprise/notificationList/notificationList.vue"),
         meta: {
           title: "信息通知",
@@ -578,7 +578,7 @@ export function getUserRoutes(accountType) {
   }
 
   if(indexList.length == 0) return routes;
-  console.log("test")
+  // console.log("test")
   return indexList.map((index) => routes[index]);
 }
 

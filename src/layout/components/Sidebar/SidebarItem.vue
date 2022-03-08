@@ -53,7 +53,7 @@ export default {
     MenuItem,
   },
   mounted() {
-    console.log(this.route.children);
+    // //console.log(this.route.children);
   },
 };
 </script>

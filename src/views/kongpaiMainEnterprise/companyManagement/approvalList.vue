@@ -115,19 +115,19 @@ export default {
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
+      //console.log(tab, event);
     },
     //获取单行数据
     getrows(row) {
       this.row = row;
-      console.log(row.name);
+      //console.log(row.name);
     },
     // 发送ID
     sendRow() {
       this.$router.push({
         path: "/kongpaiMainEnterprise/companyManagement/approvalListForm",
       });
-      console.log(this.row.name);
+      //console.log(this.row.name);
     },
   },
   components: {

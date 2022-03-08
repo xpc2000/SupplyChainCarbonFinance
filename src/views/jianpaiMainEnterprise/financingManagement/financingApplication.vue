@@ -160,7 +160,7 @@ export default {
   },
   methods: {
     submitForm(formName, formLabelAlign) {
-      console.log(formLabelAlign);
+      //console.log(formLabelAlign);
 
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -172,7 +172,7 @@ export default {
           });
         } else {
           //操作密码不正确
-          console.log("error submit!!");
+          //console.log("error submit!!");
           return false;
         }
       });

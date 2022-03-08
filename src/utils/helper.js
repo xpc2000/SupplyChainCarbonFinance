@@ -11,7 +11,7 @@ export const checkResponse = (json) => {
 
 
 export const postJson = async (url, data) => {
-  const response = await fetch(`${server.address}${url}`, {
+  const response = await fetch(`http://127.0.0.1:8081${url}`, {
     method: 'POST',
     body: data ? JSON.stringify(data) : undefined,
     headers: {

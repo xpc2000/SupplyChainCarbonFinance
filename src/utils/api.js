@@ -3,22 +3,23 @@ import { postJson, putJson, getJson } from "./helper";
 
 //登录
 
-export const loginVerification = (data) => request.post('/user/login', data);
+// export const loginVerification = (data) => request.post('/user/login', data);
 
 // //查询用户信息
 // export const getMessage = (params) => request.get('/getMessage', params );
 // //删除用户信息
 // export const deleteData = (pasrams) => request.delete('/getCount', params );
 
-// login
-// export async function loginVerifications(data){
-//     console.log(await request.post('user/login', data));
-// }
+// login **
+export async function loginVerification(data){
+    // return postJson("/user/login", data)
+    return request.post('/user/login', data);
+}
 
 // 创建碳信
-export async function ticketCreate(params){
-    postJson('/ticket/create', params)
-}
+// export async function ticketCreate(params){
+//     postJson('/ticket/create', params)
+// }
 
 // 发行碳信
 // export const ticketPublish = (params) => request.post('/ticket/publish', params);
@@ -55,7 +56,7 @@ export async function ticketCreate(params){
 export async function loadSinglePledgeRow(id){
     getJson(`/pledgeSerach/${id}`)
 }
-// export const lloadSinglePledgeRow = (params) => request.get('/pledgeSerach', params);
+// export const loadSinglePledgeRow = (params) => request.get('/pledgeSerach', params);
 
 // 获取企业已经提交的碳质押记录
 // export const loadCompanySubmittedPledge = (params) => request.get('/pledgeSerach/submit', params);
@@ -64,8 +65,8 @@ export async function loadSinglePledgeRow(id){
 // export const loadCompanySigningPledge = (params) => request.get('/pledgeSerach/signing-company', params);
 
 // 获取金融机构待审批的碳质押记录
-export async function loadInstitutionPendingPledge(){
-    getJson('/pledgeSerach/pending')
+export async function loadInstitutionPendingPledge(company){
+    return request.get('/pledgeSearch/pending', company)
 }
 
 // 获取金融机构需要签约的碳质押记录
@@ -93,7 +94,9 @@ export async function loadInstitutionSigningPledge(){
 // export const submitChainPlan = (params) => request.post('/chain/plan', params);
 
 // 控排链企业提交碳质押申请
-// export const submitCompanyPledgeApplication = (params) => request.post('/pledge/apply', params);
+export async function submitCompanyPledgeApplication(data){
+    return request.post('/pledge/apply', data);
+}
 
 // 金融机构审核碳质押申请
 // export const updateInstitutionPledgeExamination = (params) => request.put('/pledge/examine', params);

@@ -29,7 +29,7 @@ export default {
     return {};
   },
   mounted() {
-    console.log(this.columns);
+    // //console.log(this.columns);
   },
 };
 </script>

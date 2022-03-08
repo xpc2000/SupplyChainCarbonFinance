@@ -205,11 +205,11 @@ export default {
       //     data:{ password: password}
 
       // }).then(res=>{
-      //     console.log(res);
+      //     //console.log(res);
       //     let{code} = res.data;
       //     if(code == '200'){
       //         sessionStorage.setItem('password', password);
-      //         console.log(password);
+      //         //console.log(password);
       //     }
       // })
 

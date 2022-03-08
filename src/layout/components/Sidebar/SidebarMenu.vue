@@ -23,6 +23,7 @@ import { routes, getUserRoutes } from "@/router";
 export default {
   data() {
     return {
+      routes: getUserRoutes(localStorage.getItem("userEmail")),
       routes: getUserRoutes(localStorage.getItem("accountType")),
     };
   },
@@ -32,9 +33,8 @@ export default {
   },
   mounted() {
     console.log("Logged in user name: " + localStorage.getItem("accountType"));
-    
-    // console.log("Logged in user name: " + localStorage.getItem("userEmail"));
-    console.log(this.routes);
+    console.log("Logged in user name: " + localStorage.getItem("userEmail"));
+    //console.log(this.routes);
   },
 };
 </script>

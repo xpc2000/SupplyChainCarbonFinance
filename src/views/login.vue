@@ -102,14 +102,18 @@ export default {
       // 表单验证
       this.$refs.formLogin.validate(async valid => {
         if (!valid) return; 
-        const {data:res} = await this.$http.post("user/login", this.formLogin);
+        const {data:res} = await loginVerification(this.formLogin)
         console.log(res)
-        console.log("any");
-            if (res.data.code == "201") {
+
+        // const {data:res} = await this.$http.post("user/login", this.formLogin);
+            if (res.conde != 0) {
               error(res.data.msg, this);
             } else {
-              console.log(res);
-              // localStorage.setItem("userEmail", this.formLogin.userEmail);
+              // //console.log(res);
+              localStorage.clear();
+              localStorage.setItem("userEmail", this.formLogin.userEmail);
+              localStorage.setItem("name", res.data.name)
+              localStorage.setItem("chain", res.data.chain)
               localStorage.setItem("accountType", this.formLogin.accountType);
               success(res.data.msg, this);
               this.$router.push({ path: "/index" });

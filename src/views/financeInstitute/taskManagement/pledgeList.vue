@@ -25,7 +25,7 @@
         <el-tab-pane label="质押已审批">
           <template>
             <div>
-              <list-table data="signingTableData" :columns="column">
+              <list-table :data="signingTableData" :columns="column">
                 <!-- 插槽1：状态 -->
                 <template #status="{ row, $index }">
                   <el-tag v-if="row.approved" class="approved">已审核</el-tag>
@@ -88,51 +88,47 @@ export default {
         },
       ],
       pendingTableData: [
-        {
-          id: "1",
-          name: "青岛银行",
-          chain: "某供应链",
-          amount: "3695",
-          approved: true,
-        },
-        {
-          id: "2",
-          name: "青岛银行",
-          chain: "某供应链",
-          amount: "3695",
-          approved: false,
-        },
+        // {
+        //   id: "1",
+        //   name: "青岛银行",
+        //   chain: "某供应链",
+        //   amount: "3695",
+        //   approved: true,
+        // },
+        // {
+        //   id: "2",
+        //   name: "青岛银行",
+        //   chain: "某供应链",
+        //   amount: "3695",
+        //   approved: false,
+        // },
       ],
       signingTableData:[],
       allTableData:[],
     };
   },
+  mounted() {
+    console.log(localStorage)
+    const {data:res} = loadInstitutionPendingPledge()
+      .catch(error => {
+    console.log(error.response)});
+    this.pendingTableData = res;
+  },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
+      // //console.log(tab, event);
     },
 
-    loadInstitutionPendingPledge(){
-      loadInstitutionPendingPledge().then((res) =>{
-        this.pendingTableData = res
-      })
-    },
-
-    loadInstitutionSigningPledge(){
-      loadInstitutionSigningPledge().then((res) =>{
-        this.signingTableData = res
-      })
-    },
 
     //获取单行数据
     getrows(row) {
       this.row = row;
-      console.log(row.name);
+      // //console.log(row.name);
     },
     // 发送ID
     sendRow() {
       if(this.row.approved == false){
-        console.log(this.row.id)
+        // //console.log(this.row.id)
         this.$router.push({
           name: "PledgeApprovalDetail",
           params:{id: this.row.id}
@@ -154,7 +150,7 @@ export default {
       //   });
       // }
 
-      console.log(this.row.name);
+      //console.log(this.row.name);
     },
   },
   components: {

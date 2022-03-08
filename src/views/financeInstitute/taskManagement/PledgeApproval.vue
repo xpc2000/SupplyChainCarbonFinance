@@ -155,7 +155,7 @@ export default {
           });
         } else {
           //操作密码不正确
-          console.log("error submit!!");
+          //console.log("error submit!!");
           return false;
         }
       });

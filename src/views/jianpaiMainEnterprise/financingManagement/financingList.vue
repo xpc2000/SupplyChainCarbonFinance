@@ -94,17 +94,17 @@ export default {
     //获取单行数据
     getrows(row) {
       this.row = row;
-      console.log(row.task);
+      //console.log(row.task);
     },
     // 发送ID
     sendRow() {
       this.$router.push({
         path: "/jianpaiMainEnterprise/financingManagement/financingSigning",
       });
-      console.log(this.row.task);
+      //console.log(this.row.task);
     },
     handleClick(tab, event) {
-      console.log(tab, event);
+      //console.log(tab, event);
     },
   },
   components: {
