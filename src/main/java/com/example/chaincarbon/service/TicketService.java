@@ -6,6 +6,7 @@ import com.example.chaincarbon.model.pojo.FactorRecord;
 import com.example.chaincarbon.model.pojo.TicketRecord;
 import com.example.chaincarbon.model.vo.TicketVo;
 import com.example.chaincarbon.model.vo.TransferTicketVo;
+import com.example.chaincarbon.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -92,7 +93,8 @@ public class TicketService {
             transferTicketVo.setType(item.getOperation());
             transferTicketVo.setAmount(item.getAmountCarbonTicket());
             transferTicketVo.setSender(item.getInitiatorName());
-            transferTicketVo.setTime(item.getOperationData());
+            if(item.getOperationData()!=null)
+                transferTicketVo.setTime(DateUtil.parseTime(item.getOperationData()));
             out.add(transferTicketVo);
         }
         return out;
@@ -105,6 +107,8 @@ public class TicketService {
      * @Description:获取碳信记录
      */
     public TicketRecord getTicketRecord(Integer id){
+        TicketRecord ticketRecord=ticketDao.getTicketRecord(id);
+        ticketRecord.setOperationData(DateUtil.parseTime(ticketRecord.getOperationData()));
         return ticketDao.getTicketRecord(id);
     }
 }

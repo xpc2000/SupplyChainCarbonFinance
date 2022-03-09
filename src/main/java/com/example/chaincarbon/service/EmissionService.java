@@ -3,6 +3,7 @@ package com.example.chaincarbon.service;
 import com.example.chaincarbon.dao.PledgeDao;
 import com.example.chaincarbon.model.pojo.PledgeRecord;
 import com.example.chaincarbon.model.vo.*;
+import com.example.chaincarbon.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -110,7 +111,12 @@ public class EmissionService {
      * @Description:获取碳质押记录
      */
     public PledgeRecord getPledgeRecord(Integer id){
-        return pledgeDao.getPledge(id);
+        PledgeRecord pledgeRecord=pledgeDao.getPledge(id);
+        if(pledgeRecord.getOperationData()!=null)
+            pledgeRecord.setOperationData(DateUtil.parseTime(pledgeRecord.getOperationData()));
+        if(pledgeRecord.getLoanTerm()!=null)
+            pledgeRecord.setLoanTerm(DateUtil.parseTime(pledgeRecord.getLoanTerm()));
+        return pledgeRecord;
     }
     /**
      * @Author:周文峰

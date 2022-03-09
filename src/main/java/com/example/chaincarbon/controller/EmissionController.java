@@ -40,6 +40,7 @@ public class EmissionController {
     @Autowired
     BalanceService balanceService;
 
+
     /**
      * @Author: xpc2000
      * @Date: 2022/2/26
@@ -104,7 +105,10 @@ public class EmissionController {
             if(controlCore==null|| !Objects.equals(controlCore.getPledgeSigning(), actionVo.getActionPassword()))
                 return new Result(ResponseCode.InsufficientPermissions);
             //修改发行方所在供应链碳信余额
-            if(actionVo.getComment()&&!balanceService.pledgeAfterSign(controlCore.getControlChain(),ticketNum))
+            controlCore.setNumberCarbonEmission(controlCore.getNumberCarbonEmission()+ticketNum);
+            if(actionVo.getComment()
+                    &&!balanceService.pledgeAfterSign(controlCore.getControlChain(),ticketNum)
+                    && !userService.updateControlCoreEmission(controlCore))
                 return new Result(ResponseCode.DataBaseError);
         }
         else if(Objects.equals(actionVo.getAccountType(), AccountType.ControlSub.getCode())){
@@ -112,7 +116,10 @@ public class EmissionController {
             if(controlSub==null|| !Objects.equals(controlSub.getPledgeSigning(), actionVo.getActionPassword()))
                 return new Result(ResponseCode.InsufficientPermissions);
             //修改发行方所在供应链碳信余额
-            if(actionVo.getComment()&&!balanceService.pledgeAfterSign(controlSub.getControlChain(),ticketNum))
+            controlSub.setNumberCarbonEmission(controlSub.getNumberCarbonEmission()+ticketNum);
+            if(actionVo.getComment()
+                    &&!balanceService.pledgeAfterSign(controlSub.getControlChain(),ticketNum)
+                    &&!userService.updateControlSubEmission(controlSub))
                 return new Result(ResponseCode.DataBaseError);
         }
         Boolean dbResult=emissionService.examine(actionVo.getComment(),actionVo.getID());

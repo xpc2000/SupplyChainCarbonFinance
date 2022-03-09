@@ -80,4 +80,26 @@ public class UserService {
     public ReduceSub getRSAccount(String name){
         return reduceSubDao.getReduceSub(name);
     }
+
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/09
+     * @Param: ControlCore controlCore
+     * @Return: boolean
+     * @Description: 碳质押成功后控排链核心企业修改质押碳配额数量
+     */
+    public boolean updateControlCoreEmission(ControlCore controlCore){
+        return controlCoreDao.updateControlCore(controlCore)!=-1;
+    }
+
+    /**
+     * @Author: xpc2000
+     * @Date: 2022/03/09
+     * @Param: ControlSub controlSub
+     * @Return: boolean
+     * @Description: 碳质押成功后控排链链属企业修改碳配额数量
+     */
+    public boolean updateControlSubEmission(ControlSub controlSub){
+        return controlSubDao.updateControlSub(controlSub)!=-1;
+    }
 }

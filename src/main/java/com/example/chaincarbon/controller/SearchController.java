@@ -88,7 +88,7 @@ public class SearchController {
      * @Description:获取碳质押记录
      */
     @RestController
-    @RequestMapping(value = "/pledgeSearch")
+    @RequestMapping(value = "/pledgeSerach")
     class SearchPledge{
         /**
          * @Author:周文峰

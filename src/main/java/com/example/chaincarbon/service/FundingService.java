@@ -3,6 +3,7 @@ package com.example.chaincarbon.service;
 import com.example.chaincarbon.dao.FactorDao;
 import com.example.chaincarbon.model.pojo.FactorRecord;
 import com.example.chaincarbon.model.vo.*;
+import com.example.chaincarbon.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -108,7 +109,12 @@ public class FundingService {
      * @Description: 获取特定保理记录
      */
     public FactorRecord getFactorRecord(Integer id){
-        return factorDao.getFactor(id);
+        FactorRecord factorRecord=factorDao.getFactor(id);
+        if(factorRecord.getOperationTime()!=null)
+            factorRecord.setOperationTime(DateUtil.parseTime(factorRecord.getOperationTime()));
+        if(factorRecord.getFinancingTerm()!=null)
+            factorRecord.setFinancingTerm(DateUtil.parseTime(factorRecord.getFinancingTerm()));
+        return factorRecord;
     }
     /**
      * @Author:周文峰
@@ -124,7 +130,8 @@ public class FundingService {
             factorForInstitutionVo.setAmount(item.getAmountCarbonTicket());
             factorForInstitutionVo.setStatus(item.getStatus());
             factorForInstitutionVo.setId(item.getId());
-            factorForInstitutionVo.setTime(item.getOperationTime());
+            if (item.getOperationTime()!=null)
+                factorForInstitutionVo.setTime(DateUtil.parseTime(item.getOperationTime()));
             factorForInstitutionVo.setCompany(item.getCompany());
             out.add(factorForInstitutionVo);
         }
@@ -144,7 +151,8 @@ public class FundingService {
             factorForCompanyVo.setAmount(item.getAmountCarbonTicket());
             factorForCompanyVo.setId(item.getId());
             factorForCompanyVo.setInstitution(item.getFactoringCompany());
-            factorForCompanyVo.setTime(item.getOperationTime());
+            if (item.getOperationTime()!=null)
+                factorForCompanyVo.setTime(DateUtil.parseTime(item.getOperationTime()));
             factorForCompanyVo.setStatus(item.getStatus());
             out.add(factorForCompanyVo);
         }
