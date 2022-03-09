@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.chaincarbon.mapper.ControlSubMapper">
+  <resultMap id="BaseResultMap" type="com.example.chaincarbon.model.pojo.ControlSub">
+    <id column="name" jdbcType="VARCHAR" property="name" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="login" jdbcType="VARCHAR" property="login" />
+    <result column="pledge_application" jdbcType="VARCHAR" property="pledgeApplication" />
+    <result column="pledge_signing" jdbcType="VARCHAR" property="pledgeSigning" />
+    <result column="carbon_ticket_issue" jdbcType="VARCHAR" property="carbonTicketIssue" />
+    <result column="carbon_ticket_repurchase" jdbcType="VARCHAR" property="carbonTicketRepurchase" />
+    <result column="control_chain" jdbcType="VARCHAR" property="controlChain" />
+    <result column="number_carbon_emission" jdbcType="INTEGER" property="numberCarbonEmission" />
+    <result column="catbon_ticket" jdbcType="INTEGER" property="catbonTicket" />
+    <result column="unissued_carbon_ticket" jdbcType="INTEGER" property="unissuedCarbonTicket" />
+    <result column="repurchased_carbon_ticket" jdbcType="INTEGER" property="repurchasedCarbonTicket" />
+    <result column="blockchain_wallet_key" jdbcType="VARCHAR" property="blockchainWalletKey" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    name, email, login, pledge_application, pledge_signing, carbon_ticket_issue, carbon_ticket_repurchase, 
+    control_chain, number_carbon_emission, catbon_ticket, unissued_carbon_ticket, repurchased_carbon_ticket, 
+    blockchain_wallet_key
+  </sql>
+  <select id="selectByExample" parameterType="com.example.chaincarbon.model.pojo.ControlSubExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from control_affiliated_company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from control_affiliated_company
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from control_affiliated_company
+    where name = #{name,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.example.chaincarbon.model.pojo.ControlSub">
+    insert into control_affiliated_company (name, email, login, 
+      pledge_application, pledge_signing, carbon_ticket_issue, 
+      carbon_ticket_repurchase, control_chain, number_carbon_emission, 
+      catbon_ticket, unissued_carbon_ticket, repurchased_carbon_ticket, 
+      blockchain_wallet_key)
+    values (#{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{login,jdbcType=VARCHAR}, 
+      #{pledgeApplication,jdbcType=VARCHAR}, #{pledgeSigning,jdbcType=VARCHAR}, #{carbonTicketIssue,jdbcType=VARCHAR}, 
+      #{carbonTicketRepurchase,jdbcType=VARCHAR}, #{controlChain,jdbcType=VARCHAR}, #{numberCarbonEmission,jdbcType=INTEGER}, 
+      #{catbonTicket,jdbcType=INTEGER}, #{unissuedCarbonTicket,jdbcType=INTEGER}, #{repurchasedCarbonTicket,jdbcType=INTEGER}, 
+      #{blockchainWalletKey,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.chaincarbon.model.pojo.ControlSub">
+    insert into control_affiliated_company
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="login != null">
+        login,
+      </if>
+      <if test="pledgeApplication != null">
+        pledge_application,
+      </if>
+      <if test="pledgeSigning != null">
+        pledge_signing,
+      </if>
+      <if test="carbonTicketIssue != null">
+        carbon_ticket_issue,
+      </if>
+      <if test="carbonTicketRepurchase != null">
+        carbon_ticket_repurchase,
+      </if>
+      <if test="controlChain != null">
+        control_chain,
+      </if>
+      <if test="numberCarbonEmission != null">
+        number_carbon_emission,
+      </if>
+      <if test="catbonTicket != null">
+        catbon_ticket,
+      </if>
+      <if test="unissuedCarbonTicket != null">
+        unissued_carbon_ticket,
+      </if>
+      <if test="repurchasedCarbonTicket != null">
+        repurchased_carbon_ticket,
+      </if>
+      <if test="blockchainWalletKey != null">
+        blockchain_wallet_key,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="login != null">
+        #{login,jdbcType=VARCHAR},
+      </if>
+      <if test="pledgeApplication != null">
+        #{pledgeApplication,jdbcType=VARCHAR},
+      </if>
+      <if test="pledgeSigning != null">
+        #{pledgeSigning,jdbcType=VARCHAR},
+      </if>
+      <if test="carbonTicketIssue != null">
+        #{carbonTicketIssue,jdbcType=VARCHAR},
+      </if>
+      <if test="carbonTicketRepurchase != null">
+        #{carbonTicketRepurchase,jdbcType=VARCHAR},
+      </if>
+      <if test="controlChain != null">
+        #{controlChain,jdbcType=VARCHAR},
+      </if>
+      <if test="numberCarbonEmission != null">
+        #{numberCarbonEmission,jdbcType=INTEGER},
+      </if>
+      <if test="catbonTicket != null">
+        #{catbonTicket,jdbcType=INTEGER},
+      </if>
+      <if test="unissuedCarbonTicket != null">
+        #{unissuedCarbonTicket,jdbcType=INTEGER},
+      </if>
+      <if test="repurchasedCarbonTicket != null">
+        #{repurchasedCarbonTicket,jdbcType=INTEGER},
+      </if>
+      <if test="blockchainWalletKey != null">
+        #{blockchainWalletKey,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update control_affiliated_company
+    <set>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.login != null">
+        login = #{record.login,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pledgeApplication != null">
+        pledge_application = #{record.pledgeApplication,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pledgeSigning != null">
+        pledge_signing = #{record.pledgeSigning,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carbonTicketIssue != null">
+        carbon_ticket_issue = #{record.carbonTicketIssue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carbonTicketRepurchase != null">
+        carbon_ticket_repurchase = #{record.carbonTicketRepurchase,jdbcType=VARCHAR},
+      </if>
+      <if test="record.controlChain != null">
+        control_chain = #{record.controlChain,jdbcType=VARCHAR},
+      </if>
+      <if test="record.numberCarbonEmission != null">
+        number_carbon_emission = #{record.numberCarbonEmission,jdbcType=INTEGER},
+      </if>
+      <if test="record.catbonTicket != null">
+        catbon_ticket = #{record.catbonTicket,jdbcType=INTEGER},
+      </if>
+      <if test="record.unissuedCarbonTicket != null">
+        unissued_carbon_ticket = #{record.unissuedCarbonTicket,jdbcType=INTEGER},
+      </if>
+      <if test="record.repurchasedCarbonTicket != null">
+        repurchased_carbon_ticket = #{record.repurchasedCarbonTicket,jdbcType=INTEGER},
+      </if>
+      <if test="record.blockchainWalletKey != null">
+        blockchain_wallet_key = #{record.blockchainWalletKey,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update control_affiliated_company
+    set name = #{record.name,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      login = #{record.login,jdbcType=VARCHAR},
+      pledge_application = #{record.pledgeApplication,jdbcType=VARCHAR},
+      pledge_signing = #{record.pledgeSigning,jdbcType=VARCHAR},
+      carbon_ticket_issue = #{record.carbonTicketIssue,jdbcType=VARCHAR},
+      carbon_ticket_repurchase = #{record.carbonTicketRepurchase,jdbcType=VARCHAR},
+      control_chain = #{record.controlChain,jdbcType=VARCHAR},
+      number_carbon_emission = #{record.numberCarbonEmission,jdbcType=INTEGER},
+      catbon_ticket = #{record.catbonTicket,jdbcType=INTEGER},
+      unissued_carbon_ticket = #{record.unissuedCarbonTicket,jdbcType=INTEGER},
+      repurchased_carbon_ticket = #{record.repurchasedCarbonTicket,jdbcType=INTEGER},
+      blockchain_wallet_key = #{record.blockchainWalletKey,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.chaincarbon.model.pojo.ControlSub">
+    update control_affiliated_company
+    <set>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="login != null">
+        login = #{login,jdbcType=VARCHAR},
+      </if>
+      <if test="pledgeApplication != null">
+        pledge_application = #{pledgeApplication,jdbcType=VARCHAR},
+      </if>
+      <if test="pledgeSigning != null">
+        pledge_signing = #{pledgeSigning,jdbcType=VARCHAR},
+      </if>
+      <if test="carbonTicketIssue != null">
+        carbon_ticket_issue = #{carbonTicketIssue,jdbcType=VARCHAR},
+      </if>
+      <if test="carbonTicketRepurchase != null">
+        carbon_ticket_repurchase = #{carbonTicketRepurchase,jdbcType=VARCHAR},
+      </if>
+      <if test="controlChain != null">
+        control_chain = #{controlChain,jdbcType=VARCHAR},
+      </if>
+      <if test="numberCarbonEmission != null">
+        number_carbon_emission = #{numberCarbonEmission,jdbcType=INTEGER},
+      </if>
+      <if test="catbonTicket != null">
+        catbon_ticket = #{catbonTicket,jdbcType=INTEGER},
+      </if>
+      <if test="unissuedCarbonTicket != null">
+        unissued_carbon_ticket = #{unissuedCarbonTicket,jdbcType=INTEGER},
+      </if>
+      <if test="repurchasedCarbonTicket != null">
+        repurchased_carbon_ticket = #{repurchasedCarbonTicket,jdbcType=INTEGER},
+      </if>
+      <if test="blockchainWalletKey != null">
+        blockchain_wallet_key = #{blockchainWalletKey,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where name = #{name,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.chaincarbon.model.pojo.ControlSub">
+    update control_affiliated_company
+    set email = #{email,jdbcType=VARCHAR},
+      login = #{login,jdbcType=VARCHAR},
+      pledge_application = #{pledgeApplication,jdbcType=VARCHAR},
+      pledge_signing = #{pledgeSigning,jdbcType=VARCHAR},
+      carbon_ticket_issue = #{carbonTicketIssue,jdbcType=VARCHAR},
+      carbon_ticket_repurchase = #{carbonTicketRepurchase,jdbcType=VARCHAR},
+      control_chain = #{controlChain,jdbcType=VARCHAR},
+      number_carbon_emission = #{numberCarbonEmission,jdbcType=INTEGER},
+      catbon_ticket = #{catbonTicket,jdbcType=INTEGER},
+      unissued_carbon_ticket = #{unissuedCarbonTicket,jdbcType=INTEGER},
+      repurchased_carbon_ticket = #{repurchasedCarbonTicket,jdbcType=INTEGER},
+      blockchain_wallet_key = #{blockchainWalletKey,jdbcType=VARCHAR}
+    where name = #{name,jdbcType=VARCHAR}
+  </update>
+</mapper>
