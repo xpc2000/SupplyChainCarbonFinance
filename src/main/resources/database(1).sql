@@ -35,17 +35,13 @@ CREATE TABLE `carbon_quota_pledge_records`  (
   `operation_data` datetime NULL DEFAULT NULL,
   `control_chain` varchar(255)  NULL DEFAULT NULL,
   `fund_use` varchar(255)  NULL DEFAULT NULL,
-  `status` int NULL DEFAULT NULL COMMENT '0：提交；1：完成审批；2：完成签约',
+  `status` int NULL DEFAULT NULL COMMENT '0：提交；1：完成审批；2：正在签约；3:完成签约；4：失败',
   PRIMARY KEY (`ID`) USING BTREE
 ) AUTO_INCREMENT = 1 ENGINE = InnoDB;
 
 -- ----------------------------
 -- Records of carbon_quota_pledge_records
 -- ----------------------------
-INSERT INTO `carbon_quota_pledge_records` VALUES (1, 10, "quota_owner提交", "光大石材工程有限公司", 9.9, 100, "2022-01-01 23:23:23", 3.3, "2022-02-02 22:22:22", "control_chain", "fund_use", 0);
-INSERT INTO `carbon_quota_pledge_records` VALUES (2, 10, "quota_owner完成审批", "光大石材工程有限公司", 9.9, 100, "2022-01-01 23:23:23", 3.3, "2022-02-02 22:22:22", "control_chain", "fund_use", 1);
-INSERT INTO `carbon_quota_pledge_records` VALUES (3, 10, "quota_owner完成签约", "光大石材工程有限公司", 9.9, 100, "2022-01-01 23:23:23", 3.3, "2022-02-02 22:22:22", "control_chain", "fund_use", 2);
-
 
 -- ----------------------------
 -- Table structure for carbon_ticket_financing_records
