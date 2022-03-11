@@ -129,7 +129,7 @@ public class EmissionService {
         List<PledgeForInstitutionVo> out = new LinkedList<>();
         for(PledgeRecord item:pledgeDao.getInstitutionPledgeRecords(company,state)){
             PledgeForInstitutionVo pledgeForInstitutionVo = new PledgeForInstitutionVo();
-            pledgeForInstitutionVo.setAmount(item.getPledgeAmount());
+            pledgeForInstitutionVo.setAmount(item.getQuotaQuantity());
             pledgeForInstitutionVo.setStatus(item.getStatus());
             pledgeForInstitutionVo.setId(item.getId());
             pledgeForInstitutionVo.setChain(item.getControlChain());
