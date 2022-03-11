@@ -123,14 +123,14 @@ export async function loadCompanySigningFactors(company){
 
 // 获取金融机构待审批的融资记录
 // datatype: 金融机构名称
-export async function loadInstitutePendingFactors(company){
-    return request.get(`/factorSearch/pending?company=${company}`, company)
+export async function loadInstitutePendingFactors(institute){
+    return request.get(`/factorSearch/pending?company=${institute}`, institute)
 }
 
 // 获取金融机构已审批的融资记录
 // datatype: 金融机构名称
-export async function loadInstituteApprovedFactors(params){
-    return request.get(`/factorSearch/approved`, params)
+export async function loadInstituteApprovedFactors(institute){
+    return request.get(`/factorSearch/approved?company=${institute}`, institute)
 }
 
 // UPDATE AND POST
@@ -166,8 +166,8 @@ export async function updateCompanyPledgeSigning(data, ticketNum){
 
 // 减排链企业申请供应链金融服务（本demo中以保理为例）
 // datatype: ApplyFactorVo
-export async function submitCompanyFundApplication(data, ticketNum){
-    return request.put(`/fund/apply`, data, ticketNum);
+export async function submitCompanyFundApplication(data){
+    return request.put(`/fund/apply`, data);
 }
 
 // 金融机构对控排链企业的申请进行合规检查
