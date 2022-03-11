@@ -50,6 +50,7 @@ public class EmissionController {
      */
     @RequestMapping(value = "/apply",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     public Result apply(@RequestBody ApplyPledgeVo applyPledgeVo){
+        System.out.println(applyPledgeVo);
         boolean check=checkService.controlCheck(applyPledgeVo.getAccountName(),applyPledgeVo.getActionPassword(),10,applyPledgeVo.getAccountType());
         if(!check) return new Result(ResponseCode.InsufficientPermissions);
         Boolean dbResult=emissionService.apply(applyPledgeVo);

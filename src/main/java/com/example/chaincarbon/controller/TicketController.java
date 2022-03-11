@@ -95,7 +95,7 @@ public class TicketController {
      * @Description: 接收发行碳信
      */
     @RequestMapping(value = "/publishCheck",method = RequestMethod.PUT,produces = "application/json;charset=utf-8")
-    public Result publishCheck(@RequestBody ActionVo table,@RequestParam("tickeNum") Integer ticketNum){
+    public Result publishCheck(@RequestBody ActionVo table,@RequestParam("ticketNum") Integer ticketNum){
 //        boolean privilege=checkService.reductionCheck(table.getAccountName(),table.getActionPassword(),3, table.getAccountType());
 //        if(!privilege) return new Result(ResponseCode.InsufficientPermissions);
         ReduceCore reduceCore=userService.getRCAccount(table.getAccountName());
@@ -182,6 +182,7 @@ public class TicketController {
     public Result buyback(@RequestBody TicketVo table){
         ControlCore controlCore;
         ControlSub controlSub;
+        System.out.println(table);
         if(Objects.equals(table.getAccountType(), AccountType.ControlCore.getCode())){
             controlCore= userService.getCCAccount(table.getAccountName());
             if(controlCore==null|| !Objects.equals(controlCore.getCarbonTicketRepurchase(), table.getActionPassword()))

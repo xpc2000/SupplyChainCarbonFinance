@@ -88,7 +88,7 @@ public class SearchController {
      * @Description:获取碳质押记录
      */
     @RestController
-    @RequestMapping(value = "/pledgeSerach")
+    @RequestMapping(value = "/pledgeSearch")
     class SearchPledge{
         /**
          * @Author:周文峰
@@ -108,6 +108,7 @@ public class SearchController {
          */
         @RequestMapping(value = "/submit",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
         public Result getSubmitPledge(@RequestParam String chain, @RequestParam String company){
+            System.out.printf(chain, company);
             return new Result(ResponseCode.OK, emissionService.getCompanyPledgeRecords(chain,company,0));
         }
 //        /**

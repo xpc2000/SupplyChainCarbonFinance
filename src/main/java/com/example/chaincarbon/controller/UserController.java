@@ -71,7 +71,7 @@ public class UserController {
                 controlVo.setName(controlCore.getName());
                 controlVo.setChain(controlCore.getControlChain());
                 controlVo.setCarbonLimit(controlCore.getCarbontTicket());
-                controlVo.setEmisssionPledged(controlCore.getNumberCarbonEmission());
+                controlVo.setEmissionPledged(controlCore.getNumberCarbonEmission());
                 controlVo.setTicketUnissued(controlCore.getUnissuedCarbonTicket());
                 controlVo.setTicketBuyback(controlCore.getRepurchasedCarbonTicket());
                 result.setData(controlVo);
@@ -88,7 +88,7 @@ public class UserController {
                 controlVo.setName(controlSub.getName());
                 controlVo.setChain(controlSub.getControlChain());
                 controlVo.setCarbonLimit(controlSub.getCatbonTicket());
-                controlVo.setEmisssionPledged(controlSub.getNumberCarbonEmission());
+                controlVo.setEmissionPledged(controlSub.getNumberCarbonEmission());
                 controlVo.setTicketUnissued(controlSub.getUnissuedCarbonTicket());
                 controlVo.setTicketBuyback(controlSub.getRepurchasedCarbonTicket());
                 result.setData(controlVo);

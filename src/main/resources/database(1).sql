@@ -117,7 +117,7 @@ CREATE TABLE `control_affiliated_company`  (
 -- Records of control_affiliated_company
 -- ----------------------------
 INSERT INTO `control_affiliated_company` VALUES ('创浦机械有限公司', 'abcdwacaa@163.com', '12345', '12345', '1235', '12345', '12345', '阳光牌大理石瓷砖', 0, 0, 0, 0, 'asdf456');
-INSERT INTO `control_affiliated_company` VALUES ('光大石材工程有限公司', 'qwewcadad@163.com', '23456', '2334df', '45634', '3455', '23453', '阳光牌大理石瓷砖', 0, 0, 0, 0, 'dfgjw4587');
+INSERT INTO `control_affiliated_company` VALUES ('光大石材工程有限公司', 'qwewcadad@163.com', '11111', '11111', '11111', '11111', '11111', '阳光牌大理石瓷砖', 0, 0, 0, 0, 'dfgjw4587');
 
 -- ----------------------------
 -- Table structure for control_chain

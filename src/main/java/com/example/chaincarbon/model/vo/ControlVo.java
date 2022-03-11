@@ -9,5 +9,5 @@ public class ControlVo {
     Integer carbonLimit;
     Integer TicketUnissued;
     Integer TicketBuyback;
-    Integer EmisssionPledged;
+    Integer EmissionPledged;
 }
