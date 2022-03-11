@@ -4,7 +4,8 @@
 
     <div class="sub-content-tabs">
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="全部" name="first">
+        <!-- <el-tab-pane label="全部" name="first"> </el-tab-pane> -->
+        <el-tab-pane label="待签收" name="first">
           <template>
             <div>
               <list-table :data="pendingData" :columns="column">
@@ -24,8 +25,27 @@
             <button class="button-style" @click="sendRow()">查看</button>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="待签收" name="second"> 待签收</el-tab-pane>
-        <el-tab-pane label="已签收" name="third">已签收</el-tab-pane>
+        <el-tab-pane label="已签收" name="second">
+          <template>
+            <div>
+              <list-table :data="submittedData" :columns="column">
+                <!-- 插槽1：状态 -->
+                <template #status="{ row, $index }">
+                  <el-tag class="approved">已签收</el-tag>
+                  <!-- <el-tag v-if="row.approved" class="approved">已签收</el-tag> -->
+                  <!-- <el-tag v-else class="not-approved">待签收</el-tag> -->
+                </template>
+
+                <template #option="{ row, $index }">
+                  <el-checkbox name="type" @change="getrows(row)"></el-checkbox>
+                </template>
+              </list-table>
+            </div>
+          </template>
+          <div class="sub-content-import-export">
+            <button class="button-style" @click="sendRow()">查看</button>
+          </div>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -33,7 +53,11 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import ListTable from "@/components/ListTable";
-import { loadCompanyPendingTicket } from "@/utils/api.js";
+import {
+  loadCompanyPendingTicket,
+  loadCompanySignedTicket,
+} from "@/utils/api.js";
+
 export default {
   data() {
     return {
@@ -52,7 +76,7 @@ export default {
         },
         {
           prop: "sender",
-          label: "任务列表",
+          label: "转让方/发行方",
           width: "",
         },
         {
@@ -92,6 +116,7 @@ export default {
 
       // ========================新增代码===========================
       pendingData: [],
+      submittedData: [],
       selectedID: "",
       company: localStorage.getItem("name"),
       chain: localStorage.getItem("chain"),
@@ -103,12 +128,21 @@ export default {
     // console.log(await loadCompanySubmittedPledge(this.chain, this.company))
     // const {data:submitted} = await loadCompanySubmittedPledge(this.chain, this.company)
     // this.submittedData = submitted.data
+
+    // 待签收
     const { data: pending } = await loadCompanyPendingTicket(
       this.chain,
       this.company
     );
     this.pendingData = pending.data;
-    console.log(this.pendingData);
+
+    // 已签收
+    const { data: submittedData } = await loadCompanySignedTicket(
+      this.chain,
+      this.company
+    );
+    this.submittedData = submittedData.data;
+    console.log(this.submittedData);
   },
 
   methods: {
@@ -119,13 +153,12 @@ export default {
       console.log(this.selectedID);
     },
 
-    // ========================新增代码===========================
+    // ========================这里有问题===========================
     // 发送ID
     sendRow() {
       this.$router.push({
         path: `/jianpaiMainEnterprise/taskManagement/receivingDetails/${this.selectedID}`,
       });
-      //console.log(this.row.task);
     },
     handleClick(tab, event) {
       //console.log(tab, event);

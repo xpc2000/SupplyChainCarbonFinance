@@ -207,15 +207,18 @@ export default {
         comment: "",
       },
       receivedID: -999,
+      receivedDetail: {},
     };
   },
 
   // ==========================新增代码========================================
   async mounted() {
     this.receivedID = parseInt(this.$route.params.id);
+
     const { data: res } = await this.$http.get(
       "/ticketSearch/" + this.receivedID
     );
+
     this.receivedDetail = res.data;
     this.action.id = 13;
     if (this.radio == "1") {
