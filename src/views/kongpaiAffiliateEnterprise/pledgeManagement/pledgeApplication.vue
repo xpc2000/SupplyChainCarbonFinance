@@ -18,12 +18,11 @@
               <el-form-item label="配额所有者" prop="userEmail">
                 {{ this.company }}
               </el-form-item>
-               <el-form-item label="操作日期" prop="date">
-                <el-date-picker
-                  placeholder="操作日期"
-                  type="datetime"
-                  
-                ></el-date-picker>
+               <el-form-item label="金融机构" prop="companyOfferFund">
+                <el-input
+                  placeholder="金融机构"
+                  v-model="formLabelAlign.companyOfferFund"
+                ></el-input>
               </el-form-item>
               
             </el-form>
@@ -37,7 +36,7 @@
             <el-form-item label="所属控排链" prop="chain">
                 {{ this.chain }}
               </el-form-item>
-              <el-form-item label="配额量" prop="usage">
+              <el-form-item label="配额量" prop="pledgeNum">
                 <el-input
                   placeholder="￥￥￥￥￥"
                   v-model="formLabelAlign.pledgeNum"
@@ -131,10 +130,10 @@ export default {
         accountType: localStorage.getItem("accountType"),
         actionPassword: "",
         chain: localStorage.getItem("chain"),
-        companyNeedFund: "",
+        companyNeedFund: localStorage.getItem("name"),
         companyOfferFund: "",
         pledgeNum: 0,
-        usage: ""
+        usage: "usage"
       },
       ruleForm: {
         pass: "",
@@ -147,7 +146,7 @@ export default {
   methods: {
     submitForm(formLabelAlign){
           this.$refs.formLabelAlign.validate(async valid  => {
-          if (valid) {//操作密码正确
+          if (valid) {//操作正确
             const {data:res} = await this.$http.post("/pledge/apply", formLabelAlign)
             console.log(res)
             if (res.conde != 0){

@@ -102,8 +102,8 @@ export default {
     };
     return {
       headerTitle: {
-        largeTitle: "任务管理",
-        smallTitle: "质押签订",
+        largeTitle: "融资管理",
+        smallTitle: "保理买入",
       },
       edit: false,
       text: [

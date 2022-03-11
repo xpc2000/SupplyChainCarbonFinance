@@ -15,23 +15,16 @@
               label-width="80px"
               :model="formLabelAlign"
             >
-              <el-form-item label="发行方所属控排链">
-                <el-input
-                  placeholder="某控排链"
-                  v-model="formLabelAlign.kongpai"
-                ></el-input>
-              </el-form-item>
               <el-form-item label="发行方全称">
-                <el-input
-                  placeholder="某控排链企业"
-                  v-model="formLabelAlign.sendername"
-                ></el-input>
+                {{formLabelAlign.sender}}
               </el-form-item>
               <el-form-item label="碳信余额">
+                {{avaliableCredit}}
+              </el-form-item>
+              <el-form-item label="资金用途说明">
                 <el-input
-                  :disabled="true"
-                  placeholder="￥￥￥￥￥"
-                  v-model="formLabelAlign.carbonCreditBalance"
+                  placeholder="资金用途详情"
+                  v-model="formLabelAlign.usage"
                 ></el-input>
               </el-form-item>
             </el-form>
@@ -42,25 +35,28 @@
               label-width="80px"
               :model="formLabelAlign"
             >
+            <!-- TODO -->
+            <el-form-item label="发行方所属控排链">
+              <el-input
+                  :disabled="true"
+                  placeholder=""
+                  v-model="formLabelAlign.senderChain"
+                ></el-input>
+            </el-form-item>
+            <el-form-item label="碳信交易数额">
+              <el-input
+                placeholder="￥￥￥￥￥"
+                v-model="formLabelAlign.num"
+                type="number"
+              ></el-input>
+            </el-form-item>
               <el-form-item label="碳信发行日期">
                 <el-date-picker
-                  v-model="formLabelAlign.launchedDate"
+                  v-model="formLabelAlign.repoDate"
                   type="datetime"
                   placeholder="选择日期"
                 >
                 </el-date-picker>
-              </el-form-item>
-              <el-form-item label="碳信交易数额">
-                <el-input
-                  placeholder="￥￥￥￥￥"
-                  v-model="formLabelAlign.tradeAmount"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="资金用途说明">
-                <el-input
-                  placeholder="资金用途详情"
-                  v-model="formLabelAlign.tradingDescription"
-                ></el-input>
               </el-form-item>
             </el-form>
           </el-col>
@@ -82,7 +78,7 @@
               <el-form-item label="签收方全称">
                 <el-input
                   placeholder="某减排链企业"
-                  v-model="formLabelAlign.receivername"
+                  v-model="formLabelAlign.receiver"
                 ></el-input>
               </el-form-item>
             </el-form>
@@ -96,7 +92,7 @@
               <el-form-item label="签收方所属减排链">
                 <el-input
                   placeholder="某减排链"
-                  v-model="formLabelAlign.jianpai"
+                  v-model="formLabelAlign.receiverChain"
                 ></el-input>
               </el-form-item>
             </el-form>
@@ -113,24 +109,24 @@
       <!-- 提交弹出操作密码面板 -->
       <el-dialog title="操作密码" :visible.sync="dialogVisible" width="30%">
         <el-form
-          :model="ruleForm"
+          :model="formLabelAlign"
           status-icon
           :rules="rules"
-          ref="ruleForm"
+          ref="formLabelAlign"
           label-width="100px"
-          class="demo-ruleForm"
+          class="demo-formLabelAlign"
         >
-          <el-form-item label="密码" prop="pass">
+          <el-form-item label="密码" prop="actionPassword">
             <el-input
               type="password"
-              v-model="ruleForm.pass"
+              v-model="formLabelAlign.actionPassword"
               autocomplete="off"
             ></el-input>
           </el-form-item>
           <el-form-item>
             <el-button
               type="primary"
-              @click="submitForm('ruleForm', formLabelAlign)"
+              @click="submitForm(formLabelAlign)"
             >
               提交
             </el-button>
@@ -143,21 +139,24 @@
 </template>
 <script>
 import headerTitle from "@/components/headerTitle.vue";
+import {ticketPublish} from "@/utils/api.js"
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
+        if (this.formLabelAlign.checkPass !== "") {
+          this.$refs.formLabelAlign.validateField("checkPass");
         }
         callback();
       }
     };
     return {
+      avaliableCredit:localStorage.getItem("carbonLimit"),
+      pledgeID:0,
       headerTitle: {
-        largeTitle: "碳信管理  ",
+        largeTitle: "碳信管理 ",
         smallTitle: "碳信发行 ",
       },
       active: 1,
@@ -166,45 +165,49 @@ export default {
       labelPositionTabs: "right",
       labelPositionForm: "top",
       formLabelAlign: {
-        kongpai: "",
-        sendername: "",
-        tradeAmount: "",
-        launchedDate: "",
-        carbonCreditBalance: "",
-        tradingDescription: "",
-        receivername: "",
-        jianpai: "",
-      },
-      ruleForm: {
-        pass: "",
+        accountName:localStorage.getItem("name"),
+        accountType:parseInt(localStorage.getItem("accountType")),
+        actionPassword:"",
+        senderChain:localStorage.getItem("chain"),
+        sender:localStorage.getItem("name"),
+        receiverChain:"",
+        receiver:"",
+        num:0,
+        usage:"",
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
+        actionPassword: [{ validator: validatePass, trigger: "blur" }],
       },
     };
   },
-  methods: {
-    submitForm(formName, formLabelAlign) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          //操作密码正确
-          this.dialogVisible = false;
 
+  methods: {
+    submitForm(formLabelAlign) {
+      this.$refs.formLabelAlign.validate(async valid => {
+        if (valid) {
+          //操作正确
+          console.log(formLabelAlign)
+          this.dialogVisible = false;
           this.$confirm("确认发行碳信？")
             .then((_) => {
-              this.$message({
-                message: "碳信已发行",
-                type: "success",
-              });
+              ticketPublish(formLabelAlign).then((data)=>{
+                console.log(data.data.conde)
+                if (data.data.conde != 0){
+                  this.dialogVisible = false;
+                  this.$message({
+                  message: "密码不正确",
+                  type: "warning",
+                  });
+                }
+                else{
+                  this.$message({
+                  message: "碳信已发行",
+                  type: "success",
+                  });
+                }
+              })
             })
-            .catch((_) => {});
-        } else {
-          //操作密码不正确
-          this.$message({
-            message: "密码不正确",
-            type: "warning",
-          });
-        }
+        } 
       });
     },
   },

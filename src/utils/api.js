@@ -1,10 +1,6 @@
 import  request from './request.js'
 import { postJson, putJson, getJson } from "./helper";
 
-//登录
-
-// export const loginVerification = (data) => request.post('/user/login', data);
-
 // //查询用户信息
 // export const getMessage = (params) => request.get('/getMessage', params );
 // //删除用户信息
@@ -17,12 +13,14 @@ export async function loginVerification(data){
 }
 
 // 创建碳信
-// export async function ticketCreate(params){
-//     postJson('/ticket/create', params)
-// }
+export async function ticketCreate(params){
+    return request.post('/ticket/create', params)
+}
 
 // 发行碳信
-// export const ticketPublish = (params) => request.post('/ticket/publish', params);
+export async function ticketPublish(params){
+    return request.post('/ticket/publish', params)
+}
 
 // 接收发行碳信
 // export const ticketPublishCheck = (params) => request.put('/ticket/publishCheck', params);
@@ -34,10 +32,14 @@ export async function loginVerification(data){
 // export const ticketTransferCheck = (params) => request.put('/ticket/transferCheck', params);
 
 // 回购碳信
-// export const ticketRepurchase = (params) => request.post('/ticket/buyback', params);
+export async function ticketRepurchase(params){
+    return request.post(`/ticket/buyback`, params)
+}
 
 // 碳信销毁
-// export const ticketDestroy = (params) => request.post('/ticket/destroy', params);
+export async function ticketDestroy(params){
+    return request.post(`/ticket/destroy`, params)
+}
 
 // 所有GET METHOD
 // 获取特定碳信记录 tobefinished
@@ -54,24 +56,28 @@ export async function loginVerification(data){
 
 // 获取特定碳质押记录 tobefinished
 export async function loadSinglePledgeRow(id){
-    getJson(`/pledgeSerach/${id}`)
+    return request.get(`/pledgeSearch/${id}`)
 }
-// export const loadSinglePledgeRow = (params) => request.get('/pledgeSerach', params);
+// export const loadSinglePledgeRow = (params) => request.get('/pledgeSearch', params);
 
 // 获取企业已经提交的碳质押记录
-// export const loadCompanySubmittedPledge = (params) => request.get('/pledgeSerach/submit', params);
+export async function loadCompanySubmittedPledge(chain, company){
+    return request.get(`/pledgeSearch/submit?chain=${chain}&company=${company}`, chain, company)
+}
 
 // 获取企业可以签约的碳质押记录
-// export const loadCompanySigningPledge = (params) => request.get('/pledgeSerach/signing-company', params);
+export async function loadCompanySigningPledge(chain, company){
+    return request.get(`/pledgeSearch/signing-company?chain=${chain}&company=${company}`, chain, company)
+}
 
 // 获取金融机构待审批的碳质押记录
-export async function loadInstitutionPendingPledge(company){
-    return request.get('/pledgeSearch/pending', company)
+export async function loadInstitutionPendingPledge(institution){
+    return request.get(`/pledgeSearch/pending?company=${institution}`, institution)
 }
 
 // 获取金融机构需要签约的碳质押记录
-export async function loadInstitutionSigningPledge(){
-    getJson('/pledgeSerach/signing-institution')
+export async function loadInstitutionSigningPledge(institution){
+    return request.get(`/pledgeSearch/signing-institution?company=${institution}`,institution)
 }
 
 // 获取特定融资记录 tobefinished
@@ -99,12 +105,18 @@ export async function submitCompanyPledgeApplication(data){
 }
 
 // 金融机构审核碳质押申请
-// export const updateInstitutionPledgeExamination = (params) => request.put('/pledge/examine', params);
+//ticketVo 
+export async function updateInstitutionPledgeExamination(data){
+    return request.put('/pledge/examine', data);
+}
 
 // 金融机构草拟质押条件并签署合约
 // export const updateInstitutionPledgeSigning = (params) => request.put('/pledge/financeSign', params);
 
 // 控排链企业决定是否答应金融机构的贷款条件
+export async function updateCompanyPledgeSigning(data, ticketNum){
+    return request.put(`/pledge/companySign?ticketNum=${ticketNum}`, data, ticketNum);
+}
 // export const updateCompanyPledgeSigning = (params) => request.put('/pledge/companySign', params);
 
 // 减排链企业申请供应链金融服务（本demo中以保理为例）

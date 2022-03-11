@@ -6,7 +6,7 @@
         <el-tab-pane label="质押待审批" name='first'>
           <template>
             <div>
-              <list-table :data="pendingTableData" :columns="column">
+              <list-table :data="pendingData" :columns="column">
                 <!-- 插槽1：状态 -->
                 <template #status="{ row, $index }">
                   <el-tag v-if="row.approved" class="approved">已审核</el-tag>
@@ -25,7 +25,7 @@
         <el-tab-pane label="质押已审批">
           <template>
             <div>
-              <list-table :data="signingTableData" :columns="column">
+              <list-table :data="signingData" :columns="column">
                 <!-- 插槽1：状态 -->
                 <template #status="{ row, $index }">
                   <el-tag v-if="row.approved" class="approved">已审核</el-tag>
@@ -51,6 +51,7 @@ import { loadInstitutionPendingPledge, loadInstitutionSigningPledge, loadSingleP
 export default {
   data() {
     return {
+      institution:localStorage.getItem("name"),
       ID: [],
       row: {},
       headerTitle: {
@@ -67,7 +68,7 @@ export default {
         },
 
         {
-          prop: "name",
+          prop: "owner",
           label: "配额所有者",
           width: "",
         },
@@ -103,16 +104,17 @@ export default {
         //   approved: false,
         // },
       ],
-      signingTableData:[],
-      allTableData:[],
+      pendingData:[],
+      signingData:[],
     };
   },
-  mounted() {
-    console.log(localStorage)
-    const {data:res} = loadInstitutionPendingPledge()
-      .catch(error => {
-    console.log(error.response)});
-    this.pendingTableData = res;
+  async mounted() {
+    console.log(this.institution)
+    const {data:submitted} = await loadInstitutionPendingPledge(this.institution)
+    console.log(submitted.data)
+    this.pendingData = submitted.data
+    const {data:pending} = await loadInstitutionSigningPledge(this.institution)
+    this.signingData = pending.data
   },
   methods: {
     handleClick(tab, event) {
@@ -129,14 +131,14 @@ export default {
     sendRow() {
       if(this.row.approved == false){
         // //console.log(this.row.id)
-        this.$router.push({
-          name: "PledgeApprovalDetail",
-          params:{id: this.row.id}
-        });
+        // this.$router.push({
+        //   name: "PledgeApprovalDetail",
+        //   params:{id: this.row.id}
+        // });
       }
       else if(this.row.approved == true){
         this.$router.push({
-          path: "/financeInstitute/taskManagement/PledgeSigning/id" + this.row.id,
+          path: `/financeInstitute/taskManagement/PledgeSigning/${this.selectedID}`,
           // name:'signPage',
         });
       }

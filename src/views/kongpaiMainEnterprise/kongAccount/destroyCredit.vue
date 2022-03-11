@@ -14,22 +14,18 @@
             :model="formLabelAlign"
           >
             <el-form-item label="销毁方所属控排链">
-              <el-input
-                placeholder="控排链"
-                v-model="formLabelAlign.kongpai"
-              ></el-input>
+              {{formLabelAlign.senderChain}}
             </el-form-item>
-            <el-form-item label="销毁方">
-              <el-input
-                placeholder="控排链统一碳信账户"
-                v-model="formLabelAlign.destroyerName"
-              ></el-input>
+            <el-form-item label="款项额度">
+              {{avaliableCredit}}
             </el-form-item>
-            <el-form-item label="款项余额">
-              <el-input
-                placeholder="￥100,000.00"
-                v-model="formLabelAlign.moneyBalance"
-              ></el-input>
+            <el-form-item label="碳信销毁日期">
+              <el-date-picker
+                v-model="formLabelAlign.destroyedDate"
+                type="datetime"
+                placeholder="选择日期"
+              >
+              </el-date-picker>
             </el-form-item>
           </el-form>
         </el-col>
@@ -39,20 +35,13 @@
             label-width="80px"
             :model="formLabelAlign"
           >
-            <el-form-item label="碳信销毁日期">
-              <el-date-picker
-                v-model="formLabelAlign.destroyedDate"
-                type="datetime"
-                placeholder="选择日期"
-              >
-              </el-date-picker>
-            </el-form-item>
+          <el-form-item label="销毁方">
+            {{formLabelAlign.sender}}
+          </el-form-item>
             <el-form-item label="碳信额度">
-              <el-input
-                placeholder="￥100,000.00"
-                v-model="formLabelAlign.carbonCreditBalance"
-              ></el-input>
+              {{avaliableCredit}}
             </el-form-item>
+            
           </el-form>
         </el-col>
       </el-row>
@@ -81,22 +70,22 @@
       <!-- 提交弹出操作密码面板 -->
       <el-dialog title="操作密码" :visible.sync="dialogVisible" width="30%">
         <el-form
-          :model="ruleForm"
+          :model="formLabelAlign"
           status-icon
           :rules="rules"
-          ref="ruleForm"
+          ref="formLabelAlign"
           label-width="100px"
-          class="demo-ruleForm"
+          class="demo-formLabelAlign"
         >
-          <el-form-item label="密码" prop="pass">
+          <el-form-item label="密码" prop="actionPassword">
             <el-input
               type="password"
-              v-model="ruleForm.pass"
+              v-model="formLabelAlign.actionPassword"
               autocomplete="off"
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm', tableData)"
+            <el-button type="primary" @click="submitForm(formLabelAlign)"
               >提交</el-button
             >
           </el-form-item>
@@ -108,38 +97,40 @@
 </template>
 <script>
 import headerTitle from "@/components/headerTitle.vue";
+import {ticketDestroy} from "@/utils/api.js"
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
+        if (this.formLabelAlign.checkPass !== "") {
+          this.$refs.formLabelAlign.validateField("checkPass");
         }
         callback();
       }
     };
     return {
+      avaliableCredit:localStorage.getItem("carbonLimit"),
       headerTitle: {
         largeTitle: "碳控排链信账户",
         smallTitle: "碳信销毁",
       },
       labelPosition: "top",
       dialogVisible: false,
-      ruleForm: {
-        pass: "",
-      },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
+        actionPassword: [{ validator: validatePass, trigger: "blur" }],
       },
       formLabelAlign: {
-        kongpai: "",
-        destroyerName: "",
-        moneyBalance: "",
-        carbonCreditBalance: "",
-        destroyedDate: "",
-        approvalPerson: "",
+        accountName:localStorage.getItem("name"),
+        accountType:parseInt(localStorage.getItem("accountType")),
+        actionPassword:"",
+        senderChain:localStorage.getItem("chain"),
+        sender:localStorage.getItem("name"),
+        receiverChain:localStorage.getItem("chain"),
+        receiver:localStorage.getItem("name"),
+        num:0,
+        usage:"",
       },
 
       column: [
@@ -183,27 +174,31 @@ export default {
     };
   },
   methods: {
-    submitForm(formName, tableData) {
-        this.$refs[formName].validate((valid) => {
+    submitForm(formLabelAlign) {
+        this.$refs.formLabelAlign.validate(async valid => {
         if (valid) {
           //操作密码正确
           this.dialogVisible = false;
-
           this.$confirm("确认销毁碳信？")
-            .then((_) => {
-              this.$message({
-                message: "碳信已销毁",
-                type: "success",
-              });
+          .then((_) => {
+              ticketDestroy(formLabelAlign).then((data)=>{
+                if (data.data.conde != 0){
+                  this.dialogVisible = false;
+                  this.$message({
+                  message: "密码不正确",
+                  type: "warning",
+                  });
+                }
+                else{
+                  this.$message({
+                  message: "碳信已销毁",
+                  type: "success",
+                  });
+                }
+              })
             })
-            .catch((_) => {});
-        } else {
-          //操作密码不正确
-          this.$message({
-            message: "密码不正确",
-            type: "warning",
-          });
-        }
+
+        } 
       });
     },
   },

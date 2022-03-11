@@ -3,15 +3,15 @@
     <header-title :headerTitle="headerTitle"></header-title>
 
     <div class="sub-content-tabs">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="全部" name="first">
+      <el-tabs v-model="activeName">
+        <el-tab-pane label="质押已提交 待审批" name="first">
           <template>
             <div>
-              <list-table :data="tableData" :columns="column">
+              <list-table :data="submittedData" :columns="column">
                 <!-- 插槽1：状态 -->
                 <template #status="{ row, $index }">
-                  <el-tag v-if="row.approved" class="approved">待审核</el-tag>
-                  <el-tag v-else class="not-approved">待签约</el-tag>
+                  <el-tag v-if="row.status" class="approved">待签约</el-tag>
+                  <el-tag v-else class="not-approved">待审核</el-tag>
                 </template>
 
                 <!-- 插槽2：选择 -->
@@ -21,12 +21,30 @@
               </list-table>
             </div>
           </template>
-          <div class="sub-content-import-export">
-            <button @click="sendRow()" class="button-style">查看</button>
-          </div>
         </el-tab-pane>
-        <el-tab-pane label="质押待审批" name="second">质押待审批</el-tab-pane>
-        <el-tab-pane label="质押已审批" name="third">质押已审批</el-tab-pane>
+        
+        <el-tab-pane label="质押已审批 待签约" name="second">
+            <template>
+              <div>
+                <list-table :data="pendingData" :columns="column">
+                  <!-- 插槽1：状态 -->
+                  <template #status="{ row, $index }">
+                    <el-tag v-if="row.status" class="approved">待签约</el-tag>
+                    <el-tag v-else class="not-approved">待审核</el-tag>
+                  </template>
+  
+                  <!-- 插槽2：选择 -->
+                  <template #option="{ row, $index }">
+                    <el-checkbox @change="getrows(row)" name="type"></el-checkbox>
+                  </template>
+                </list-table>
+              </div>
+            </template>
+            <div class="sub-content-import-export">
+              <button @click="sendRow()" class="button-style">查看</button>
+            </div>
+          </el-tab-pane>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -34,11 +52,11 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import ListTable from "@/components/ListTable";
-import {loadInstitutionPendingPledge} from "@/utils/api.js"
+import {loadCompanySigningPledge, loadCompanySubmittedPledge} from "@/utils/api.js"
 export default {
   data() {
     return {
-      ID: [],
+      selectedID: "",
       row: {},
       headerTitle: {
         largeTitle: "碳配额质押申请",
@@ -57,7 +75,7 @@ export default {
         },
 
         {
-          prop: "name",
+          prop: "institution",
           label: "金融机构",
           width: "",
         },
@@ -72,41 +90,29 @@ export default {
           customSlot: "status",
         },
       ],
-      tableData: [
-        {
-          ID: "1",
-          name: "青岛银行",
-          amount: "3695",
-          approved: true,
-        },
-        {
-          ID: "2",
-          name: "青岛银行",
-          amount: "3695",
-          approved: false,
-        },
-      ],
+      submittedData: [],
+      pendingData:[],
     };
   },
   async mounted(){
-    console.log(await this.$http.get("/pledgeSearch/pending?company=" + this.company))
-    // const {param:res} = await loadInstitutionPendingPledge(this.company)
+    // console.log(await loadCompanySubmittedPledge(this.chain, this.company))
+    const {data:submitted} = await loadCompanySubmittedPledge(this.chain, this.company)
+    this.submittedData = submitted.data
+    const {data:pending} = await loadCompanySigningPledge(this.chain, this.company)
+    this.pendingData = pending.data
   },
 
   methods: {
-    handleClick(tab, event) {
-      //console.log(tab, event);
-    },
 
     //获取单行数据
     getrows(row) {
-      this.row = row;
-      //console.log(row.name);
+      this.selectedID = row.id
+      console.log(this.selectedID);
     },
     // 发送ID
     sendRow() {
       this.$router.push({
-        path: "/kongpaiAffiliateEnterprise/pledgeManagement/pledgeSigning",
+        path: `/kongpaiAffiliateEnterprise/pledgeManagement/pledgeSigning/${this.selectedID}`
       });
       //console.log(this.row.name);
     },

@@ -72,7 +72,7 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import editableText from "@/components/editableText.vue";
-import {loadSinglePledgeRow} from "@/utils/api.js";
+import {updateInstitutionPledgeExamination, loadSinglePledgeRow} from "@/utils/api.js";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -86,6 +86,7 @@ export default {
       }
     };
     return {
+      institution:localStorage.getItem("name"),
       id:'',
       details:loadSinglePledgeRow(),
       headerTitle: {
@@ -131,6 +132,11 @@ export default {
       },
     };
   },
+  async mounted(){
+    const {data:res} = this.$http.get(`/pledgeSearch/pending?company=${this.institution}`)
+    console.log(res)
+  },
+
   methods: {
     getId(){
       let currID = this.$route.params.id;
@@ -143,13 +149,12 @@ export default {
       })
     },
 
-
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //操作密码正确
           this.dialogVisible = false;
-          this.$message({
+           this.$message({
             message: "完成签约",
             type: "success",
           });

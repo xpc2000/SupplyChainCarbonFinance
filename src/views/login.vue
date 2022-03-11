@@ -111,10 +111,16 @@ export default {
             } else {
               // //console.log(res);
               localStorage.clear();
+              console.log(res.data)
               localStorage.setItem("userEmail", this.formLogin.userEmail);
               localStorage.setItem("name", res.data.name)
               localStorage.setItem("chain", res.data.chain)
               localStorage.setItem("accountType", this.formLogin.accountType);
+              localStorage.setItem("emissionPledged", res.data.emissionPledged)
+              localStorage.setItem("carbonLimit", res.data.carbonLimit)
+              localStorage.setItem("ticketUnissued", res.data.ticketUnissued)
+              localStorage.setItem("ticketBuyback", res.data.ticketBuyback)
+              console.log(localStorage)
               success(res.data.msg, this);
               this.$router.push({ path: "/index" });
             }

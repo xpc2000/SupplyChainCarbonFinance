@@ -15,18 +15,14 @@
               label-width="80px"
               :model="formLabelAlign"
             >
-              <el-form-item label="配额所有者">
-                <el-input
-                  placeholder="配额所有者"
-                  v-model="formLabelAlign.name"
-                ></el-input>
+              <el-form-item label="配额所有者" prop="userEmail">
+                {{ this.company }}
               </el-form-item>
-               <el-form-item label="操作日期">
-                <el-date-picker
-                  placeholder="操作日期"
-                  type="datetime"
-                  v-model="formLabelAlign.date"
-                ></el-date-picker>
+               <el-form-item label="金融机构" prop="companyOfferFund">
+                <el-input
+                  placeholder="金融机构"
+                  v-model="formLabelAlign.companyOfferFund"
+                ></el-input>
               </el-form-item>
               
             </el-form>
@@ -37,16 +33,14 @@
               label-width="80px"
               :model="formLabelAlign"
             >
-            <el-form-item label="所属控排链">
-                <el-input
-                  placeholder="所属控排链"
-                  v-model="formLabelAlign.controlChain"
-                ></el-input>
+            <el-form-item label="所属控排链" prop="chain">
+                {{ this.chain }}
               </el-form-item>
-              <el-form-item label="配额量">
+              <el-form-item label="配额量" prop="usage">
                 <el-input
                   placeholder="￥￥￥￥￥"
-                  v-model="formLabelAlign.carbonCreditBalance"
+                  v-model="formLabelAlign.pledgeNum"
+                  type="number"
                 ></el-input>
               </el-form-item>
             </el-form>
@@ -78,23 +72,22 @@
       <!-- 提交弹出操作密码面板 -->
       <el-dialog title="操作密码" :visible.sync="dialogVisible" width="30%">
         <el-form
-          :model="ruleForm"
+          :model="formLabelAlign"
           status-icon
           :rules="rules"
-          ref="ruleForm"
+          ref="formLabelAlign"
           label-width="100px"
           class="demo-ruleForm"
         >
-          <el-form-item label="密码" prop="pass">
+          <el-form-item label="密码" prop="actionPassword">
             <el-input
               type="password"
-              v-model="ruleForm.pass"
+              v-model="formLabelAlign.actionPassword"
               autocomplete="off"
             ></el-input>
           </el-form-item>
-          <el-form-item>
-
-              <el-button type="primary" @click="loganything">
+          <el-form-item label="提交" prop="submit">
+              <el-button type="primary" @click="submitForm(formLabelAlign)">
                             提交
                      </el-button>
           </el-form-item>
@@ -105,71 +98,70 @@
   </div>
 </template>
 <script>
-import headerTitle from '@/components/headerTitle.vue'
+import headerTitle from '@/components/headerTitle.vue';
+import {submitCompanyPledgeApplication} from '@/utils/api.js'
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
-      } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
-        }
-        callback();
+      } 
+      else {
+        if (this.formLabelAlign.checkPass !== "") {
+          this.$refs.formLabelAlign.validateField("checkPass");
+      }
+      callback();
       }
     };
     return {
-       headerTitle:{
-          largeTitle:'碳配额质押申请  ',
+      headerTitle:{
+          largeTitle:'碳配额质押申请',
           smallTitle:'质押申请'    
         },
+      company: localStorage.getItem("name"),
+      chain:localStorage.getItem("chain"),
       textarea:"",
       active: 1,
       dialogVisible:false,
       labelPositionTabs: "right",
       labelPositionForm: "top",
       formLabelAlign: {
-        kongpai: "",
-        sendername: "",
-        tradeAmount: "",
-        launchedDate: "",
-        carbonCreditBalance: "",
-        tradingDescription: "",
-        receivername: "",
-        jianpai: "",
+        accountName: localStorage.getItem("name"),
+        accountType: localStorage.getItem("accountType"),
+        actionPassword: "",
+        chain: localStorage.getItem("chain"),
+        companyNeedFund: localStorage.getItem("name"),
+        companyOfferFund: "",
+        pledgeNum: 0,
+        usage: ""
       },
       ruleForm: {
         pass: "",
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
+        actionPassword: [{ trigger: "blur", required: true, message: "请输入密码" }],
       },
     };
   },
   methods: {
-    loganything(){
-      console.log()
-    },
-    submitForm(formName,formLabelAlign){
-            console.log(formLabelAlign)
-
-            this.$refs[formName].validate((valid) => {
-
-            if (valid) {//操作密码正确
-                this.dialogVisible=false
-                 this.$message({
-                    message: '操作成功',
-                    type: 'success'
-                });
-
-
-            } else {//操作密码不正确
-                //console.log('error submit!!');
-                return false;
+    submitForm(formLabelAlign){
+          this.$refs.formLabelAlign.validate(async valid  => {
+          if (valid) {//操作正确
+            const {data:res} = await this.$http.post("/pledge/apply", formLabelAlign)
+            console.log(res)
+            if (res.conde != 0){
+              error(res.data.msg, this);
             }
-            });
-      },
-      
+            else {//操作密码不正确
+              this.dialogVisible=false
+              this.$message({
+                message: '操作成功',
+                type: 'success'
+              });
+            }
+          } 
+      });
+    },
   }, 
   components:{
     headerTitle,
