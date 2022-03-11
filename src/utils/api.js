@@ -61,6 +61,13 @@ export async function loadSinglePledgeRow(id){
     return request.get(`/pledgeSearch/${id}`)
 }
 
+// ==============================新增代码===========================================
+// 获取特定碳信记录
+// datatype: 记录id
+export async function loadCompanyTicketRow(id){
+    return request.get(`/ticketSearch/${id}`)
+}
+
 // 获取企业需要签收的碳信记录
 // datatype: 企业所属减排链chain，企业名称company
 export async function loadCompanyPendingTicket(chain, company){

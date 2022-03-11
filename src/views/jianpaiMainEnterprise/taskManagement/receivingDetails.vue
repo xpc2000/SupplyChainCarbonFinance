@@ -94,6 +94,7 @@
 </template>
 <script>
 import headerTitle from "@/components/headerTitle.vue";
+import { loadCompanyTicketRow } from "@/utils/api.js";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -114,7 +115,7 @@ export default {
         pass: "",
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
+        actionPassword: [{ validator: validatePass, trigger: "blur" }],
       },
       headerTitle: {
         largeTitle: "任务管理",
@@ -197,8 +198,34 @@ export default {
           file: "合同.pdf",
         },
       ],
+
+      action: {
+        accountName: localStorage.getItem("name"),
+        accountType: localStorage.getItem("accountType"),
+        actionPassword: "",
+        id: "",
+        comment: "",
+      },
+      receivedID: -999,
     };
   },
+
+  // ==========================新增代码========================================
+  async mounted() {
+    this.receivedID = parseInt(this.$route.params.id);
+    const { data: res } = await this.$http.get(
+      "/ticketSearch/" + this.receivedID
+    );
+    this.receivedDetail = res.data;
+    this.action.id = 13;
+    if (this.radio == "1") {
+      this.action.comment = true;
+    } else {
+      this.action.comment = false;
+    }
+    console.log(this.receivedDetail);
+  },
+
   methods: {
     next() {
       this.$message({

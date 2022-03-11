@@ -7,7 +7,7 @@
         <el-tab-pane label="全部" name="first">
           <template>
             <div>
-              <list-table :data="tableData" :columns="column">
+              <list-table :data="pendingData" :columns="column">
                 <!-- 插槽1：状态 -->
                 <template #status="{ row, $index }">
                   <el-tag v-if="row.approved" class="approved">已签收</el-tag>
@@ -33,6 +33,7 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import ListTable from "@/components/ListTable";
+import { loadCompanyPendingTicket } from "@/utils/api.js";
 export default {
   data() {
     return {
@@ -50,12 +51,12 @@ export default {
           customSlot: "option",
         },
         {
-          prop: "task",
+          prop: "sender",
           label: "任务列表",
           width: "",
         },
         {
-          prop: "date",
+          prop: "time",
           label: "创建时间",
           width: "",
         },
@@ -71,35 +72,58 @@ export default {
         },
       ],
       tableData: [
-        {
-          ID: "1",
-          task: "请您签收碳信，发行方控排链核心企业向您发行",
-          amount: "3695",
-          date: "2022-03-03 12:00",
-          amount: "3200",
-          approved: false,
-        },
-        {
-          ID: "2",
-          task: "请您签收碳信，转让方减排链核心企业向您转让",
-          amount: "3695",
-          date: "2022-03-03 12:00",
-          amount: "3200",
-          approved: true,
-        },
+        // {
+        //   ID: "1",
+        //   task: "请您签收碳信，发行方控排链核心企业向您发行",
+        //   amount: "3695",
+        //   date: "2022-03-03 12:00",
+        //   amount: "3200",
+        //   approved: false,
+        // },
+        // {
+        //   ID: "2",
+        //   task: "请您签收碳信，转让方减排链核心企业向您转让",
+        //   amount: "3695",
+        //   date: "2022-03-03 12:00",
+        //   amount: "3200",
+        //   approved: true,
+        // },
       ],
+
+      // ========================新增代码===========================
+      pendingData: [],
+      selectedID: "",
+      company: localStorage.getItem("name"),
+      chain: localStorage.getItem("chain"),
     };
   },
+
+  // ========================新增代码===========================
+  async mounted() {
+    // console.log(await loadCompanySubmittedPledge(this.chain, this.company))
+    // const {data:submitted} = await loadCompanySubmittedPledge(this.chain, this.company)
+    // this.submittedData = submitted.data
+    const { data: pending } = await loadCompanyPendingTicket(
+      this.chain,
+      this.company
+    );
+    this.pendingData = pending.data;
+    console.log(this.pendingData);
+  },
+
   methods: {
+    // ========================新增代码===========================
     //获取单行数据
     getrows(row) {
-      this.row = row;
-      //console.log(row.task);
+      this.selectedID = row.id;
+      console.log(this.selectedID);
     },
+
+    // ========================新增代码===========================
     // 发送ID
     sendRow() {
       this.$router.push({
-        path: "/jianpaiMainEnterprise/financingManagement/financingSigning",
+        path: `/jianpaiMainEnterprise/taskManagement/receivingDetails/${this.selectedID}`,
       });
       //console.log(this.row.task);
     },
