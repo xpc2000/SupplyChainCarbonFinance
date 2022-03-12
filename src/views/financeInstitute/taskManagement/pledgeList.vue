@@ -28,8 +28,7 @@
               <list-table :data="signingData" :columns="column">
                 <!-- 插槽1：状态 -->
                 <template #status="{ row, $index }">
-                  <el-tag v-if="row.approved" class="approved">已审核</el-tag>
-                  <el-tag v-else class="not-approved">待审核</el-tag>
+                  <el-tag class="approved">已审核</el-tag>
                 </template>
                 <template #option="{ row, $index }">
                   <el-checkbox @change="getrows(row)" name="type"></el-checkbox>

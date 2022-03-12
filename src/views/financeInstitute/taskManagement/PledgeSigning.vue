@@ -9,17 +9,25 @@
       </div>
 
       <div class="description-box">
-        <el-descriptions>
-          <el-descriptions-item
-            v-for="(item, index) in text"
-            :key="item.id"
-            :label="item.label"
-          >
-            {{ item.input }}
+        <el-descriptions model="formLabelAlign">
+          <el-descriptions-item label="配额所属供应链">
+            {{this.pledgeDetail.chain}}
+          </el-descriptions-item>
+          <el-descriptions-item label="配额所有者">
+            {{this.pledgeDetail.companyNeedFund}}
+          </el-descriptions-item>
+          <el-descriptions-item label="操作日期">
+            {{this.pledgeDetail.date}}
+          </el-descriptions-item>
+          <el-descriptions-item label="配额量">
+            {{this.pledgeDetail.pledgeNum}}
+          </el-descriptions-item>
+          <el-descriptions-item label="附件">
+            合同.pdf
           </el-descriptions-item>
           <el-descriptions-item
             v-for="(item, index) in editableText"
-            :key="item.id"
+            :key="item.prop"
             :label="item.label"
           >
             <span v-show="!item.edit">{{ item.input }}</span>
@@ -32,6 +40,21 @@
               @click="item.edit = !item.edit"
             ></i>
           </el-descriptions-item>
+          <!-- <el-descriptions-item
+          v-for="(item, index) in pledgeDDL"
+          :key="item.prop"
+          :label="item.label"
+        >
+          <span v-show="!item.edit">{{ item.input }}</span>
+          <el-date-picker v-show="item.edit" v-model="item.input" type="datetime"></el-date-picker>
+          <i
+            :class="{
+              'el-icon-edit': !item.edit,
+              'el-icon-check': item.edit,
+            }"
+            @click="item.edit = !item.edit"
+          ></i>
+        </el-descriptions-item> -->
         </el-descriptions>
       </div>
 
@@ -57,22 +80,22 @@
         <!-- 提交弹出操作密码面板 -->
         <el-dialog title="操作密码" :visible.sync="dialogVisible" width="30%">
           <el-form
-            :model="ruleForm"
+            :model="pledgeDetail"
             status-icon
             :rules="rules"
-            ref="ruleForm"
+            ref="pledgeDetail"
             label-width="100px"
-            class="demo-ruleForm"
+            class="demo-pledgeDetail"
           >
-            <el-form-item label="密码" prop="pass">
+            <el-form-item label="密码" prop="actionPassword">
               <el-input
                 type="password"
-                v-model="ruleForm.pass"
+                v-model="pledgeDetail.actionPassword"
                 autocomplete="off"
               ></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="submitForm('ruleForm')"
+              <el-button type="primary" @click="submitForm(pledgeDetail)"
                 >提交</el-button
               >
             </el-form-item>
@@ -86,102 +109,128 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import editableText from "@/components/editableText.vue";
+import {updateInstitutionPledgeSigning} from "@/utils/api.js"
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
+        if (this.pledgeDetail.checkPass !== "") {
+          this.$refs.pledgeDetail.validateField("checkPass");
         }
         callback();
       }
     };
     return {
+      pledgeDetail: {
+        accountName:localStorage.getItem("name"),
+        accountType:localStorage.getItem("accountType"),
+        actionPassword:'',
+        id:0,
+        chain:'',
+        companyNeedFund:'',
+        companyOfferFund:localStorage.getItem("name"),
+        pledgeNum:0,
+        pledgeFund:0,
+        pledgeRate:0.0,
+        interestRate:0.0,
+        pledgeDDL:'',
+        date:'',
+        usage:'',
+      },
       headerTitle: {
         largeTitle: "任务管理",
         smallTitle: "质押签订",
       },
       edit: false,
-      text: [
-        {
-          id: 1,
-          label: "配额所属供应链",
-          input: "某控排链",
-        },
-        {
-          id: 2,
-          label: "配额所有者",
-          input: "某减排链企业",
-        },
-        {
-          id: 3,
-          label: "操作日期",
-          input: "2022-03-03",
-        },
-        {
-          id: 4,
-          label: "配额量",
-          input: "XXXXX",
-        },
-        {
-          id: 5,
-          label: "附件",
-          input: "合同.pdf",
-        },
-      ],
       editableText: [
         {
-          id: 6,
-          label: "贷款期限",
-          input: "可编辑",
-          edit: false,
-        },
-        {
           id: 7,
+          prop:"pledgeRate",
           label: "质押率",
           input: "可编辑",
           edit: false,
         },
         {
-          id: 7,
+          id: 8,
+          prop:"interestRate",
           label: "贷款利率",
           input: "可编辑",
           edit: false,
         },
         {
-          id: 7,
+          id: 9,
+          prop:"pledgeFund",
           label: "质押金额",
           input: "可编辑",
+          edit: false,
+        },
+      ],
+      pledgeDDL:[
+      {
+          id: 6,
+          prop:"pledgeDDL",
+          label: "贷款期限",
+          input: "2022-03-12 01:01:01",
           edit: false,
         },
       ],
       dialogVisible: false,
       radio: "1",
       textarea: "",
-      ruleForm: {
-        pass: "",
-      },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
+        actionPassword: [{ validator: validatePass, trigger: "blur" }],
       },
     };
   },
+  async mounted(){
+    this.pledgeDetail.id = parseInt(this.$route.params.id)
+    console.log(this.$route.params.id)
+    const {data:res} = await this.$http.get("/pledgeSearch/" + this.pledgeDetail.id)
+    this.pledgeDetail.chain = res.data.quotaOwner
+    this.pledgeDetail.companyNeedFund = res.data.company
+    this.pledgeDetail.usage = res.data.fundUse
+    this.pledgeDetail.date = res.data.operationData
+    this.pledgeDetail.pledgeNum = res.data.quotaQuantity
+    this.pledgeDetail.date = "2022-03-12 14:07:59"
+    this.pledgeDetail.pledgeDDL = "2022-03-12 01:01:01"
+    console.log(this.pledgeDetail)
+  },
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+
+    updateComment(label){
+      this.action.comment = (label == 1)
+      console.log(this.action)
+    },
+    submitForm(pledgeDetail) {
+      this.pledgeDetail.pledgeDDL = this.pledgeDDL[0].input
+      this.pledgeDetail.pledgeRate = parseFloat(this.editableText[0].input)
+      this.pledgeDetail.interestRate = parseFloat(this.editableText[1].input)
+      this.pledgeDetail.pledgeFund = parseInt(this.editableText[2].input)
+      console.log(this.pledgeDetail)
+      this.$refs.pledgeDetail.validate(async valid => {
         if (valid) {
-          //操作密码正确
           this.dialogVisible = false;
-          this.$message({
-            message: "完成签约",
-            type: "success",
-          });
-        } else {
-          //操作密码不正确
-          //console.log("error submit!!");
-          return false;
+          this.$confirm("确认签订操作")
+            .then((_) => {
+              updateInstitutionPledgeSigning(pledgeDetail).then((data)=>{
+                console.log(data)
+                if (data.data.conde != 0){
+                  this.dialogVisible = false;
+                  this.$message({
+                  message: "密码不正确",
+                  type: "warning",
+                  });
+                }
+                else{
+                  this.$message({
+                  message: "完成签订",
+                  type: "success",
+                  });
+                }
+              })
+            })
         }
       });
     },

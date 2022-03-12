@@ -187,7 +187,7 @@ export default {
       "/factorSearch?=" + this.factorID
     );
     this.factorDetail = res.data;
-    this.action.id = 13;
+    this.action.id = this.factorID;
     if (this.radio == "1") {
       this.action.comment = true;
     } else {

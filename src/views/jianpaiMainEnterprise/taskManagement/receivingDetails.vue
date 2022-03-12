@@ -225,7 +225,7 @@ export default {
 
     this.receivedDetail = res.data;
     console.log(this.receivedDetail);
-    // this.action.id = 13;
+    this.action.id = this.receivedID;
     // if (this.radio == "1") {
     //   this.action.comment = true;
     // } else {

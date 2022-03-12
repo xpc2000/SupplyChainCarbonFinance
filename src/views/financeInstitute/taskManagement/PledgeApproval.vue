@@ -135,7 +135,7 @@ export default {
         accountName:localStorage.getItem("name"),
         accountType:localStorage.getItem("accountType"),
         actionPassword:"",
-        id:11,
+        id:"",
         comment:"",
       },
       radio: "1",
@@ -149,6 +149,7 @@ export default {
     this.pledgeID = parseInt(this.$route.params.id)
     const {data:res} = await this.$http.get("/pledgeSearch/" + this.pledgeID)
     this.pledgeDetail = res.data
+    this.action.id = this.pledgeID
     console.log(this.pledgeDetail)
     console.log(res)
     if(this.radio == "1"){
@@ -178,7 +179,7 @@ export default {
           this.$confirm("确认审批操作")
             .then((_) => {
               updateInstitutionPledgeExamination(action).then((data)=>{
-                console.log(data.data.conde)
+                console.log(data)
                 if (data.data.conde != 0){
                   this.dialogVisible = false;
                   this.$message({

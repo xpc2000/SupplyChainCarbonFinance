@@ -135,7 +135,7 @@ export default {
       this.company
     );
     this.pendingData = pending.data;
-    console.log(data);
+    console.log(pending.data);
 
     // 已签收
     const { data: submittedData } = await loadCompanySignedTicket(

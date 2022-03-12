@@ -115,7 +115,7 @@ export default {
           localStorage.setItem("userEmail", this.formLogin.userEmail);
           localStorage.setItem("name", res.data.name);
           localStorage.setItem("chain", res.data.chain);
-          localStorage.setItem("accountType", this.formLogin.accountType);
+          localStorage.setItem("accountType", parseInt(this.formLogin.accountType));
           localStorage.setItem("emissionPledged", res.data.emissionPledged);
           localStorage.setItem("carbonLimit", res.data.carbonLimit);
           localStorage.setItem("ticketUnissued", res.data.ticketUnissued);

@@ -148,7 +148,7 @@ export async function submitChainPlan(data){
 }
 
 // 控排链企业提交碳质押申请
-// datatype: ActionVo
+// datatype: applyPledgeVo
 export async function submitCompanyPledgeApplication(data){
     return request.post('/pledge/apply', data);
 }
