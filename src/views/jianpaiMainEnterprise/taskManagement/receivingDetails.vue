@@ -144,7 +144,7 @@ export default {
       receivedDetail: {},
       column: [
         {
-          prop: "sendername",
+          prop: "senderName",
           label: "付款方",
           width: "",
         },
@@ -178,7 +178,7 @@ export default {
       ],
       tableData: [
         {
-          sendername: "企业名字",
+          senderName: "senderName",
           receiverName: "某减排链企业",
           date: "03-03-2022",
           amount: "2300",
@@ -209,6 +209,13 @@ export default {
     console.log(res.data);
 
     this.receivedDetail = res.data;
+
+    //签收详情数据
+    this.tableData[0].senderName = this.receivedDetail.initiatorName;
+    this.tableData[0].receiverName = this.receivedDetail.receiverName;
+    this.tableData[0].date = this.receivedDetail.operationData;
+    this.tableData[0].amount = this.receivedDetail.amountCarbonTicket;
+
     this.ticketNum = this.receivedDetail.amountCarbonTicket;
     console.log("ticketNum: " + this.ticketNum);
     this.action.id = this.receivedID;
