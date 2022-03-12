@@ -100,31 +100,31 @@ export default {
   methods: {
     loginSubmit(formLogin) {
       // 表单验证
-      this.$refs.formLogin.validate(async valid => {
-        if (!valid) return; 
-        const {data:res} = await loginVerification(this.formLogin)
-        console.log(res)
+      this.$refs.formLogin.validate(async (valid) => {
+        if (!valid) return;
+        const { data: res } = await loginVerification(this.formLogin);
+        console.log(res);
 
         // const {data:res} = await this.$http.post("user/login", this.formLogin);
-            if (res.conde != 0) {
-              error(res.data.msg, this);
-            } else {
-              // //console.log(res);
-              localStorage.clear();
-              console.log(res.data)
-              localStorage.setItem("userEmail", this.formLogin.userEmail);
-              localStorage.setItem("name", res.data.name)
-              localStorage.setItem("chain", res.data.chain)
-              localStorage.setItem("accountType", this.formLogin.accountType);
-              localStorage.setItem("emissionPledged", res.data.emissionPledged)
-              localStorage.setItem("carbonLimit", res.data.carbonLimit)
-              localStorage.setItem("ticketUnissued", res.data.ticketUnissued)
-              localStorage.setItem("ticketBuyback", res.data.ticketBuyback)
-              console.log(localStorage)
-              success(res.data.msg, this);
-              this.$router.push({ path: "/index" });
-            }
-        
+        if (res.conde != 0) {
+          error(res.data.msg, this);
+        } else {
+          // //console.log(res);
+          localStorage.clear();
+          console.log(res.data);
+          localStorage.setItem("userEmail", this.formLogin.userEmail);
+          localStorage.setItem("name", res.data.name);
+          localStorage.setItem("chain", res.data.chain);
+          localStorage.setItem("accountType", this.formLogin.accountType);
+          localStorage.setItem("emissionPledged", res.data.emissionPledged);
+          localStorage.setItem("carbonLimit", res.data.carbonLimit);
+          localStorage.setItem("ticketUnissued", res.data.ticketUnissued);
+          localStorage.setItem("ticketBuyback", res.data.ticketBuyback);
+          localStorage.setItem("ticketBalance", res.data.carbinTicket);
+          console.log(localStorage);
+          success(res.data.msg, this);
+          this.$router.push({ path: "/index" });
+        }
       });
     },
   },

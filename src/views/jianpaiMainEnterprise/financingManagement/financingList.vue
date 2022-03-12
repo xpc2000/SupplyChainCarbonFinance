@@ -4,14 +4,17 @@
 
     <div class="sub-content-tabs">
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="全部" name="first">
+        <!-- <el-tab-pane label="全部" name="first">
+          
+        </el-tab-pane> -->
+        <el-tab-pane label="申请中" name="first">
           <template>
             <div>
-              <list-table :data="tableData" :columns="column">
+              <list-table :data="pendingData" :columns="column">
                 <!-- 插槽1：状态 -->
                 <template #status="{ row, $index }">
-                  <el-tag v-if="row.approved" class="approved">可签约</el-tag>
-                  <el-tag v-else class="not-approved">申请中</el-tag>
+                  <!-- <el-tag v-if="row.approved" class="approved">可签约</el-tag> -->
+                  <el-tag class="not-approved">申请中</el-tag>
                 </template>
 
                 <template #option="{ row, $index }">
@@ -24,8 +27,26 @@
             <button class="button-style" @click="sendRow()">查看</button>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="申请中" name="second"> 申请中</el-tab-pane>
-        <el-tab-pane label="可签约" name="third">可签约</el-tab-pane>
+        <el-tab-pane label="可签约" name="second">
+          <template>
+            <div>
+              <list-table :data="waitingSigningData" :columns="column">
+                <!-- 插槽1：状态 -->
+                <template #status="{ row, $index }">
+                  <!-- <el-tag v-if="row.approved" class="approved">可签约</el-tag> -->
+                  <el-tag class="approved">可签约</el-tag>
+                </template>
+
+                <template #option="{ row, $index }">
+                  <el-checkbox name="type" @change="getrows(row)"></el-checkbox>
+                </template>
+              </list-table>
+            </div>
+          </template>
+          <div class="sub-content-import-export">
+            <button class="button-style" @click="sendRow()">查看</button>
+          </div>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -33,9 +54,17 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import ListTable from "@/components/ListTable";
+import {
+  loadCompanyApplyingFactors,
+  loadCompanySigningFactors,
+} from "@/utils/api.js";
+
 export default {
   data() {
     return {
+      selectedID: "",
+      company: localStorage.getItem("name"),
+      chain: localStorage.getItem("chain"),
       headerTitle: {
         largeTitle: "融资管理",
         smallTitle: "融资列表",
@@ -50,13 +79,13 @@ export default {
           customSlot: "option",
         },
         {
-          prop: "task",
-          label: "任务列表",
+          prop: "institution",
+          label: "融资对象",
           width: "",
         },
         {
-          prop: "date",
-          label: "创建时间",
+          prop: "time",
+          label: "申请时间",
           width: "",
         },
         {
@@ -72,34 +101,45 @@ export default {
       ],
       tableData: [
         {
-          ID: "1",
-          task: "向某某金融公司申请保理服务银行",
-          amount: "3695",
-          date: "2022-03-03 12:00",
-          amount: "3200",
-          approved: true,
-        },
-        {
-          ID: "2",
-          task: "向某某金融公司申请保理服务银行",
-          amount: "3695",
-          date: "2022-03-03 12:00",
-          amount: "3200",
-          approved: false,
+          //   ID: "1",
+          //   task: "向某某金融公司申请保理服务银行",
+          //   amount: "3695",
+          //   date: "2022-03-03 12:00",
+          //   amount: "3200",
+          //   approved: true,
+          // },
+          // {
+          //   ID: "2",
+          //   task: "向某某金融公司申请保理服务银行",
+          //   amount: "3695",
+          //   date: "2022-03-03 12:00",
+          //   amount: "3200",
+          //   approved: false,
         },
       ],
+      pendingData: [],
+      waitingSigningData: [],
     };
+  },
+
+  async mounted() {
+    const { data: pending } = await loadCompanyApplyingFactors(this.company);
+    this.pendingData = pending.data;
+    console.log(pending.data);
+
+    const { data: signing } = await loadCompanySigningFactors(this.company);
+    this.waitingSigningData = signing.data;
   },
   methods: {
     //获取单行数据
     getrows(row) {
-      this.row = row;
-      //console.log(row.task);
+      this.selectedID = row.id;
+      console.log(this.selectedID);
     },
     // 发送ID
     sendRow() {
       this.$router.push({
-        path: "/jianpaiMainEnterprise/financingManagement/financingSigning",
+        path: `/jianpaiMainEnterprise/financingManagement/financingSigning/${this.selectedID}`,
       });
       //console.log(this.row.task);
     },

@@ -135,6 +135,7 @@ export default {
       this.company
     );
     this.pendingData = pending.data;
+    console.log(data);
 
     // 已签收
     const { data: submittedData } = await loadCompanySignedTicket(
@@ -142,7 +143,6 @@ export default {
       this.company
     );
     this.submittedData = submittedData.data;
-    console.log(this.submittedData);
   },
 
   methods: {
@@ -157,9 +157,12 @@ export default {
     // 发送ID
     sendRow() {
       this.$router.push({
-        path: `/jianpaiMainEnterprise/taskManagement/receivingDetails/${this.selectedID}`,
+        path:
+          "/jianpaiMainEnterprise/taskManagement/receivingDetails/" +
+          this.selectedID,
       });
     },
+
     handleClick(tab, event) {
       //console.log(tab, event);
     },
