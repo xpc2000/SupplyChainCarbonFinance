@@ -271,7 +271,7 @@ export const routes = [
     children: [
       {
         path: "/jianpaiMainEnterprise/creditManagement/companyBoard",
-        component: () => import("@/views/kongpaiMainEnterprise/creditManagement/companyBoard.vue"),
+        component: () => import("@/views/jianpaiMainEnterprise/creditManagement/companyBoard.vue"),
         meta: {
           title: "企业碳信账户",
         },
@@ -333,7 +333,7 @@ export const routes = [
         },
       },
       {
-        path: "/jianpaiMainEnterprise/taskManagement/receivingDetails",
+        path: "/jianpaiMainEnterprise/taskManagement/receivingDetails/:id",
         component: () => import("@/views/jianpaiMainEnterprise/taskManagement/receivingDetails.vue"),
         meta: {
           title: "签收详情",
@@ -434,7 +434,7 @@ export const routes = [
         },
       },
       {
-        path: "/jianpaiAffiliateEnterprise/taskManagement/receivingDetails",
+        path: "/jianpaiAffiliateEnterprise/taskManagement/receivingDetails/:id",
         component: () => import("@/views/jianpaiMainEnterprise/taskManagement/receivingDetails.vue"),
         meta: {
           title: "签收详情",

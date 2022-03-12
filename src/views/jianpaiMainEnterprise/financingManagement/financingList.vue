@@ -14,7 +14,10 @@
                 <!-- 插槽1：状态 -->
                 <template #status="{ row, $index }">
                   <!-- <el-tag v-if="row.approved" class="approved">可签约</el-tag> -->
-                  <el-tag class="not-approved">申请中</el-tag>
+                  <el-tag v-if="row.status == 0" class="not-approved"
+                    >申请中</el-tag
+                  >
+                  <el-tag v-else class="approved">哈哈</el-tag>
                 </template>
 
                 <template #option="{ row, $index }">
@@ -23,9 +26,9 @@
               </list-table>
             </div>
           </template>
-          <div class="sub-content-import-export">
+          <!-- <div class="sub-content-import-export">
             <button class="button-style" @click="sendRow()">查看</button>
-          </div>
+          </div> -->
         </el-tab-pane>
         <el-tab-pane label="可签约" name="second">
           <template>
@@ -99,47 +102,35 @@ export default {
           customSlot: "status",
         },
       ],
-      tableData: [
-        {
-          //   ID: "1",
-          //   task: "向某某金融公司申请保理服务银行",
-          //   amount: "3695",
-          //   date: "2022-03-03 12:00",
-          //   amount: "3200",
-          //   approved: true,
-          // },
-          // {
-          //   ID: "2",
-          //   task: "向某某金融公司申请保理服务银行",
-          //   amount: "3695",
-          //   date: "2022-03-03 12:00",
-          //   amount: "3200",
-          //   approved: false,
-        },
-      ],
+
       pendingData: [],
       waitingSigningData: [],
     };
   },
 
   async mounted() {
+    // `status` int NULL DEFAULT NULL COMMENT '1:申请中，2:通过审核，3:正在签约，4:完成签约，5:失败'
     const { data: pending } = await loadCompanyApplyingFactors(this.company);
     this.pendingData = pending.data;
     console.log(pending.data);
 
     const { data: signing } = await loadCompanySigningFactors(this.company);
     this.waitingSigningData = signing.data;
+    console.log(signing.data);
   },
   methods: {
     //获取单行数据
     getrows(row) {
-      this.selectedID = row.id;
-      console.log(this.selectedID);
+      this.row = row;
+      console.log(this.row.status);
+      // this.selectedID = row.id;
+      // console.log(this.selectedID);
     },
     // 发送ID
     sendRow() {
+      console.log(this.row.id);
       this.$router.push({
-        path: `/jianpaiMainEnterprise/financingManagement/financingSigning/${this.selectedID}`,
+        path: `/jianpaiMainEnterprise/financingManagement/financingSigning/${this.row.id}`,
       });
       //console.log(this.row.task);
     },

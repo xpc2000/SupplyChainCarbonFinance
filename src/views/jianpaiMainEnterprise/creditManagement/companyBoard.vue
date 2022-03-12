@@ -6,7 +6,7 @@
       <el-row class="subcontent-title">
         <el-col :span="12">碳控排链信账户款项流动仪表盘</el-col>
         <el-col :span="12" class="refresh-data">
-          <el-row> {{ company }}{{ chain }}</el-row>
+          <el-row> {{ company }} —— {{ chain }}</el-row>
           <el-row class="detail-card-title">
             <span class="refresh" @click="refresh">刷新</span>
             <i class="el-icon-refresh refresh"></i>

@@ -10,12 +10,23 @@
       <div>
         <div class="description-box">
           <el-descriptions>
-            <el-descriptions-item
-              v-for="(item, index) in editableText"
-              :key="item.id"
-              :label="item.label"
-            >
-              {{ item.input }}
+            <el-descriptions-item label="发行方所在供应链">
+              {{ this.receivedDetail.initiatorSupplyChain }}
+            </el-descriptions-item>
+            <el-descriptions-item label="签收方所在供应链">
+              {{ this.receivedDetail.receiverSupplyChain }}
+            </el-descriptions-item>
+            <el-descriptions-item label="碳信转让金额">
+              {{ this.receivedDetail.amountCarbonTicket }}
+            </el-descriptions-item>
+            <el-descriptions-item label="发行方企业全称">
+              {{ this.receivedDetail.initiatorName }}
+            </el-descriptions-item>
+            <el-descriptions-item label="签收方企业全称">
+              {{ this.receivedDetail.receiverName }}
+            </el-descriptions-item>
+            <el-descriptions-item label="资金用途说明">
+              {{ this.receivedDetail.fundUse }}
             </el-descriptions-item>
           </el-descriptions>
         </div>
@@ -29,7 +40,7 @@
       <!-- <el-descriptions class="description-box"> -->
 
       <div class="description-box">
-        <el-table :data="tableData" style="width: 100%">
+        <el-table :data="tableData" :columns="column" style="width: 100%">
           <el-table-column
             v-for="(item, index) in column"
             :key="index"
@@ -49,8 +60,12 @@
         审批操作
       </div>
       <div class="radio-approval-box">
-        <el-radio v-model="radio" label="1">签收</el-radio>
-        <el-radio v-model="radio" label="2">拒绝</el-radio>
+        <el-radio v-model="radio" label="1" @change="updateComment(1)"
+          >签收</el-radio
+        >
+        <el-radio v-model="radio" label="2" @change="updateComment(2)"
+          >拒绝</el-radio
+        >
         <div class="radio-approval-comment-title">审批意见</div>
         <div class="radio-approval-comment-content">
           <el-input
@@ -66,22 +81,22 @@
         <!-- 提交弹出操作密码面板 -->
         <el-dialog title="操作密码" :visible.sync="dialogVisible" width="30%">
           <el-form
-            :model="ruleForm"
+            :model="action"
             status-icon
             :rules="rules"
-            ref="ruleForm"
+            ref="action"
             label-width="100px"
-            class="demo-ruleForm"
+            class="demo-action"
           >
-            <el-form-item label="密码" prop="pass">
+            <el-form-item label="密码">
               <el-input
                 type="password"
-                v-model="ruleForm.pass"
+                v-model="action.actionPassword"
                 autocomplete="off"
               ></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="submitForm('ruleForm')"
+              <el-button type="primary" @click="submitForm(action, ticketNum)"
                 >提交</el-button
               >
             </el-form-item>
@@ -94,7 +109,11 @@
 </template>
 <script>
 import headerTitle from "@/components/headerTitle.vue";
-import { loadCompanyTicketRow, ticketPublishCheck } from "@/utils/api.js";
+import {
+  loadCompanyTicketRow,
+  ticketPublishCheck,
+  ticketTransferCheck,
+} from "@/utils/api.js";
 
 export default {
   data() {
@@ -102,20 +121,19 @@ export default {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
+        if (this.action.checkPass !== "") {
+          this.$refs.action.validateField("checkPass");
         }
         callback();
       }
     };
+
     return {
       company: localStorage.getItem("name"),
+      // id: "",
       dialogVisible: false,
       radio: "1",
       textarea: "",
-      ruleForm: {
-        pass: "",
-      },
       rules: {
         actionPassword: [{ validator: validatePass, trigger: "blur" }],
       },
@@ -123,42 +141,10 @@ export default {
         largeTitle: "任务管理",
         smallTitle: "签收详情",
       },
-      editableText: [
-        {
-          id: 1,
-          label: "发行方所在供应链",
-          input: "某控排链",
-        },
-        {
-          id: 2,
-          label: "签收方所在供应链",
-          input: "某减排链",
-        },
-        {
-          id: 3,
-          label: "碳信转让金额",
-          input: "2300",
-        },
-        {
-          id: 4,
-          label: "发行方企业全称",
-          input: "某企业",
-        },
-        {
-          id: 5,
-          label: "签收方企业全称",
-          input: "某企业",
-        },
-        {
-          id: 6,
-          label: "资金用途说明",
-          input: "无",
-        },
-      ],
-
+      receivedDetail: {},
       column: [
         {
-          prop: "sendername",
+          prop: "senderName",
           label: "付款方",
           width: "",
         },
@@ -192,7 +178,7 @@ export default {
       ],
       tableData: [
         {
-          sendername: "某控排链企业",
+          senderName: "senderName",
           receiverName: "某减排链企业",
           date: "03-03-2022",
           amount: "2300",
@@ -200,7 +186,9 @@ export default {
           file: "合同.pdf",
         },
       ],
-
+      ruleForm: {
+        actionPassword: "",
+      },
       action: {
         accountName: localStorage.getItem("name"),
         accountType: localStorage.getItem("accountType"),
@@ -208,64 +196,69 @@ export default {
         id: "",
         comment: "",
       },
+
       receivedID: -999,
-      receivedDetail: {},
-      details: loadCompanyTicketRow(),
+      ticketNum: 0,
     };
   },
 
   // ==========================新增代码========================================
   async mounted() {
-    console.log(route.params);
     this.receivedID = parseInt(this.$route.params.id);
-    console.log(this.receivedID);
-    // const { data: res } = await loadCompanyTicketRow(this.receivedID);
-    const { data: res } = this.$http.get(`/ticketSearch/${this.receivedID}`);
-    console.log(res);
+    const { data: res } = await loadCompanyTicketRow(this.receivedID);
+    console.log(res.data);
 
     this.receivedDetail = res.data;
-    console.log(this.receivedDetail);
+
+    //签收详情数据
+    this.tableData[0].senderName = this.receivedDetail.initiatorName;
+    this.tableData[0].receiverName = this.receivedDetail.receiverName;
+    this.tableData[0].date = this.receivedDetail.operationData;
+    this.tableData[0].amount = this.receivedDetail.amountCarbonTicket;
+
+    this.ticketNum = this.receivedDetail.amountCarbonTicket;
+    console.log("ticketNum: " + this.ticketNum);
     this.action.id = this.receivedID;
-    // if (this.radio == "1") {
-    //   this.action.comment = true;
-    // } else {
-    //   this.action.comment = false;
-    // }
+    if (this.radio == "1") {
+      this.action.comment = true;
+    } else {
+      this.action.comment = false;
+    }
   },
 
   methods: {
-    loadCompanyTicketRow() {
-      loadCompanyTicketRow().then((res) => {
-        this.details = res;
-      });
+    updateComment(label) {
+      if (label == 1) this.action.comment = true;
+      else this.action.comment = false;
+      console.log(this.action);
     },
-    submitForm(action) {
-      //console.log(formLabelAlign);
 
+    // `operation` int NULL DEFAULT NULL COMMENT '1:创建/2:发行/3:转让/4:回购/5:融资/6:销毁',
+    submitForm(action, ticketNum) {
       this.$refs.action.validate(async (valid) => {
         if (valid) {
-          console.log(action);
-          const { data: res } = await ticketPublishCheck(
-            action,
-            parseInt(this.amount)
-          );
-          console.log(res);
-          if (res.conde != 0) {
-            this.dialogVisible = false;
-            this.$message({
-              message: "签收失败",
+          this.dialogVisible = false;
+          this.$confirm("确认审批操作").then((_) => {
+            ticketTransferCheck(action, parseInt(ticketNum)).then((data) => {
+              if (data.data.conde != 0) {
+                this.dialogVisible = false;
+                this.$message({
+                  message: "密码不正确",
+                  type: "warning",
+                });
+              } else {
+                console.log(data);
+                this.$message({
+                  message: "完成签收",
+                  type: "success",
+                });
+              }
             });
-            return false;
-          } else {
-            this.dialogVisible = false;
-            this.$message({
-              message: "完成签约",
-              type: "success",
-            });
-          }
+          });
         }
       });
     },
+
     next() {
       this.$message({
         message: "提交成功",
