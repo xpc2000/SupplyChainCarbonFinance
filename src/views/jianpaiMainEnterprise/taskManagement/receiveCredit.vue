@@ -4,10 +4,11 @@
 
     <div class="sub-content-tabs">
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="全部" name="first">
+        <!-- <el-tab-pane label="全部" name="first"> </el-tab-pane> -->
+        <el-tab-pane label="待签收" name="first">
           <template>
             <div>
-              <list-table :data="tableData" :columns="column">
+              <list-table :data="pendingData" :columns="column">
                 <!-- 插槽1：状态 -->
                 <template #status="{ row, $index }">
                   <el-tag v-if="row.approved" class="approved">已签收</el-tag>
@@ -24,8 +25,27 @@
             <button class="button-style" @click="sendRow()">查看</button>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="待签收" name="second"> 待签收</el-tab-pane>
-        <el-tab-pane label="已签收" name="third">已签收</el-tab-pane>
+        <el-tab-pane label="已签收" name="second">
+          <template>
+            <div>
+              <list-table :data="submittedData" :columns="column">
+                <!-- 插槽1：状态 -->
+                <template #status="{ row, $index }">
+                  <el-tag class="approved">已签收</el-tag>
+                  <!-- <el-tag v-if="row.approved" class="approved">已签收</el-tag> -->
+                  <!-- <el-tag v-else class="not-approved">待签收</el-tag> -->
+                </template>
+
+                <template #option="{ row, $index }">
+                  <el-checkbox name="type" @change="getrows(row)"></el-checkbox>
+                </template>
+              </list-table>
+            </div>
+          </template>
+          <div class="sub-content-import-export">
+            <button class="button-style" @click="sendRow()">查看</button>
+          </div>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -33,6 +53,11 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import ListTable from "@/components/ListTable";
+import {
+  loadCompanyPendingTicket,
+  loadCompanySignedTicket,
+} from "@/utils/api.js";
+
 export default {
   data() {
     return {
@@ -50,12 +75,12 @@ export default {
           customSlot: "option",
         },
         {
-          prop: "task",
-          label: "任务列表",
+          prop: "sender",
+          label: "转让方/发行方",
           width: "",
         },
         {
-          prop: "date",
+          prop: "time",
           label: "创建时间",
           width: "",
         },
@@ -71,38 +96,73 @@ export default {
         },
       ],
       tableData: [
-        {
-          ID: "1",
-          task: "请您签收碳信，发行方控排链核心企业向您发行",
-          amount: "3695",
-          date: "2022-03-03 12:00",
-          amount: "3200",
-          approved: false,
-        },
-        {
-          ID: "2",
-          task: "请您签收碳信，转让方减排链核心企业向您转让",
-          amount: "3695",
-          date: "2022-03-03 12:00",
-          amount: "3200",
-          approved: true,
-        },
+        // {
+        //   ID: "1",
+        //   task: "请您签收碳信，发行方控排链核心企业向您发行",
+        //   amount: "3695",
+        //   date: "2022-03-03 12:00",
+        //   amount: "3200",
+        //   approved: false,
+        // },
+        // {
+        //   ID: "2",
+        //   task: "请您签收碳信，转让方减排链核心企业向您转让",
+        //   amount: "3695",
+        //   date: "2022-03-03 12:00",
+        //   amount: "3200",
+        //   approved: true,
+        // },
       ],
+
+      // ========================新增代码===========================
+      pendingData: [],
+      submittedData: [],
+      selectedID: "",
+      company: localStorage.getItem("name"),
+      chain: localStorage.getItem("chain"),
     };
   },
+
+  // ========================新增代码===========================
+  async mounted() {
+    // console.log(await loadCompanySubmittedPledge(this.chain, this.company))
+    // const {data:submitted} = await loadCompanySubmittedPledge(this.chain, this.company)
+    // this.submittedData = submitted.data
+
+    // 待签收
+    const { data: pending } = await loadCompanyPendingTicket(
+      this.chain,
+      this.company
+    );
+    this.pendingData = pending.data;
+    console.log(data);
+
+    // 已签收
+    const { data: submittedData } = await loadCompanySignedTicket(
+      this.chain,
+      this.company
+    );
+    this.submittedData = submittedData.data;
+  },
+
   methods: {
+    // ========================新增代码===========================
     //获取单行数据
     getrows(row) {
-      this.row = row;
-      //console.log(row.task);
+      this.selectedID = row.id;
+      console.log(this.selectedID);
     },
+
+    // ========================这里有问题===========================
     // 发送ID
     sendRow() {
       this.$router.push({
-        path: "/jianpaiMainEnterprise/financingManagement/financingSigning",
+        path:
+          "/jianpaiMainEnterprise/taskManagement/receivingDetails/" +
+          this.selectedID,
       });
-      //console.log(this.row.task);
     },
+
     handleClick(tab, event) {
       //console.log(tab, event);
     },

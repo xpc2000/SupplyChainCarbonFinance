@@ -25,8 +25,12 @@
         意见
       </div>
       <div class="radio-approval-box">
-        <el-radio v-model="radio" label="1">签署</el-radio>
-        <el-radio v-model="radio" label="2">拒绝</el-radio>
+        <el-radio v-model="radio" label="1" @change="updateComment(1)"
+          >签署</el-radio
+        >
+        <el-radio v-model="radio" label="2" @change="updateComment(2)"
+          >拒绝</el-radio
+        >
         <div class="radio-approval-comment-title">签署意见</div>
         <div class="radio-approval-comment-content">
           <el-input
@@ -49,15 +53,15 @@
             label-width="100px"
             class="demo-ruleForm"
           >
-            <el-form-item label="密码" prop="pass">
+            <el-form-item label="密码" prop="actionPassword">
               <el-input
                 type="password"
-                v-model="ruleForm.pass"
+                v-model="ruleForm.actionPassword"
                 autocomplete="off"
               ></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="submitForm('ruleForm')"
+              <el-button type="primary" @click="submitForm(action)"
                 >提交</el-button
               >
             </el-form-item>
@@ -84,6 +88,13 @@ export default {
       }
     };
     return {
+      action: {
+        accountName: localStorage.getItem("name"),
+        accountType: localStorage.getItem("accountType"),
+        actionPassword: "",
+        id: "",
+        comment: "",
+      },
       headerTitle: {
         largeTitle: "融资管理",
         smallTitle: "融资签约",
@@ -161,27 +172,56 @@ export default {
       radio: "1",
       textarea: "",
       ruleForm: {
-        pass: "",
+        actionPassword: "",
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
+        actionPassword: [{ validator: validatePass, trigger: "blur" }],
       },
+      factorID: -999,
+      pledgeDetail: {},
     };
   },
+  async mounted() {
+    this.factorID = parseInt(this.$route.params.id);
+    const { data: res } = await this.$http.get(
+      "/factorSearch?=" + this.factorID
+    );
+    this.factorDetail = res.data;
+    this.action.id = 13;
+    if (this.radio == "1") {
+      this.action.comment = true;
+    } else {
+      this.action.comment = false;
+    }
+    console.log(this.factorDetail);
+  },
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+    updateComment(label) {
+      this.action.comment = label == 1;
+      console.log(this.action);
+    },
+    submitForm(action) {
+      this.$refs.action.validate(async (valid) => {
         if (valid) {
-          //操作密码正确
-          this.dialogVisible = false;
-          this.$message({
-            message: "完成签约",
-            type: "success",
-          });
-        } else {
-          //操作密码不正确
-          //console.log("error submit!!");
-          return false;
+          console.log(action);
+          const { data: res } = await updateCompanyFundSigning(
+            action,
+            parseInt(this.$route.params.id)
+          );
+          console.log(res);
+          if (res.conde != 0) {
+            this.dialogVisible = false;
+            this.$message({
+              message: "签约失败",
+            });
+            return false;
+          } else {
+            this.dialogVisible = false;
+            this.$message({
+              message: "完成签约",
+              type: "success",
+            });
+          }
         }
       });
     },

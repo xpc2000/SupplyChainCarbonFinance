@@ -94,6 +94,8 @@
 </template>
 <script>
 import headerTitle from "@/components/headerTitle.vue";
+import { loadCompanyTicketRow, ticketPublishCheck } from "@/utils/api.js";
+
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -107,6 +109,7 @@ export default {
       }
     };
     return {
+      company: localStorage.getItem("name"),
       dialogVisible: false,
       radio: "1",
       textarea: "",
@@ -114,7 +117,7 @@ export default {
         pass: "",
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
+        actionPassword: [{ validator: validatePass, trigger: "blur" }],
       },
       headerTitle: {
         largeTitle: "任务管理",
@@ -197,34 +200,80 @@ export default {
           file: "合同.pdf",
         },
       ],
+
+      action: {
+        accountName: localStorage.getItem("name"),
+        accountType: localStorage.getItem("accountType"),
+        actionPassword: "",
+        id: "",
+        comment: "",
+      },
+      receivedID: -999,
+      receivedDetail: {},
+      details: loadCompanyTicketRow(),
     };
   },
+
+  // ==========================新增代码========================================
+  async mounted() {
+    console.log(route.params);
+    this.receivedID = parseInt(this.$route.params.id);
+    console.log(this.receivedID);
+    // const { data: res } = await loadCompanyTicketRow(this.receivedID);
+    const { data: res } = this.$http.get(`/ticketSearch/${this.receivedID}`);
+    console.log(res);
+
+    this.receivedDetail = res.data;
+    console.log(this.receivedDetail);
+    // this.action.id = 13;
+    // if (this.radio == "1") {
+    //   this.action.comment = true;
+    // } else {
+    //   this.action.comment = false;
+    // }
+  },
+
   methods: {
+    loadCompanyTicketRow() {
+      loadCompanyTicketRow().then((res) => {
+        this.details = res;
+      });
+    },
+    submitForm(action) {
+      //console.log(formLabelAlign);
+
+      this.$refs.action.validate(async (valid) => {
+        if (valid) {
+          console.log(action);
+          const { data: res } = await ticketPublishCheck(
+            action,
+            parseInt(this.amount)
+          );
+          console.log(res);
+          if (res.conde != 0) {
+            this.dialogVisible = false;
+            this.$message({
+              message: "签收失败",
+            });
+            return false;
+          } else {
+            this.dialogVisible = false;
+            this.$message({
+              message: "完成签约",
+              type: "success",
+            });
+          }
+        }
+      });
+    },
     next() {
       this.$message({
         message: "提交成功",
         type: "success",
       });
     },
-    submitForm(formName, formLabelAlign) {
-      //console.log(formLabelAlign);
-
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          //操作密码正确
-          this.dialogVisible = false;
-          this.$message({
-            message: "碳信已签收",
-            type: "success",
-          });
-        } else {
-          //操作密码不正确
-          //console.log("error submit!!");
-          return false;
-        }
-      });
-    },
   },
+
   components: {
     headerTitle,
   },

@@ -30,7 +30,7 @@ export async function ticketPublishCheck(params, ticketNum){
     return request.post(`/ticket/publishCheck?ticketNum=${ticketNum}`, params, ticketNum)
 }
 
-// 转让碳信
+// 转让碳信 complete
 // datatype: TicketVo
 export async function ticketTransfer(params){
     return request.post(`/ticket/transfer`, params)
@@ -61,7 +61,14 @@ export async function loadSinglePledgeRow(id){
     return request.get(`/pledgeSearch/${id}`)
 }
 
-// 获取企业需要签收的碳信记录
+// ==============================新增代码===========================================
+// 获取特定碳信记录 not complete got problemmmmmm
+// datatype: 记录id
+export async function loadCompanyTicketRow(id){
+    return request.get(`/ticketSearch/${id}`)
+}
+
+// 获取企业需要签收的碳信记录 
 // datatype: 企业所属减排链chain，企业名称company
 export async function loadCompanyPendingTicket(chain, company){
     return request.get(`/ticketSearch/pending?chain=${chain}&company=${company}`, chain, company)

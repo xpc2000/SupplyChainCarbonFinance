@@ -18,20 +18,22 @@
               <el-form-item label="转让方所属供应链">
                 <el-input
                   placeholder="某减排链"
+                  :disabled="true"
                   v-model="formLabelAlign.senderChain"
                 ></el-input>
               </el-form-item>
               <el-form-item label="转让方企业全称">
                 <el-input
                   placeholder="某减排链企业"
-                  v-model="formLabelAlign.senderName"
+                  :disabled="true"
+                  v-model="formLabelAlign.sender"
                 ></el-input>
               </el-form-item>
               <el-form-item label="碳信转让日期">
                 <el-date-picker
-                  v-model="formLabelAlign.launchedDate"
                   type="datetime"
                   placeholder="选择日期"
+                  v-model="formLabelAlign.date"
                 >
                 </el-date-picker>
               </el-form-item>
@@ -46,14 +48,14 @@
               <el-form-item label="碳信可用余额">
                 <el-input
                   :disabled="true"
-                  placeholder="￥￥￥￥￥"
+                  placeholder=""
                   v-model="formLabelAlign.balance"
                 ></el-input>
               </el-form-item>
               <el-form-item label="碳信转让数量">
                 <el-input
                   placeholder="￥￥￥￥￥"
-                  v-model="formLabelAlign.tradeAmount"
+                  v-model="formLabelAlign.num"
                 ></el-input>
               </el-form-item>
               <el-form-item label="附件">
@@ -68,7 +70,7 @@
                 >
                 <el-input
                   placeholder="文件"
-                  v-model="formLabelAlign.file"
+                  v-model="formLabelAlign.usage"
                 ></el-input>
               </el-form-item>
             </el-form>
@@ -105,7 +107,7 @@
               <el-form-item label="接收方企业全称">
                 <el-input
                   placeholder="某减排链企业"
-                  v-model="formLabelAlign.receiverName"
+                  v-model="formLabelAlign.receiver"
                 ></el-input>
               </el-form-item>
             </el-form>
@@ -122,25 +124,22 @@
       <!-- 提交弹出操作密码面板 -->
       <el-dialog title="操作密码" :visible.sync="dialogVisible" width="30%">
         <el-form
-          :model="ruleForm"
+          :model="formLabelAlign"
           status-icon
           :rules="rules"
-          ref="ruleForm"
+          ref="formLabelAlign"
           label-width="100px"
           class="demo-ruleForm"
         >
-          <el-form-item label="密码" prop="pass">
+          <el-form-item label="密码" prop="actionPassword">
             <el-input
               type="password"
-              v-model="ruleForm.pass"
+              v-model="formLabelAlign.actionPassword"
               autocomplete="off"
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button
-              type="primary"
-              @click="submitForm('ruleForm', formLabelAlign)"
-            >
+            <el-button type="primary" @click="submitForm(formLabelAlign)">
               提交
             </el-button>
           </el-form-item>
@@ -152,14 +151,15 @@
 </template>
 <script>
 import headerTitle from "@/components/headerTitle.vue";
+import { ticketTransfer } from "@/utils/api.js";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
+        if (this.formLabelAlign.checkPass !== "") {
+          this.$refs.formLabelAlign.validateField("checkPass");
         }
         callback();
       }
@@ -175,40 +175,55 @@ export default {
       labelPositionTabs: "right",
       labelPositionForm: "top",
       formLabelAlign: {
-        senderChain: "",
-        senderName: "",
-        tradeAmount: "",
-        launchedDate: "",
-        balance: "",
-        tradeAmount: "",
-        file: "",
-      },
-      ruleForm: {
-        pass: "",
+        balance: localStorage.getItem("ticketBalance"),
+        accountName: localStorage.getItem("name"),
+        accountType: parseInt(localStorage.getItem("accountType")),
+        actionPassword: "",
+        senderChain: localStorage.getItem("chain"),
+        sender: localStorage.getItem("name"),
+        num: "",
+        receiver: "",
+        receiverChain: "",
+        usage: "",
+        date: "",
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
+        actionPassword: [{ validator: validatePass, trigger: "blur" }],
       },
     };
   },
+  mounted() {
+    console.log(localStorage);
+  },
   methods: {
-    submitForm(formName, formLabelAlign) {
-      this.$refs[formName].validate((valid) => {
+    submitForm(formLabelAlign) {
+      this.$refs.formLabelAlign.validate(async (valid) => {
         if (valid) {
+          console.log(formLabelAlign);
           //操作密码正确
           this.dialogVisible = false;
-          this.$confirm("确认转让碳信？")
-            .then((_) => {
-              this.$message({
-                message: "碳信已转让",
-                type: "success",
-              });
-            })
-            .catch((_) => {});
+          this.$confirm("确认转让碳信？").then((_) => {
+            ticketTransfer(formLabelAlign).then((data) => {
+              console.log(data.data.conde);
+              if (data.data.conde != 0) {
+                this.dialogVisible = false;
+                this.$message({
+                  message: "密码不正确",
+                  type: "warning",
+                });
+              } else {
+                this.$message({
+                  message: "碳信已转让",
+                  type: "success",
+                });
+              }
+            });
+          });
         } else {
-          //操作密码不正确
-          //console.log("error submit!!");
-          return false;
+          this.$message({
+            message: "密码不正确",
+            type: "warning",
+          });
         }
       });
     },

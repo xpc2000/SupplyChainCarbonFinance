@@ -18,24 +18,24 @@
               <el-form-item label="融资企业所属减排链">
                 <el-input
                   placeholder="某减排链"
-                  v-model="formLabelAlign.name"
+                  v-model="formLabelAlign.chain"
                 ></el-input>
               </el-form-item>
               <el-form-item label="融资企业全称">
                 <el-input
                   placeholder="某企业"
-                  v-model="formLabelAlign.date"
+                  v-model="formLabelAlign.accountName"
                 ></el-input>
               </el-form-item>
               <el-form-item label="碳信数量">
                 <el-input
                   placeholder="XXXXXX"
-                  v-model="formLabelAlign.date"
+                  v-model="formLabelAlign.num"
                 ></el-input>
               </el-form-item>
               <el-form-item label="操作时间">
                 <el-date-picker
-                  v-model="formLabelAlign.launchedDate"
+                  v-model="formLabelAlign.date"
                   type="datetime"
                   placeholder="选择日期"
                 >
@@ -52,19 +52,19 @@
               <el-form-item label="保理企业">
                 <el-input
                   placeholder="某企业"
-                  v-model="formLabelAlign.carbonCreditBalance"
+                  v-model="formLabelAlign.companyOfferFund"
                 ></el-input>
               </el-form-item>
               <el-form-item label="收款银行">
                 <el-input
                   placeholder="某银行"
-                  v-model="formLabelAlign.carbonCreditBalance"
+                  v-model="formLabelAlign.bank"
                 ></el-input>
               </el-form-item>
               <el-form-item label="收款账户">
                 <el-input
                   placeholder="某账户"
-                  v-model="formLabelAlign.carbonCreditBalance"
+                  v-model="formLabelAlign.bankAccount"
                 ></el-input>
               </el-form-item>
             </el-form>
@@ -73,7 +73,12 @@
         <el-row>
           <div class="usage-title">资金用途</div>
           <div class="usage-comment">
-            <el-input type="textarea" :rows="8" placeholder="请输入内容">
+            <el-input
+              type="textarea"
+              :rows="8"
+              placeholder="请输入内容"
+              v-model="formLabelAlign.usage"
+            >
             </el-input>
           </div>
         </el-row>
@@ -88,25 +93,22 @@
       <!-- 提交弹出操作密码面板 -->
       <el-dialog title="操作密码" :visible.sync="dialogVisible" width="30%">
         <el-form
-          :model="ruleForm"
+          :model="formLabelAlign"
           status-icon
           :rules="rules"
-          ref="ruleForm"
+          ref="formLabelAlign"
           label-width="100px"
           class="demo-ruleForm"
         >
-          <el-form-item label="密码" prop="pass">
+          <el-form-item label="密码" prop="actionPassword">
             <el-input
               type="password"
-              v-model="ruleForm.pass"
+              v-model="formLabelAlign.actionPassword"
               autocomplete="off"
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button
-              type="primary"
-              @click="submitForm('ruleForm', formLabelAlign)"
-            >
+            <el-button type="primary" @click="submitForm(formLabelAlign)">
               提交
             </el-button>
           </el-form-item>
@@ -118,19 +120,22 @@
 </template>
 <script>
 import headerTitle from "@/components/headerTitle.vue";
+import { submitCompanyFundApplication } from "@/utils/api.js";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
+        if (this.formLabelAlign.checkPass !== "") {
+          this.$refs.formLabelAlign.validateField("checkPass");
         }
         callback();
       }
     };
     return {
+      company: localStorage.getItem("name"),
+      chain: localStorage.getItem("chain"),
       headerTitle: {
         largeTitle: "融资管理  ",
         smallTitle: "融资申请",
@@ -141,39 +146,50 @@ export default {
       labelPositionTabs: "right",
       labelPositionForm: "top",
       formLabelAlign: {
-        kongpai: "",
-        sendername: "",
-        tradeAmount: "",
-        launchedDate: "",
-        carbonCreditBalance: "",
-        tradingDescription: "",
-        receivername: "",
-        jianpai: "",
-      },
-      ruleForm: {
-        pass: "",
+        accountName: localStorage.getItem("name"),
+        accountType: localStorage.getItem("accountType"),
+        chain: localStorage.getItem("chain"),
+        actionPassword: "",
+        companyNeedFund: localStorage.getItem("name"),
+        companyOfferFund: "",
+        num: "",
+        bankAccount: "",
+        bank: "",
+        usage: "",
+        date: "",
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
+        actionPassword: [{ validator: validatePass, trigger: "blur" }],
       },
     };
   },
   methods: {
-    submitForm(formName, formLabelAlign) {
+    submitForm(formLabelAlign) {
       //console.log(formLabelAlign);
 
-      this.$refs[formName].validate((valid) => {
+      this.$refs.formLabelAlign.validate(async (valid) => {
         if (valid) {
           //操作密码正确
-          this.dialogVisible = false;
-          this.$message({
-            message: "操作成功",
-            type: "success",
-          });
+          const { data: res } = await this.$http.post(
+            "/fund/apply",
+            formLabelAlign
+          );
+          console.log(formLabelAlign);
+          if (res.conde != 0) {
+            error(res.data.msg, this);
+          } else {
+            //成功
+            this.dialogVisible = false;
+            this.$message({
+              message: "申请成功",
+              type: "success",
+            });
+          }
         } else {
-          //操作密码不正确
-          //console.log("error submit!!");
-          return false;
+          this.$message({
+            message: "密码不正确",
+            type: "warning",
+          });
         }
       });
     },
