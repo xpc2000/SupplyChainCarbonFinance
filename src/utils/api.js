@@ -147,7 +147,7 @@ export async function submitCompanyPledgeApplication(data){
 }
 
 // 金融机构审核碳质押申请
-// datatype: ApplyPledgeVo
+// datatype: ActionVo
 export async function updateInstitutionPledgeExamination(data){
     return request.put('/pledge/examine', data);
 }

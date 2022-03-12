@@ -11,12 +11,21 @@
 
       <div class="description-box">
         <el-descriptions>
-          <el-descriptions-item
-            v-for="(item, index) in text"
-            :key="item.id"
-            :label="item.label"
-          >
-            {{ item.input }}
+          <el-descriptions-item label="配额所属供应链">
+            {{this.pledgeDetail.controlChain}}
+          </el-descriptions-item>
+          <el-descriptions-item label="配额量">
+            {{this.pledgeDetail.quotaQuantity}}
+          </el-descriptions-item>
+          <el-descriptions-item label="附件">
+            合同.pdf
+          </el-descriptions-item>
+          <el-descriptions-item label="配额所有者">
+            {{this.pledgeDetail.quotaOwner}}
+          </el-descriptions-item>
+          <el-descriptions-item label="资金用途">
+            <!-- {{this.pledgeDetail.usage}} -->
+            无
           </el-descriptions-item>
         </el-descriptions>
       </div>
@@ -26,8 +35,8 @@
         审批操作
       </div>
       <div class="radio-approval-box" @click="getId">
-        <el-radio v-model="radio" label="1">审核</el-radio>
-        <el-radio v-model="radio" label="2">拒绝</el-radio>
+        <el-radio v-model="radio" label="1" @change="updateComment(1)">审核</el-radio>
+        <el-radio v-model="radio" label="2" @change="updateComment(2)">拒绝</el-radio>
         <div class="radio-approval-comment-title">签署意见</div>
         <div class="radio-approval-comment-content">
           <el-input
@@ -43,22 +52,22 @@
         <!-- 提交弹出操作密码面板 -->
         <el-dialog title="操作密码" :visible.sync="dialogVisible" width="30%">
           <el-form
-            :model="ruleForm"
+            :model="action"
             status-icon
             :rules="rules"
-            ref="ruleForm"
+            ref="action"
             label-width="100px"
-            class="demo-ruleForm"
+            class="demo-action"
           >
-            <el-form-item label="密码" prop="pass">
+            <el-form-item label="密码" prop="actionPassword">
               <el-input
                 type="password"
-                v-model="ruleForm.pass"
+                v-model="action.actionPassword"
                 autocomplete="off"
               ></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="submitForm('ruleForm')"
+              <el-button type="primary"  @click="submitForm(action)"
                 >提交</el-button
               >
             </el-form-item>
@@ -79,8 +88,8 @@ export default {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
+        if (this.action.checkPass !== "") {
+          this.$refs.action.validateField("checkPass");
         }
         callback();
       }
@@ -88,7 +97,8 @@ export default {
     return {
       institution:localStorage.getItem("name"),
       id:'',
-      details:loadSinglePledgeRow(),
+      dialogVisible:false,
+      pledgeDetail:"",
       headerTitle: {
         largeTitle: "任务管理",
         smallTitle: "质押审批",
@@ -98,7 +108,7 @@ export default {
         {
           id: 1,
           label: "配额所属供应链",
-          input: "某控排链",
+          input: this.institution
         },
         {
           id: 2,
@@ -121,47 +131,69 @@ export default {
           input: "无",
         },
       ],
-      dialogVisible: false,
+      action:{
+        accountName:localStorage.getItem("name"),
+        accountType:localStorage.getItem("accountType"),
+        actionPassword:"",
+        id:11,
+        comment:"",
+      },
       radio: "1",
       textarea: "",
-      ruleForm: {
-        pass: "",
-      },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
+        actionPassword: [{ validator: validatePass, trigger: "blur" }],
       },
     };
   },
   async mounted(){
-    const {data:res} = this.$http.get(`/pledgeSearch/pending?company=${this.institution}`)
+    this.pledgeID = parseInt(this.$route.params.id)
+    const {data:res} = await this.$http.get("/pledgeSearch/" + this.pledgeID)
+    this.pledgeDetail = res.data
+    console.log(this.pledgeDetail)
     console.log(res)
+    if(this.radio == "1"){
+      this.action.comment=true
+    }
+    else{
+      this.action.comment=false
+    }
+    console.log(this.radio)
   },
 
   methods: {
+    updateComment(label){
+      this.action.comment = (label == 1)
+      console.log(this.action)
+    },
+    
     getId(){
       let currID = this.$route.params.id;
       this.id = currID;
     },
 
-    loadSinglePledgeRow(){
-      loadSinglePledgeRow().then((res)=>{
-        this.details = res
-      })
-    },
-
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm(action) {
+      this.$refs.action.validate(async valid => {
         if (valid) {
-          //操作密码正确
           this.dialogVisible = false;
-           this.$message({
-            message: "完成签约",
-            type: "success",
-          });
-        } else {
-          //操作密码不正确
-          //console.log("error submit!!");
-          return false;
+          this.$confirm("确认审批操作")
+            .then((_) => {
+              updateInstitutionPledgeExamination(action).then((data)=>{
+                console.log(data.data.conde)
+                if (data.data.conde != 0){
+                  this.dialogVisible = false;
+                  this.$message({
+                  message: "密码不正确",
+                  type: "warning",
+                  });
+                }
+                else{
+                  this.$message({
+                  message: "完成审批",
+                  type: "success",
+                  });
+                }
+              })
+            })
         }
       });
     },

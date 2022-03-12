@@ -2,7 +2,7 @@
    <div class="sub-content-box">
     <header-title :headerTitle="headerTitle"></header-title>
     <div class="sub-content-tabs">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tabs v-model="activeName">
         <el-tab-pane label="质押待审批" name='first'>
           <template>
             <div>
@@ -88,22 +88,7 @@ export default {
           customSlot: "status",
         },
       ],
-      pendingTableData: [
-        // {
-        //   id: "1",
-        //   name: "青岛银行",
-        //   chain: "某供应链",
-        //   amount: "3695",
-        //   approved: true,
-        // },
-        // {
-        //   id: "2",
-        //   name: "青岛银行",
-        //   chain: "某供应链",
-        //   amount: "3695",
-        //   approved: false,
-        // },
-      ],
+      pendingTableData: [],
       pendingData:[],
       signingData:[],
     };
@@ -117,28 +102,23 @@ export default {
     this.signingData = pending.data
   },
   methods: {
-    handleClick(tab, event) {
-      // //console.log(tab, event);
-    },
-
-
-    //获取单行数据
     getrows(row) {
       this.row = row;
       // //console.log(row.name);
     },
     // 发送ID
     sendRow() {
-      if(this.row.approved == false){
-        // //console.log(this.row.id)
-        // this.$router.push({
-        //   name: "PledgeApprovalDetail",
-        //   params:{id: this.row.id}
-        // });
-      }
-      else if(this.row.approved == true){
+      console.log(this.row)
+      // 待审批
+      if(this.row.status == 0){
+        console.log(this.row.id)
         this.$router.push({
-          path: `/financeInstitute/taskManagement/PledgeSigning/${this.selectedID}`,
+          path: `/financeInstitute/taskManagement/PledgeApproval/${this.row.id}`,
+        });
+      }
+      else{
+        this.$router.push({
+          path: `/financeInstitute/taskManagement/PledgeSigning/${this.row.id}`,
           // name:'signPage',
         });
       }
