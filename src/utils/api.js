@@ -27,7 +27,7 @@ export async function ticketPublish(params){
 // 接收发行碳信
 // datatype: ActionVo, ticketNum(碳信数量)
 export async function ticketPublishCheck(params, ticketNum){
-    return request.post(`/ticket/publishCheck?ticketNum=${ticketNum}`, params, ticketNum)
+    return request.put(`/ticket/publishCheck?ticketNum=${ticketNum}`, params, ticketNum)
 }
 
 // 转让碳信 complete
@@ -38,7 +38,7 @@ export async function ticketTransfer(params){
 
 // 接收转让碳信
 // datatype: ActionVo, ticketNum(碳信数量)
-export async function ticketTransferCheck(params){
+export async function ticketTransferCheck(params,ticketNum){
     return request.put(`/ticket/transferCheck?ticketNum=${ticketNum}`, params, ticketNum)
 }
 
@@ -62,25 +62,25 @@ export async function loadSinglePledgeRow(id){
 }
 
 // ==============================新增代码===========================================
-// 获取特定碳信记录 not complete got problemmmmmm
+// 获取特定碳信记录 completed
 // datatype: 记录id
 export async function loadCompanyTicketRow(id){
     return request.get(`/ticketSearch/${id}`)
 }
 
-// 获取企业需要签收的碳信记录 
+// 获取企业需要签收的碳信记录  completed
 // datatype: 企业所属减排链chain，企业名称company
 export async function loadCompanyPendingTicket(chain, company){
     return request.get(`/ticketSearch/pending?chain=${chain}&company=${company}`, chain, company)
 }
 
-// 获取企业已经签收的碳信记录
+// 获取企业已经签收的碳信记录 completed
 // datatype: 企业所属减排链chain，企业名称company
 export async function loadCompanySignedTicket(chain, company){
     return request.get(`/ticketSearch/signed?chain=${chain}&company=${company}`, chain, company)
 }
 
-// 获取企业已经拒收的碳信记录
+// 获取企业已经拒收的碳信记录 havent applied
 // datatype: 企业所属减排链chain，企业名称company
 export async function loadCompanyRejectedTicket(chain, company){
     return request.get(`/ticketSearch/signed?chain=${chain}&company=${company}`, chain, company)

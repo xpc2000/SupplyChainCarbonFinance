@@ -333,7 +333,7 @@ export const routes = [
         },
       },
       {
-        path: "/jianpaiMainEnterprise/taskManagement/receivingDetails",
+        path: "/jianpaiMainEnterprise/taskManagement/receivingDetails/:id",
         component: () => import("@/views/jianpaiMainEnterprise/taskManagement/receivingDetails.vue"),
         meta: {
           title: "签收详情",
@@ -434,7 +434,7 @@ export const routes = [
         },
       },
       {
-        path: "/jianpaiAffiliateEnterprise/taskManagement/receivingDetails",
+        path: "/jianpaiAffiliateEnterprise/taskManagement/receivingDetails/:id",
         component: () => import("@/views/jianpaiMainEnterprise/taskManagement/receivingDetails.vue"),
         meta: {
           title: "签收详情",

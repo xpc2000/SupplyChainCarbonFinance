@@ -46,22 +46,22 @@
         <!-- 提交弹出操作密码面板 -->
         <el-dialog title="操作密码" :visible.sync="dialogVisible" width="30%">
           <el-form
-            :model="ruleForm"
+            :model="action"
             status-icon
             :rules="rules"
-            ref="ruleForm"
+            ref="action"
             label-width="100px"
             class="demo-ruleForm"
           >
             <el-form-item label="密码" prop="actionPassword">
               <el-input
                 type="password"
-                v-model="ruleForm.actionPassword"
+                v-model="action.actionPassword"
                 autocomplete="off"
               ></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="submitForm(action)"
+              <el-button type="primary" @click="submitForm(action, ticketNum)"
                 >提交</el-button
               >
             </el-form-item>
@@ -75,6 +75,7 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import editableText from "@/components/editableText.vue";
+import { loadSingleFactorRow, updateCompanyFundSigning } from "@/utils/api.js";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -92,7 +93,7 @@ export default {
         accountName: localStorage.getItem("name"),
         accountType: localStorage.getItem("accountType"),
         actionPassword: "",
-        id: "",
+        id: 23,
         comment: "",
       },
       headerTitle: {
@@ -183,11 +184,9 @@ export default {
   },
   async mounted() {
     this.factorID = parseInt(this.$route.params.id);
-    const { data: res } = await this.$http.get(
-      "/factorSearch?=" + this.factorID
-    );
+    const { data: res } = await loadSingleFactorRow(this.factorID);
+
     this.factorDetail = res.data;
-    this.action.id = 13;
     if (this.radio == "1") {
       this.action.comment = true;
     } else {
@@ -197,7 +196,8 @@ export default {
   },
   methods: {
     updateComment(label) {
-      this.action.comment = label == 1;
+      if (label == 1) this.action.comment = true;
+      else this.action.comment = false;
       console.log(this.action);
     },
     submitForm(action) {
@@ -206,9 +206,8 @@ export default {
           console.log(action);
           const { data: res } = await updateCompanyFundSigning(
             action,
-            parseInt(this.$route.params.id)
+            ticketNum
           );
-          console.log(res);
           if (res.conde != 0) {
             this.dialogVisible = false;
             this.$message({
