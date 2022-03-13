@@ -308,7 +308,7 @@ export const routes = [
         },
       },
       {
-        path: "/jianpaiMainEnterprise/financingManagement/financingSigning",
+        path: "/jianpaiMainEnterprise/financingManagement/financingSigning/:id",
         component: () => import("@/views/jianpaiMainEnterprise/financingManagement/financingSigning.vue"),
         meta: {
           title: "融资签约",
@@ -372,14 +372,14 @@ export const routes = [
     children: [
       {
         path: "/jianpaiAffiliateEnterprise/creditManagement/companyBoard",
-        component: () => import("@/views/kongpaiMainEnterprise/creditManagement/companyBoard.vue"),
+        component: () => import("@/views/jianpaiAffiliateEnterprise/creditManagement/companyBoard.vue"),
         meta: {
           title: "企业碳信账户",
         },
       },
       {
         path: "/jianpaiAffiliateEnterprise/creditManagement/transferCredit",
-        component: () => import("@/views/jianpaiMainEnterprise/creditManagement/transferCredit.vue"),
+        component: () => import("@/views/jianpaiAffiliateEnterprise/creditManagement/transferCredit.vue"),
         meta: {
           title: "碳信转让",
         },
@@ -396,21 +396,21 @@ export const routes = [
     children: [
       {
         path: "/jianpaiAffiliateEnterprise/financingManagement/financingList",
-        component: () => import("@/views/jianpaiMainEnterprise/financingManagement/financingList.vue"),
+        component: () => import("@/views/jianpaiAffiliateEnterprise/financingManagement/financingList.vue"),
         meta: {
           title: "融资列表",
         },
       },
       {
         path: "/jianpaiAffiliateEnterprise/financingManagement/financingApplication",
-        component: () => import("@/views/jianpaiMainEnterprise/financingManagement/financingApplication.vue"),
+        component: () => import("@/views/jianpaiAffiliateEnterprise/financingManagement/financingApplication.vue"),
         meta: {
           title: "融资申请",
         },
       },
       {
         path: "/jianpaiAffiliateEnterprise/financingManagement/financingSigning",
-        component: () => import("@/views/jianpaiMainEnterprise/financingManagement/financingSigning.vue"),
+        component: () => import("@/views/jianpaiAffiliateEnterprise/financingManagement/financingSigning.vue"),
         meta: {
           title: "融资签约",
         },
@@ -428,14 +428,14 @@ export const routes = [
     children: [
       {
         path: "/jianpaiAffiliateEnterprise/taskManagement/receiveCredit",
-        component: () => import("@/views/jianpaiMainEnterprise/taskManagement/receiveCredit.vue"),
+        component: () => import("@/views/jianpaiAffiliateEnterprise/taskManagement/receiveCredit.vue"),
         meta: {
           title: "签收碳信",
         },
       },
       {
         path: "/jianpaiAffiliateEnterprise/taskManagement/receivingDetails/:id",
-        component: () => import("@/views/jianpaiMainEnterprise/taskManagement/receivingDetails.vue"),
+        component: () => import("@/views/jianpaiAffiliateEnterprise/taskManagement/receivingDetails.vue"),
         meta: {
           title: "签收详情",
         },
@@ -453,7 +453,7 @@ export const routes = [
     children: [
       {
         path: "/jianpaiAffiliateEnterprise/notificationList/notificationList",
-        component: () => import("@/views/kongpaiMainEnterprise/notificationList/notificationList.vue"),
+        component: () => import("@/views/jianpaiAffiliateEnterprise/notificationList/notificationList.vue"),
         meta: {
           title: "信息通知",
           icon: "el-icon-user",

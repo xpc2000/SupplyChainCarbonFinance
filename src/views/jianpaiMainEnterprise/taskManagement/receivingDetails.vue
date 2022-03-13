@@ -238,7 +238,7 @@ export default {
       this.$refs.action.validate(async (valid) => {
         if (valid) {
           this.dialogVisible = false;
-          this.$confirm("确认审批操作").then((_) => {
+          this.$confirm("确认签收碳信？").then((_) => {
             ticketTransferCheck(action, parseInt(ticketNum)).then((data) => {
               if (data.data.conde != 0) {
                 this.dialogVisible = false;

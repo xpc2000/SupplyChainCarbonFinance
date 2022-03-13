@@ -10,13 +10,43 @@
 
       <div class="description-box">
         <el-descriptions>
-          <el-descriptions-item
-            v-for="(item, index) in editableText"
-            :key="item.id"
-            :label="item.label"
-          >
-            {{ item.input }}
+          <el-descriptions-item label="融资企业所属减排链">
+            {{ this.chain }}
           </el-descriptions-item>
+          <el-descriptions-item label="收款账户">
+            {{ this.receivedDetail.account }}
+          </el-descriptions-item>
+          <el-descriptions-item label="操作时间">
+            {{ this.receivedDetail.operationTime }}
+          </el-descriptions-item>
+          <el-descriptions-item label="融资企业全称">
+            {{ this.receivedDetail.company }}
+          </el-descriptions-item>
+          <el-descriptions-item label="收款银行">
+            {{ this.receivedDetail.bank }}
+          </el-descriptions-item>
+          <el-descriptions-item label="利率">
+            {{ this.receivedDetail.interestRate }}
+          </el-descriptions-item>
+          <el-descriptions-item label="碳信数量">
+            {{ this.receivedDetail.amountCarbonTicket }}
+          </el-descriptions-item>
+          <el-descriptions-item label="保理企业">
+            {{ this.receivedDetail.factoringCompany }}
+          </el-descriptions-item>
+          <el-descriptions-item label="服务费率">
+            {{ this.receivedDetail.serviceRate }}
+          </el-descriptions-item>
+          <el-descriptions-item label="资金用途">
+            {{ this.receivedDetail.fundUse }}
+          </el-descriptions-item>
+          <el-descriptions-item label="融资金额">
+            {{ this.receivedDetail.financingAmount }}
+          </el-descriptions-item>
+          <el-descriptions-item label="融资期限">
+            {{ this.receivedDetail.financingTerm }}
+          </el-descriptions-item>
+          <el-descriptions-item label="附件"> 发票.png </el-descriptions-item>
         </el-descriptions>
       </div>
 
@@ -82,8 +112,8 @@ export default {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
+        if (this.action.checkPass !== "") {
+          this.$refs.action.validateField("checkPass");
         }
         callback();
       }
@@ -93,7 +123,7 @@ export default {
         accountName: localStorage.getItem("name"),
         accountType: localStorage.getItem("accountType"),
         actionPassword: "",
-        id: 23,
+        id: "",
         comment: "",
       },
       headerTitle: {
@@ -101,74 +131,6 @@ export default {
         smallTitle: "融资签约",
       },
       edit: false,
-      editableText: [
-        {
-          id: 1,
-          label: "融资企业所属减排链",
-          input: "某减排链",
-        },
-        {
-          id: 2,
-          label: "收款账户",
-          input: "某账户",
-        },
-        {
-          id: 3,
-          label: "操作时间",
-          input: "2022-03-03",
-        },
-        {
-          id: 4,
-          label: "融资企业全称",
-          input: "某企业",
-        },
-        {
-          id: 5,
-          label: "收款银行",
-          input: "某银行",
-        },
-        {
-          id: 6,
-          label: "利率",
-          input: "2300",
-        },
-        {
-          id: 7,
-          label: "碳信数量",
-          input: "2300",
-        },
-        {
-          id: 8,
-          label: "保理企业",
-          input: "某企业",
-        },
-        {
-          id: 9,
-          label: "服务费率",
-          input: "￥￥",
-        },
-        {
-          id: 10,
-          label: "资金用途",
-          input: "融资",
-        },
-        {
-          id: 9,
-          label: "融资金额",
-          input: "￥￥￥￥￥￥",
-        },
-        {
-          id: 10,
-          label: "融资期限",
-          input: "2022-03-03",
-        },
-        {
-          id: 11,
-          label: "附件",
-          input: "发票.png",
-        },
-      ],
-
       dialogVisible: false,
       radio: "1",
       textarea: "",
@@ -179,20 +141,35 @@ export default {
         actionPassword: [{ validator: validatePass, trigger: "blur" }],
       },
       factorID: -999,
-      pledgeDetail: {},
+      ticketNum: 0,
+      receivedDetail: {},
+      company: localStorage.getItem("name"),
+      chain: localStorage.getItem("chain"),
     };
   },
   async mounted() {
-    this.factorID = parseInt(this.$route.params.id);
-    const { data: res } = await loadSingleFactorRow(this.factorID);
+    this.receivedID = parseInt(this.$route.params.id);
+    const { data: res } = await loadSingleFactorRow(this.receivedID);
+    console.log(res.data);
 
-    this.factorDetail = res.data;
+    this.receivedDetail = res.data;
+
+    //签收详情数据
+    // this.tableData[0].senderName = this.receivedDetail.initiatorName;
+    // this.tableData[0].receiverName = this.receivedDetail.receiverName;
+    // this.tableData[0].date = this.receivedDetail.operationData;
+    // this.tableData[0].amount = this.receivedDetail.amountCarbonTicket;
+    this.receivedDetail.operationTime = "2022-03-02 12:13:31";
+    this.receivedDetail.financingTerm = "2022-03-02 12:13:31";
+    this.ticketNum = this.receivedDetail.amountCarbonTicket;
+    console.log("ticketNum: " + this.ticketNum);
+    this.action.id = this.receivedID;
+
     if (this.radio == "1") {
       this.action.comment = true;
     } else {
       this.action.comment = false;
     }
-    console.log(this.factorDetail);
   },
   methods: {
     updateComment(label) {
@@ -200,27 +177,29 @@ export default {
       else this.action.comment = false;
       console.log(this.action);
     },
-    submitForm(action) {
+    submitForm(action, ticketNum) {
       this.$refs.action.validate(async (valid) => {
         if (valid) {
-          console.log(action);
-          const { data: res } = await updateCompanyFundSigning(
-            action,
-            ticketNum
-          );
-          if (res.conde != 0) {
-            this.dialogVisible = false;
-            this.$message({
-              message: "签约失败",
-            });
-            return false;
-          } else {
-            this.dialogVisible = false;
-            this.$message({
-              message: "完成签约",
-              type: "success",
-            });
-          }
+          this.dialogVisible = false;
+          this.$confirm("确认审批操作").then((_) => {
+            updateCompanyFundSigning(action, parseInt(ticketNum)).then(
+              (data) => {
+                if (data.data.conde != 0) {
+                  this.dialogVisible = false;
+                  this.$message({
+                    message: "密码不正确",
+                    type: "warning",
+                  });
+                } else {
+                  console.log(data);
+                  this.$message({
+                    message: "完成签约",
+                    type: "success",
+                  });
+                }
+              }
+            );
+          });
         }
       });
     },

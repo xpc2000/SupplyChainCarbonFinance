@@ -179,6 +179,7 @@ export default {
             error(res.data.msg, this);
           } else {
             //成功
+            console.log(res);
             this.dialogVisible = false;
             this.$message({
               message: "申请成功",
