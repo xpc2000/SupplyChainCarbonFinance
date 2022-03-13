@@ -110,6 +110,7 @@ export default {
           error(res.data.msg, this);
         } else {
           console.log(res);
+          console.log("=========当前用户的数据====");
           localStorage.clear();
           console.log(res.data);
           localStorage.setItem("userEmail", this.formLogin.userEmail);
@@ -119,10 +120,15 @@ export default {
             "accountType",
             parseInt(this.formLogin.accountType)
           );
-          localStorage.setItem("emissionPledged", res.data.emissionPledged);
           localStorage.setItem("carbonLimit", res.data.carbonLimit);
-          localStorage.setItem("ticketUnissued", res.data.ticketUnissued);
+          localStorage.setItem("emissionPledged", res.data.emissionPledged);
+          //控排链企业的emmisionPledge拼写错误需要存另一个
+          localStorage.setItem(
+            "emissionPledgedAnother",
+            res.data.emisssionPledged
+          );
           localStorage.setItem("ticketBuyback", res.data.ticketBuyback);
+          localStorage.setItem("ticketUnissued", res.data.ticketUnissued);
           localStorage.setItem("ticketBalance", res.data.carbinTicket);
           console.log(localStorage);
           success(res.data.msg, this);

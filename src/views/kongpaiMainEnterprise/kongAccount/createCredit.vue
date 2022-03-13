@@ -13,25 +13,22 @@
             label-width="80px"
             :model="formLabelAlign"
           >
-          <el-form-item label="创建方所属控排链">
-            <el-input
+            <el-form-item label="创建方所属控排链">
+              <el-input
                 :disabled="true"
                 placeholder=""
                 v-model="formLabelAlign.senderChain"
               ></el-input>
-          </el-form-item>
+            </el-form-item>
             <el-form-item label="签收方">
               <el-input
-              :disabled="true"
-              placeholder=""
-              v-model="formLabelAlign.sender"
-            ></el-input>
+                :disabled="true"
+                placeholder=""
+                v-model="formLabelAlign.sender"
+              ></el-input>
             </el-form-item>
             <el-form-item label="碳信额度">
-              <el-input
-                  placeholder=""
-                  v-model="avaliableCredit"
-                ></el-input>
+              <el-input placeholder="" v-model="avaliableCredit"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -43,16 +40,13 @@
           >
             <el-form-item label="创建方">
               <el-input
-              :disabled="true"
-              placeholder=""
-              v-model="formLabelAlign.sender"
-            ></el-input>
+                :disabled="true"
+                placeholder=""
+                v-model="formLabelAlign.sender"
+              ></el-input>
             </el-form-item>
             <el-form-item label="款项额度">
-              <el-input
-                placeholder=""
-                v-model="avaliableCredit"
-            ></el-input>
+              <el-input placeholder="" v-model="avaliableCredit"></el-input>
             </el-form-item>
 
             <el-form-item label="碳信创建日期">
@@ -118,7 +112,7 @@
 </template>
 <script>
 import headerTitle from "@/components/headerTitle.vue";
-import {ticketCreate} from "@/utils/api.js";
+import { ticketCreate } from "@/utils/api.js";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -132,7 +126,7 @@ export default {
       }
     };
     return {
-      avaliableCredit:localStorage.getItem("carbonLimit"),
+      avaliableCredit: localStorage.getItem("carbonLimit"),
       headerTitle: {
         largeTitle: "碳控排链信账户",
         smallTitle: "碳信创建",
@@ -144,15 +138,15 @@ export default {
         actionPassword: [{ validator: validatePass, trigger: "blur" }],
       },
       formLabelAlign: {
-        accountName:localStorage.getItem("name"),
-        accountType:parseInt(localStorage.getItem("accountType")),
-        actionPassword:"",
-        senderChain:localStorage.getItem("chain"),
-        sender:localStorage.getItem("name"),
-        receiverChain:localStorage.getItem("chain"),
-        receiver:localStorage.getItem("name"),
-        num:0,
-        usage:"",
+        accountName: localStorage.getItem("name"),
+        accountType: parseInt(localStorage.getItem("accountType")),
+        actionPassword: "",
+        senderChain: localStorage.getItem("chain"),
+        sender: localStorage.getItem("name"),
+        receiverChain: localStorage.getItem("chain"),
+        receiver: localStorage.getItem("name"),
+        num: 0,
+        usage: "",
       },
 
       column: [
@@ -194,8 +188,8 @@ export default {
           kongpai: localStorage.getItem("chain"),
           sendername: localStorage.getItem("name"),
           receiverName: "核企碳信账户",
-          moneyBalance: "￥10,000.00",
-          carbonCreditBalance: "￥10,000.00",
+          moneyBalance: "10,000.00",
+          carbonCreditBalance: "10,000.00",
           createdDate: "02-02-2022",
         },
       ],
@@ -203,31 +197,35 @@ export default {
   },
   methods: {
     submitForm(formLabelAlign) {
-      this.$refs.formLabelAlign.validate(async valid => {
+      this.formLabelAlign.num = this.avaliableCredit;
+      console.log(this.formLabelAlign.num);
+      this.$refs.formLabelAlign.validate(async (valid) => {
         if (valid) {
           //操作密码正确
           this.dialogVisible = false;
-          this.$confirm("确认创建碳信？")
-            .then((_) => {
-              ticketCreate(formLabelAlign).then((data)=>{
-                if (data.data.conde != 0){
-                  this.dialogVisible = false;
-                  this.$message({
+          this.$confirm("确认创建碳信？").then((_) => {
+            ticketCreate(formLabelAlign).then((data) => {
+              if (data.data.conde != 0) {
+                this.dialogVisible = false;
+                this.$message({
                   message: "密码不正确",
                   type: "warning",
-                  });
-                }
-                else{
-                  this.$message({
+                });
+              } else {
+                console.log(this.formLabelAlign);
+                this.$message({
                   message: "碳信已创建",
                   type: "success",
-                  });
-                }
-              })
-            })
+                });
+              }
+            });
+          });
         }
       });
     },
+  },
+  mounted() {
+    console.log(this.formLabelAlign.num);
   },
   components: {
     headerTitle,

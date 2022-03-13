@@ -6,7 +6,7 @@
       <el-row class="subcontent-title">
         <el-col :span="12">碳控排链信账户款项流动仪表盘</el-col>
         <el-col :span="12" class="refresh-data">
-          <el-row> {{companyName}} {{chainName}}</el-row>
+          <el-row> {{ companyName }} {{ chainName }}</el-row>
           <el-row class="detail-card-title">
             <span class="refresh" @click="refresh">刷新</span>
             <i class="el-icon-refresh refresh"></i>
@@ -22,22 +22,26 @@
             <el-row>
               <el-col :span="12">
                 <el-row class="detail-card-title">质押碳配额数量</el-row>
-                <el-row class="detail-card-content">{{emissionPledged}}</el-row>
+                <el-row class="detail-card-content">{{
+                  emissionPledged
+                }}</el-row>
               </el-col>
               <el-col :span="12">
                 <el-row class="detail-card-title">已发行碳信余额</el-row>
-                <el-row class="detail-card-content">{{carbonLimit}}</el-row>
+                <el-row class="detail-card-content">{{ carbonLimit }}</el-row>
               </el-col>
             </el-row>
 
             <el-row class="detail-card-margin">
               <el-col :span="12">
                 <el-row class="detail-card-title">已回购碳信余额</el-row>
-                <el-row class="detail-card-content">{{ticketBuyback}}</el-row>
+                <el-row class="detail-card-content">{{ ticketBuyback }}</el-row>
               </el-col>
               <el-col :span="12">
                 <el-row class="detail-card-title">可发行碳信余额</el-row>
-                <el-row class="detail-card-content">{{ticketUnissued}}</el-row>
+                <el-row class="detail-card-content">{{
+                  ticketUnissued
+                }}</el-row>
               </el-col>
             </el-row>
           </el-row>
@@ -69,12 +73,12 @@ import headerTitle from "@/components/headerTitle.vue";
 export default {
   data() {
     return {
-      emissionPledged:localStorage.getItem("emissionPledged"),
-      carbonLimit:localStorage.getItem("carbonLimit"),
-      ticketBuyback:localStorage.getItem("ticketBuyback"),
-      ticketUnissued:localStorage.getItem("ticketUnissued"),
-      companyName:localStorage.getItem("name"),
-      chainName:localStorage.getItem("chain"),
+      emissionPledged: localStorage.getItem("emissionPledgedAnother"),
+      carbonLimit: localStorage.getItem("carbonLimit"),
+      ticketBuyback: localStorage.getItem("ticketBuyback"),
+      ticketUnissued: localStorage.getItem("ticketUnissued"),
+      companyName: localStorage.getItem("name"),
+      chainName: localStorage.getItem("chain"),
       headerTitle: {
         largeTitle: "碳信管理",
         smallTitle: "企业碳信账户",

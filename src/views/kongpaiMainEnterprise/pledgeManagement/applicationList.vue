@@ -62,7 +62,6 @@ export default {
         largeTitle: "碳配额质押申请",
         smallTitle: "申请列表",
       },
-
       activeName: "first",
       company:localStorage.getItem("name"),
       chain:localStorage.getItem("chain"),
@@ -73,7 +72,6 @@ export default {
           width: "100",
           customSlot: "option",
         },
-
         {
           prop: "institution",
           label: "金融机构",
@@ -96,14 +94,12 @@ export default {
   },
   async mounted(){
     // console.log(await loadCompanySubmittedPledge(this.chain, this.company))
-    const {data:submitted} = await loadCompanySubmittedPledge(this.chain, this.company)
+    const {data:submitted} = await loadCompanySubmittedPledge( this.chain, this.company)
     this.submittedData = submitted.data
     const {data:pending} = await loadCompanySigningPledge(this.chain, this.company)
     this.pendingData = pending.data
   },
-
   methods: {
-
     //获取单行数据
     getrows(row) {
       this.selectedID = row.id
@@ -127,11 +123,9 @@ export default {
 .sub-content-tabs {
   margin: 20px 40px 40px;
 }
-
 .sub-content-import-export {
   padding-top: 20px;
 }
-
 .sub-content-import-export .el-button {
   width: 100px;
   height: 35px;
@@ -139,7 +133,6 @@ export default {
   padding: 0;
   font-size: 14px;
 }
-
 .button-style {
   margin-right: 20px;
   width: 100px;
@@ -152,27 +145,23 @@ export default {
   background: #209f85;
   color: #fff;
 }
-
 .button-style:hover {
   background: transparent;
   border: 1px solid #209f85;
   color: #209f85;
   cursor: pointer;
 }
-
 ::v-deep .el-input__inner {
   border-radius: 20px;
   height: 34px;
   padding-left: 20px;
 }
-
 ::v-deep .el-tabs__item.is-active {
   color: #209f85;
 }
 ::v-deep .el-tabs__item :hover {
   color: #209f85;
 }
-
 ::v-deep .el-tabs__active-bar {
   background-color: #209f85;
 }
