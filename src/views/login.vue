@@ -123,10 +123,10 @@ export default {
           localStorage.setItem("carbonLimit", res.data.carbonLimit);
           localStorage.setItem("emissionPledged", res.data.emissionPledged);
           //控排链企业的emmisionPledge拼写错误需要存另一个
-          localStorage.setItem(
-            "emissionPledgedAnother",
-            res.data.emisssionPledged
-          );
+          // localStorage.setItem(
+          //   "emissionPledged",
+          //   res.data.emisssionPledged
+          // );
           localStorage.setItem("ticketBuyback", res.data.ticketBuyback);
           localStorage.setItem("ticketUnissued", res.data.ticketUnissued);
           localStorage.setItem("ticketBalance", res.data.carbinTicket);

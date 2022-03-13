@@ -28,7 +28,7 @@
               </el-col>
               <el-col :span="12">
                 <el-row class="detail-card-title">已发行碳信余额</el-row>
-                <el-row class="detail-card-content">{{ carbonLimit }}</el-row>
+                <el-row class="detail-card-content">{{ carbonIssued }}</el-row>
               </el-col>
             </el-row>
 
@@ -70,10 +70,12 @@
 <script>
 import * as echarts from "echarts";
 import headerTitle from "@/components/headerTitle.vue";
+import {getCompanySummary} from "@/utils/api.js"
 export default {
   data() {
     return {
-      emissionPledged: localStorage.getItem("emissionPledgedAnother"),
+      carbonIssued: "",
+      emissionPledged: localStorage.getItem("emissionPledged"),
       carbonLimit: localStorage.getItem("carbonLimit"),
       ticketBuyback: localStorage.getItem("ticketBuyback"),
       ticketUnissued: localStorage.getItem("ticketUnissued"),
@@ -150,15 +152,26 @@ export default {
       ],
     };
   },
-  mounted() {
+  async mounted() {
     if (!this.mychart) {
       this.mychart = echarts.init(document.getElementById("main"));
     }
     this.init();
-    console.log(localStorage);
+    // console.log(localStorage);
+    this.carbonIssued = parseInt(this.carbonLimit) - parseInt(this.ticketBuyback) - parseInt(this.ticketUnissued)
+    // console.log(this.carbonIssued)
+    const{data:res} = await getCompanySummary(localStorage.getItem("userEmail"), localStorage.getItem("accountType"))
+    console.log("res.data:", res.data)  
+    localStorage.setItem("ticketBuyback", res.data.ticketBuyback);
+    localStorage.setItem("ticketUnissued", res.data.ticketUnissued);
+    localStorage.setItem("emissionPledged", res.data.emissionPledged);
+    localStorage.setItem("ticketUnissued", res.data.ticketUnissued)
+    this.carbonIssued = parseInt(this.carbonLimit) - parseInt(this.ticketBuyback) - parseInt(this.ticketUnissued)
+    
   },
   methods: {
-    refresh() {
+    async refresh() {
+      this.$router.go()
       this.$message("已刷新数据");
     },
     init() {

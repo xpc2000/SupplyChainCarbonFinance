@@ -12,6 +12,12 @@ export async function loginVerification(data){
     return request.post('/user/login', data);
 }
 
+//******NEW******** */
+//datatype: userEmail, accountType
+export async function getCompanySummary(email, type){
+    return request.get(`/user/getCompanySummary?email=${email}&type=${type}`, email, type)
+}
+
 // 创建碳信
 // datatype: TicketVo
 export async function ticketCreate(params){

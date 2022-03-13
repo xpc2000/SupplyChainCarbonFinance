@@ -139,6 +139,8 @@ export default {
     this.pledgeID = parseInt(this.$route.params.id)
     const {data:res} = await this.$http.get("/pledgeSearch/" + this.pledgeID)
     this.pledgeDetail = res.data
+    this.pledgeDetail.operationData = "2022-03-12 14:07:59";
+    this.pledgeDetail.loanTerm = "2022-03-12 23:23:23";
     this.action.id = this.pledgeID
     if(this.radio == "1"){
       this.action.comment=true

@@ -1,7 +1,7 @@
 <template>
   <div class="sub-content-box">
     <header-title :headerTitle="headerTitle"></header-title>
-
+    <div></div>
     <div class="sub-content-tabs">
       <el-tabs v-model="activeName">
         <el-tab-pane label="保理待审批" name='first'>
@@ -81,7 +81,7 @@ export default {
           width: "",
         },
         {
-          prop: "date",
+          prop: "time",
           label: "操作时间",
           width: "",
         },

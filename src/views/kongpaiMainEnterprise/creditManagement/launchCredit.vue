@@ -22,7 +22,7 @@
                   v-model="formLabelAlign.sender"
                 ></el-input>
               </el-form-item>
-              <el-form-item label="碳信余额">
+              <el-form-item label="可发行碳信余额">
                 <el-input
                   :disabled="true"
                   placeholder=""
@@ -158,12 +158,13 @@ export default {
       }
     };
     return {
-      avaliableCredit: localStorage.getItem("carbonLimit"),
+      avaliableCredit: localStorage.getItem("ticketUnissued"),
       pledgeID: 0,
       headerTitle: {
         largeTitle: "碳信管理 ",
         smallTitle: "碳信发行 ",
       },
+      updatedUnissued:"",
       active: 1,
       textarea: "",
       dialogVisible: false,
@@ -204,6 +205,9 @@ export default {
                   type: "warning",
                 });
               } else {
+                this.updatedUnissued = this.avaliableCredit - this.formLabelAlign.num
+                console.log("updatedunissued", this.updatedUnissued, "this.ticketUnissued - this.formLabelAlign.num", this.avaliableCredit - this.formLabelAlign.num)
+                // localStorage.setItem("ticketUnissued", this.updatedUnissued)
                 this.$message({
                   message: "碳信已发行",
                   type: "success",
@@ -216,7 +220,9 @@ export default {
     },
   },
   mounted() {
+    this.ticketUnissued = 
     this.formLabelAlign.num = parseInt(this.formLabelAlign.num);
+    // this.avaliableCredit = this.ticketUnissued
   },
   components: {
     headerTitle,

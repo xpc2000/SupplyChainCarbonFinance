@@ -7,6 +7,7 @@
         <div class="table-rec"></div>
         申请表单
       </div>
+      <div></div>
       <div class="form-body">
         <el-row :gutter="40">
           <el-col :span="12">
