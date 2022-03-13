@@ -20,9 +20,6 @@
                 </template>
               </list-table>
             </div>
-            <div class="sub-content-import-export">
-              <button @click="sendRow()" class="button-style">查看</button>
-            </div>
           </template>
         </el-tab-pane>
         
@@ -115,7 +112,7 @@ export default {
     // 发送ID
     sendRow() {
       this.$router.push({
-        path: `/kongpaiAffiliateEnterprise/pledgeManagement/pledgeSigning/${this.selectedID}`
+        path: `/kongpaiMainEnterprise/pledgeManagement/pledgeSigning/${this.selectedID}`
       });
       //console.log(this.row.name);
     },

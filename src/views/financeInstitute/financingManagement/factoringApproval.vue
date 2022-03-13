@@ -187,7 +187,7 @@ export default {
       this.$refs.action.validate(async valid => {
         if (valid) {
           this.dialogVisible = false;
-          this.$confirm("确认签约操作")
+          this.$confirm("确认审核操作")
             .then((_) => {
               updateInstitutionFundExamination(action).then((data)=>{
                 console.log(data)
@@ -200,7 +200,7 @@ export default {
                 }
                 else{
                   this.$message({
-                  message: "完成签约",
+                  message: "完成审核",
                   type: "success",
                   });
                 }

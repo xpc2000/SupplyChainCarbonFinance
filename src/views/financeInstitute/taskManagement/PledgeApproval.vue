@@ -24,8 +24,7 @@
             {{this.pledgeDetail.quotaOwner}}
           </el-descriptions-item>
           <el-descriptions-item label="资金用途">
-            <!-- {{this.pledgeDetail.usage}} -->
-            无
+            {{this.pledgeDetail.fundUse}}
           </el-descriptions-item>
         </el-descriptions>
       </div>

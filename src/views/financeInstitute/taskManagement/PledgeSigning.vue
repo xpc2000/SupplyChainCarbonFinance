@@ -40,7 +40,7 @@
               @click="item.edit = !item.edit"
             ></i>
           </el-descriptions-item>
-          <!-- <el-descriptions-item
+          <el-descriptions-item
           v-for="(item, index) in pledgeDDL"
           :key="item.prop"
           :label="item.label"
@@ -54,7 +54,7 @@
             }"
             @click="item.edit = !item.edit"
           ></i>
-        </el-descriptions-item> -->
+        </el-descriptions-item>
         </el-descriptions>
       </div>
 
@@ -125,7 +125,7 @@ export default {
     return {
       pledgeDetail: {
         accountName:localStorage.getItem("name"),
-        accountType:localStorage.getItem("name"),
+        accountType: parseInt(localStorage.getItem("accountType")),
         actionPassword:'',
         id:0,
         chain:'',
@@ -188,8 +188,9 @@ export default {
     this.pledgeDetail.id = parseInt(this.$route.params.id)
     console.log(this.$route.params.id)
     const {data:res} = await this.$http.get("/pledgeSearch/" + this.pledgeDetail.id)
-    this.pledgeDetail.chain = res.data.quotaOwner
-    this.pledgeDetail.companyNeedFund = res.data.company
+    console.log("res.data", res.data)
+    this.pledgeDetail.chain = res.data.controlChain
+    this.pledgeDetail.companyNeedFund = res.data.quotaOwner
     this.pledgeDetail.usage = res.data.fundUse
     this.pledgeDetail.date = res.data.operationData
     this.pledgeDetail.pledgeNum = res.data.quotaQuantity
@@ -203,7 +204,6 @@ export default {
       console.log(this.action)
     },
     submitForm(pledgeDetail) {
-      this.pledgeDetail.pledgeDDL = this.pledgeDDL[0].input
       this.pledgeDetail.pledgeRate = parseFloat(this.editableText[0].input)
       this.pledgeDetail.interestRate = parseFloat(this.editableText[1].input)
       this.pledgeDetail.pledgeFund = parseInt(this.editableText[2].input)

@@ -145,6 +145,7 @@ export default {
       this.mychart = echarts.init(document.getElementById("main"));
     }
     this.init();
+    console.log(localStorage)
   },
   methods: {
     refresh() {

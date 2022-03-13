@@ -142,25 +142,22 @@ export default {
       editableText: [
         {
           id: 6,
+          prop:"interestRate",
           label: "利率",
           input: "可编辑",
           edit: false,
         },
         {
           id: 7,
+          prop:"serviceRate",
           label: "服务费率",
           input: "可编辑",
           edit: false,
         },
         {
           id: 8,
+          prop:"fund",
           label: "融资金额",
-          input: "可编辑",
-          edit: false,
-        },
-        {
-          id: 9,
-          label: "质押金额",
           input: "可编辑",
           edit: false,
         },
@@ -189,10 +186,13 @@ export default {
 
   methods: {
     submitForm(factorVo) {
+      this.factorVo.interestRate = parseFloat(this.editableText[0].input)
+      this.factorVo.serviceRate = parseFloat(this.editableText[1].input)
+      this.factorVo.fund = parseInt(this.editableText[2].input)
       this.$refs.factorVo.validate(async valid => {
         if (valid) {
           this.dialogVisible = false;
-          this.$confirm("确认签订操作")
+          this.$confirm("确认买入操作")
             .then((_) => {
               updateInstitutionFundSigning(factorVo).then((data)=>{
                 console.log(data)
@@ -205,7 +205,7 @@ export default {
                 }
                 else{
                   this.$message({
-                  message: "完成签订",
+                  message: "完成买入",
                   type: "success",
                   });
                 }

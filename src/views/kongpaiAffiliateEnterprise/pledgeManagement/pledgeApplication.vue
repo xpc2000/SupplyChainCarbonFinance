@@ -56,13 +56,13 @@
         </el-row>
         <el-row>
          
-              <div class="usage-title">资金用途</div>
+        <div class="usage-title" :model="formLabelAlign">资金用途</div>
           <div class="usage-comment">
             <el-input
-      
             type="textarea"
               :rows="8"
               placeholder="请输入内容"
+              v-model="formLabelAlign.usage"
             >
             </el-input>
           </div>
@@ -141,7 +141,7 @@ export default {
         companyNeedFund: localStorage.getItem("name"),
         companyOfferFund: "",
         pledgeNum: 0,
-        usage: "usage"
+        usage: ""
       },
       ruleForm: {
         pass: "",
@@ -155,6 +155,7 @@ export default {
     submitForm(formLabelAlign){
           this.$refs.formLabelAlign.validate(async valid  => {
           if (valid) {//操作正确
+            console.log(this.formLabelAlign)
             const {data:res} = await this.$http.post("/pledge/apply", formLabelAlign)
             console.log(res)
             if (res.conde != 0){

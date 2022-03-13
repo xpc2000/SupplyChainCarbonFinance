@@ -131,7 +131,7 @@ export const routes = [
         },
       },
       {
-        path: "/kongpaiMainEnterprise/pledgeManagement/pledgeSigning",
+        path: "/kongpaiMainEnterprise/pledgeManagement/pledgeSigning/:id",
         component: () => import("@/views/kongpaiMainEnterprise/pledgeManagement/pledgeSigning.vue"),
         meta: {
           title: "质押签约",

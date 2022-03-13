@@ -29,7 +29,6 @@
             </el-form-item>
             <el-form-item label="碳信额度">
               <el-input
-                  :disabled="true"
                   placeholder=""
                   v-model="avaliableCredit"
                 ></el-input>
@@ -50,7 +49,10 @@
             ></el-input>
             </el-form-item>
             <el-form-item label="款项额度">
-              {{avaliableCredit}}
+              <el-input
+                placeholder=""
+                v-model="avaliableCredit"
+            ></el-input>
             </el-form-item>
 
             <el-form-item label="碳信创建日期">
@@ -189,8 +191,8 @@ export default {
       ],
       tableData: [
         {
-          kongpai: "某控排链",
-          sendername: "核心企业",
+          kongpai: localStorage.getItem("chain"),
+          sendername: localStorage.getItem("name"),
           receiverName: "核企碳信账户",
           moneyBalance: "￥10,000.00",
           carbonCreditBalance: "￥10,000.00",
@@ -205,7 +207,7 @@ export default {
         if (valid) {
           //操作密码正确
           this.dialogVisible = false;
-          this.$confirm("确认发行碳信？")
+          this.$confirm("确认创建碳信？")
             .then((_) => {
               ticketCreate(formLabelAlign).then((data)=>{
                 if (data.data.conde != 0){
@@ -217,7 +219,7 @@ export default {
                 }
                 else{
                   this.$message({
-                  message: "碳信已发行",
+                  message: "碳信已创建",
                   type: "success",
                   });
                 }
