@@ -4,7 +4,7 @@
 
     <div class="sub-content-body">
       <el-row class="subcontent-title">
-        <el-col :span="12">碳控排链信账户款项流动仪表盘</el-col>
+        <el-col :span="12">减排链企业账户碳信流动仪表盘</el-col>
         <el-col :span="12" class="refresh-data">
           <el-row> {{ company }} —— {{ chain }}</el-row>
           <el-row class="detail-card-title">
@@ -45,7 +45,7 @@
       </el-row>
 
       <el-row class="subcontent-title">
-        <el-col :span="12">碳信创建历史</el-col>
+        <el-col :span="12">碳信转让历史</el-col>
       </el-row>
       <el-row class="subcontent-bellow-body">
         <el-table :data="tableData" style="width: 100%">

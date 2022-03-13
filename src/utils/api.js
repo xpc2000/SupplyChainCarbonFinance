@@ -171,7 +171,7 @@ export async function updateCompanyPledgeSigning(data, ticketNum){
     return request.put(`/pledge/companySign?ticketNum=${ticketNum}`, data, ticketNum);
 }
 
-// 减排链企业申请供应链金融服务（本demo中以保理为例）
+// 减排链企业申请供应链金融服务（本demo中以保理为例）completed
 // datatype: ApplyFactorVo
 export async function submitCompanyFundApplication(data){
     return request.put(`/fund/apply`, data);
@@ -189,7 +189,7 @@ export async function updateInstitutionFundSigning(data){
     return request.put(`/fund/financeSign`, data);
 }
 
-// 减排链企业决定是否答应金融机构提出的融资条件
+// 减排链企业决定是否答应金融机构提出的融资条件 completed
 // datatype: ActionVo，ticketNum(碳信数量)
 export async function updateCompanyFundSigning(data, ticketNum){
     return request.put(`/fund/companySign?ticketNum=${ticketNum}`, data, ticketNum);

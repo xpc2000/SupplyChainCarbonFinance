@@ -109,13 +109,16 @@ export default {
         if (res.conde != 0) {
           error(res.data.msg, this);
         } else {
-          // //console.log(res);
+          console.log(res);
           localStorage.clear();
           console.log(res.data);
           localStorage.setItem("userEmail", this.formLogin.userEmail);
           localStorage.setItem("name", res.data.name);
           localStorage.setItem("chain", res.data.chain);
-          localStorage.setItem("accountType", parseInt(this.formLogin.accountType));
+          localStorage.setItem(
+            "accountType",
+            parseInt(this.formLogin.accountType)
+          );
           localStorage.setItem("emissionPledged", res.data.emissionPledged);
           localStorage.setItem("carbonLimit", res.data.carbonLimit);
           localStorage.setItem("ticketUnissued", res.data.ticketUnissued);
