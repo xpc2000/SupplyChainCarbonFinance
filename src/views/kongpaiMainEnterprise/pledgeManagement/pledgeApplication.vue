@@ -5,7 +5,7 @@
     <div class="sub-content-body">
       <div class="description-title">
         <div class="table-rec"></div>
-       申请表单
+        申请表单
       </div>
       <div class="form-body">
         <el-row :gutter="40">
@@ -15,20 +15,19 @@
               label-width="80px"
               :model="formLabelAlign"
             >
-            <el-form-item label="配额所有者">
-              <el-input
+              <el-form-item label="配额所有者">
+                <el-input
                   :disabled="true"
                   placeholder=""
                   v-model="this.company"
                 ></el-input>
-            </el-form-item>
-               <el-form-item label="金融机构" prop="companyOfferFund">
+              </el-form-item>
+              <el-form-item label="金融机构" prop="companyOfferFund">
                 <el-input
                   placeholder="金融机构"
                   v-model="formLabelAlign.companyOfferFund"
                 ></el-input>
               </el-form-item>
-              
             </el-form>
           </el-col>
           <el-col :span="12">
@@ -37,13 +36,13 @@
               label-width="80px"
               :model="formLabelAlign"
             >
-            <el-form-item label="所属控排链">
-              <el-input
+              <el-form-item label="所属控排链">
+                <el-input
                   :disabled="true"
                   placeholder=""
                   v-model="this.chain"
                 ></el-input>
-            </el-form-item>
+              </el-form-item>
               <el-form-item label="配额量" prop="pledgeNum">
                 <el-input
                   placeholder="￥￥￥￥￥"
@@ -55,26 +54,23 @@
           </el-col>
         </el-row>
         <el-row>
-         
-        <div class="usage-title" :model="formLabelAlign">资金用途</div>
+          <div class="usage-title" :model="formLabelAlign">资金用途</div>
           <div class="usage-comment">
             <el-input
-            type="textarea"
+              type="textarea"
               :rows="8"
               placeholder="请输入内容"
               v-model="formLabelAlign.usage"
             >
             </el-input>
           </div>
- 
-           
         </el-row>
       </div>
 
-      
       <div class="sub-content-submit-button">
-          
-        <el-button class="button-style" @click="dialogVisible=true">提交</el-button>
+        <el-button class="button-style" @click="dialogVisible = true"
+          >提交</el-button
+        >
       </div>
 
       <!-- 提交弹出操作密码面板 -->
@@ -95,9 +91,9 @@
             ></el-input>
           </el-form-item>
           <el-form-item label="提交" prop="submit">
-              <el-button type="primary" @click="submitForm(formLabelAlign)">
-                            提交
-                     </el-button>
+            <el-button type="primary" @click="submitForm(formLabelAlign)">
+              提交
+            </el-button>
           </el-form-item>
         </el-form>
       </el-dialog>
@@ -106,76 +102,84 @@
   </div>
 </template>
 <script>
-import headerTitle from '@/components/headerTitle.vue';
-import {submitCompanyPledgeApplication} from '@/utils/api.js'
+import headerTitle from "@/components/headerTitle.vue";
+import { submitCompanyPledgeApplication } from "@/utils/api.js";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
-      } 
-      else {
+      } else {
         if (this.formLabelAlign.checkPass !== "") {
           this.$refs.formLabelAlign.validateField("checkPass");
-      }
-      callback();
+        }
+        callback();
       }
     };
     return {
-      headerTitle:{
-          largeTitle:'碳配额质押申请',
-          smallTitle:'质押申请'    
-        },
+      headerTitle: {
+        largeTitle: "碳配额质押申请",
+        smallTitle: "质押申请",
+      },
       company: localStorage.getItem("name"),
-      chain:localStorage.getItem("chain"),
-      textarea:"",
+      chain: localStorage.getItem("chain"),
+      textarea: "",
       active: 1,
-      dialogVisible:false,
+      dialogVisible: false,
       labelPositionTabs: "right",
       labelPositionForm: "top",
       formLabelAlign: {
         accountName: localStorage.getItem("name"),
-        accountType: localStorage.getItem("accountType"),
+        accountType: parseInt(localStorage.getItem("accountType")),
         actionPassword: "",
         chain: localStorage.getItem("chain"),
         companyNeedFund: localStorage.getItem("name"),
         companyOfferFund: "",
-        pledgeNum: 0,
-        usage: ""
+        pledgeNum: "",
+        usage: "",
       },
       ruleForm: {
         pass: "",
       },
       rules: {
-        actionPassword: [{ trigger: "blur", required: true, message: "请输入密码" }],
+        actionPassword: [
+          { trigger: "blur", required: true, message: "请输入密码" },
+        ],
       },
     };
   },
   methods: {
-    submitForm(formLabelAlign){
-          this.$refs.formLabelAlign.validate(async valid  => {
-          if (valid) {//操作正确
-            console.log(this.formLabelAlign)
-            const {data:res} = await this.$http.post("/pledge/apply", formLabelAlign)
-            console.log(res)
-            if (res.conde != 0){
-              error(res.data.msg, this);
-            }
-            else {//操作密码不正确
-              this.dialogVisible=false
-              this.$message({
-                message: '操作成功',
-                type: 'success'
-              });
-            }
-          } 
+    submitForm(formLabelAlign) {
+      this.formLabelAlign.pledgeNum = parseInt(this.formLabelAlign.pledgeNum);
+      this.$refs.formLabelAlign.validate(async (valid) => {
+        if (valid) {
+          //操作正确
+          console.log(this.formLabelAlign);
+          const { data: res } = await this.$http.post(
+            "/pledge/apply",
+            formLabelAlign
+          );
+          console.log(res);
+          if (res.conde != 0) {
+            error(res.data.msg, this);
+          } else {
+            //操作密码不正确
+            this.dialogVisible = false;
+            this.$message({
+              message: "操作成功",
+              type: "success",
+            });
+          }
+        }
       });
     },
-  }, 
-  components:{
+  },
+  mounted() {
+    this.formLabelAlign.pledgeNum = parseInt(this.formLabelAlign.pledgeNum);
+  },
+  components: {
     headerTitle,
-  
-  }
+  },
 };
 </script>
 <style scoped>
@@ -213,7 +217,6 @@ export default {
   padding: 0 0 5px;
 }
 ::v-deep .el-input__inner {
- 
   border-radius: 5px;
   height: 35px;
   background-color: #fafcfe;
@@ -261,7 +264,7 @@ export default {
 .usage-title {
   font-size: 14px;
   margin: 10px 0px 15px 0px;
-  color:#606266;
+  color: #606266;
 }
 .usage-comment {
   height: 150px;
@@ -270,5 +273,4 @@ export default {
   background-color: #fafcfe;
   border-radius: 5px;
 }
-
 </style>

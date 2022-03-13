@@ -1,9 +1,9 @@
 <template>
-   <div class="sub-content-box">
+  <div class="sub-content-box">
     <header-title :headerTitle="headerTitle"></header-title>
     <div class="sub-content-tabs">
       <el-tabs v-model="activeName">
-        <el-tab-pane label="质押待审批" name='first'>
+        <el-tab-pane label="质押待审批" name="first">
           <template>
             <div>
               <list-table :data="pendingData" :columns="column">
@@ -38,7 +38,8 @@
           </template>
           <div class="sub-content-import-export">
             <button @click="sendRow()" class="button-style">查看</button>
-          </div></el-tab-pane>
+          </div></el-tab-pane
+        >
       </el-tabs>
     </div>
   </div>
@@ -46,11 +47,15 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import ListTable from "@/components/ListTable";
-import { loadInstitutionPendingPledge, loadInstitutionSigningPledge, loadSinglePledgeRow } from "@/utils/api.js";
+import {
+  loadInstitutionPendingPledge,
+  loadInstitutionSigningPledge,
+  loadSinglePledgeRow,
+} from "@/utils/api.js";
 export default {
   data() {
     return {
-      institution:localStorage.getItem("name"),
+      institution: localStorage.getItem("name"),
       ID: [],
       row: {},
       headerTitle: {
@@ -87,17 +92,22 @@ export default {
           customSlot: "status",
         },
       ],
-      pendingData:[],
-      signingData:[],
+      pendingData: [],
+      signingData: [],
     };
   },
   async mounted() {
-    console.log(this.institution)
-    const {data:submitted} = await loadInstitutionPendingPledge(this.institution) 
-    this.pendingData = submitted.data
-    const {data:pending} = await loadInstitutionSigningPledge(this.institution)
-    this.signingData = pending.data
-    console.log(pending.data)
+    console.log(this.institution);
+    const { data: submitted } = await loadInstitutionPendingPledge(
+      this.institution
+    );
+    this.pendingData = submitted.data;
+    console.log(submitted.data);
+    const { data: pending } = await loadInstitutionSigningPledge(
+      this.institution
+    );
+    this.signingData = pending.data;
+    console.log(pending.data);
   },
   methods: {
     getrows(row) {
@@ -106,15 +116,14 @@ export default {
     },
     // 发送ID
     sendRow() {
-      console.log(this.row)
+      console.log(this.row);
       // 待审批
-      if(this.row.status == 0){
-        console.log(this.row.id)
+      if (this.row.status == 0) {
+        console.log(this.row.id);
         this.$router.push({
           path: `/financeInstitute/taskManagement/PledgeApproval/${this.row.id}`,
         });
-      }
-      else{
+      } else {
         this.$router.push({
           path: `/financeInstitute/taskManagement/PledgeSigning/${this.row.id}`,
           // name:'signPage',

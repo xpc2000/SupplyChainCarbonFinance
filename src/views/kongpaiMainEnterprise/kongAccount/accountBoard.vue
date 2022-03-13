@@ -73,7 +73,7 @@ import headerTitle from "@/components/headerTitle.vue";
 export default {
   data() {
     return {
-      emissionPledged: localStorage.getItem("emissionPledgedCore"),
+      emissionPledged: localStorage.getItem("emissionPledgedAnother"),
       carbonLimit: localStorage.getItem("carbonLimit"),
       ticketBuyback: localStorage.getItem("ticketBuyback"),
       ticketUnissued: localStorage.getItem("ticketUnissued"),

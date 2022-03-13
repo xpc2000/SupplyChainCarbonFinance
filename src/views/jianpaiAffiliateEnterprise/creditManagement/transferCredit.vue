@@ -181,7 +181,7 @@ export default {
         actionPassword: "",
         senderChain: localStorage.getItem("chain"),
         sender: localStorage.getItem("name"),
-        num: "",
+        num: 0,
         receiver: "",
         receiverChain: "",
         usage: "",
@@ -197,6 +197,7 @@ export default {
   },
   methods: {
     submitForm(formLabelAlign) {
+      this.formLabelAlign.num = parseInt(this.formLabelAlign.num);
       this.$refs.formLabelAlign.validate(async (valid) => {
         if (valid) {
           console.log(formLabelAlign);
@@ -227,6 +228,9 @@ export default {
         }
       });
     },
+  },
+  mounted() {
+    this.formLabelAlign.num = parseInt(this.formLabelAlign.num);
   },
   components: {
     headerTitle,

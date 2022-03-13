@@ -127,7 +127,7 @@ export default {
       }
     };
     return {
-      avaliableCredit:localStorage.getItem("carbonLimit"),
+      avaliableCredit:localStorage.getItem("ticketBuyback"),
       headerTitle: {
         largeTitle: "碳控排链信账户",
         smallTitle: "碳信销毁",
@@ -191,6 +191,7 @@ export default {
   },
   methods: {
     submitForm(formLabelAlign) {
+       this.formLabelAlign.num=parseInt(this.avaliableCredit)
         this.$refs.formLabelAlign.validate(async valid => {
         if (valid) {
           //操作密码正确
@@ -206,6 +207,7 @@ export default {
                   });
                 }
                 else{
+                   console.log(this.formLabelAlign);
                   this.$message({
                   message: "碳信已销毁",
                   type: "success",
@@ -217,6 +219,11 @@ export default {
         } 
       });
     },
+  },
+  mounted(){
+   
+    this.formLabelAlign.num=parseInt(this.avaliableCredit)
+     console.log(this.formLabelAlign)
   },
   components: {
     headerTitle,

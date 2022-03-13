@@ -166,6 +166,7 @@ export default {
   methods: {
     submitForm(formLabelAlign) {
       //console.log(formLabelAlign);
+      this.formLabelAlign.num = parseInt(this.formLabelAlign.num);
 
       this.$refs.formLabelAlign.validate(async (valid) => {
         if (valid) {

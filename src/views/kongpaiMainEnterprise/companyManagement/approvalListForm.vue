@@ -53,22 +53,22 @@
         <!-- 提交弹出操作密码面板 -->
         <el-dialog title="操作密码" :visible.sync="dialogVisible" width="30%">
           <el-form
-            :model="ruleForm"
+            :model="planVo"
             status-icon
             :rules="rules"
-            ref="ruleForm"
+            ref="planVo"
             label-width="100px"
-            class="demo-ruleForm"
+            class="demo-planVo"
           >
-            <el-form-item label="密码" prop="pass">
+            <el-form-item label="密码" prop="actionPassword">
               <el-input
                 type="password"
-                v-model="ruleForm.pass"
+                v-model="planVo.actionPassword"
                 autocomplete="off"
               ></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="submitForm('ruleForm')"
+              <el-button type="primary" @click="submitForm(planVo)"
                 >提交</el-button
               >
             </el-form-item>
@@ -82,19 +82,30 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import editableText from "@/components/editableText.vue";
+import { submitChainPlan } from "@/utils/api.js";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
+        if (this.planVo.checkPass !== "") {
+          this.$refs.planVo.validateField("checkPass");
         }
         callback();
       }
     };
     return {
+      planVo: {
+        accountName: localStorage.getItem("name"),
+        accountType: parseInt(localStorage.getItem("accountType")),
+        actionPassword: "",
+        chain: "",
+        company: "",
+        ticketNum: 0,
+        ReductionNum: 0,
+        year: "",
+      },
       headerTitle: {
         largeTitle: "链属企业管理",
         smallTitle: "减排计划申报",
@@ -104,31 +115,31 @@ export default {
         {
           id: 1,
           label: "所在控排链",
-          input: "可编辑",
+          input: localStorage.getItem("chain"),
           edit: false,
         },
         {
           id: 2,
           label: "执行企业",
-          input: "可编辑",
+          input: "创浦机械有限公司",
           edit: false,
         },
         {
           id: 3,
           label: "计划减排量",
-          input: "可编辑",
+          input: "3695",
           edit: false,
         },
         {
           id: 4,
           label: "申报碳信额度",
-          input: "可编辑",
+          input: "1456",
           edit: false,
         },
         {
           id: 5,
           label: "年份",
-          input: "可编辑",
+          input: "2022-03-13 21:51:03",
           edit: false,
         },
       ],
@@ -136,28 +147,45 @@ export default {
       dialogVisible: false,
       radio: "1",
       textarea: "",
-      ruleForm: {
-        pass: "",
-      },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
+        actionPassword: [{ validator: validatePass, trigger: "blur" }],
       },
     };
   },
-  async mounted(){
+  async mounted() {
+    this.planVo.year = this.editableText[4].input;
+    this.planVo.chain = this.editableText[0].input;
+    this.planVo.ReductionNum = parseInt(this.editableText[2].input);
+    this.planVo.ticketNum = parseInt(this.editableText[3].input);
   },
 
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm(planVo) {
+      console.log(planVo);
+
+      this.$refs.planVo.validate(async (valid) => {
         if (valid) {
-          this.$message({
-            message: "提交成功",
-            type: "success",
-          });
+          //操作密码正确
+          const { data: res } = await submitChainPlan(planVo);
+          console.log(res);
+          if (res.conde != 0) {
+            console.log("shibai ");
+          } else {
+            //成功
+
+            console.log(res);
+            this.dialogVisible = false;
+
+            this.$message({
+              message: "申请成功",
+              type: "success",
+            });
+          }
         } else {
-          //console.log("error submit!!");
-          return false;
+          this.$message({
+            message: "密码不正确",
+            type: "warning",
+          });
         }
       });
     },

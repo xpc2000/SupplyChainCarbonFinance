@@ -22,22 +22,22 @@
             <el-row>
               <el-col :span="12">
                 <el-row class="detail-card-title">已融资碳配额</el-row>
-                <el-row class="detail-card-content">￥￥￥￥￥</el-row>
+                <el-row class="detail-card-content">3802</el-row>
               </el-col>
               <el-col :span="12">
-                <el-row class="detail-card-title">已发行碳信余额</el-row>
-                <el-row class="detail-card-content">￥￥￥￥￥</el-row>
+                <el-row class="detail-card-title">可融资碳信余额</el-row>
+                <el-row class="detail-card-content">2048</el-row>
               </el-col>
             </el-row>
 
             <el-row class="detail-card-margin">
               <el-col :span="12">
-                <el-row class="detail-card-title">已回购碳信余额</el-row>
-                <el-row class="detail-card-content">￥￥￥￥￥</el-row>
+                <el-row class="detail-card-title">已转让碳信余额</el-row>
+                <el-row class="detail-card-content">8032</el-row>
               </el-col>
               <el-col :span="12">
-                <el-row class="detail-card-title">可发行碳信余额</el-row>
-                <el-row class="detail-card-content">￥￥￥￥￥</el-row>
+                <el-row class="detail-card-title">可转让碳信余额</el-row>
+                <el-row class="detail-card-content">{{ ticketBalance }}</el-row>
               </el-col>
             </el-row>
           </el-row>
@@ -71,6 +71,7 @@ export default {
     return {
       company: localStorage.getItem("name"),
       chain: localStorage.getItem("chain"),
+      ticketBalance: localStorage.getItem("ticketBalance"),
       headerTitle: {
         largeTitle: "碳信管理",
         smallTitle: "企业碳信账户",

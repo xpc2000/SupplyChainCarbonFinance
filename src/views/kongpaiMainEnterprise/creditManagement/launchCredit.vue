@@ -188,6 +188,7 @@ export default {
 
   methods: {
     submitForm(formLabelAlign) {
+      this.formLabelAlign.num = parseInt(this.formLabelAlign.num);
       this.$refs.formLabelAlign.validate(async (valid) => {
         if (valid) {
           //操作正确
@@ -213,6 +214,9 @@ export default {
         }
       });
     },
+  },
+  mounted() {
+    this.formLabelAlign.num = parseInt(this.formLabelAlign.num);
   },
   components: {
     headerTitle,

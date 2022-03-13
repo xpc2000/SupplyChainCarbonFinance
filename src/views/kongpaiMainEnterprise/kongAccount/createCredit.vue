@@ -197,7 +197,8 @@ export default {
   },
   methods: {
     submitForm(formLabelAlign) {
-      this.formLabelAlign.num = this.avaliableCredit;
+      this.formLabelAlign.num = parseInt(this.avaliableCredit);
+
       console.log(this.formLabelAlign.num);
       this.$refs.formLabelAlign.validate(async (valid) => {
         if (valid) {

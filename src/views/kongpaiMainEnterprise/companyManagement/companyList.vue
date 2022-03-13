@@ -32,12 +32,43 @@
             <el-button><i class="el-icon-download"></i>列表导入</el-button>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="企业碳信账户待审批" name="second"
-          >企业碳信账户待审批</el-tab-pane
-        >
-        <el-tab-pane label="企业碳信账户已办理" name="third"
-          >企业碳信账户已办理</el-tab-pane
-        >
+        <el-tab-pane label="企业碳信账户待审批" name="second">
+          <el-table style="width: 100%">
+            <el-table-column
+              v-for="(item, index) in column"
+              :key="index"
+              :prop="item.prop"
+              :label="item.label"
+              :width="item.width"
+              align="center"
+            >
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+        <el-tab-pane label="企业碳信账户已办理" name="third">
+          <el-table :data="tableData" style="width: 100%">
+            <el-table-column
+              v-for="(item, index) in column"
+              :key="index"
+              :prop="item.prop"
+              :label="item.label"
+              :width="item.width"
+              align="center"
+            >
+            </el-table-column>
+            <el-table-column label="状态" width="180" align="center">
+              <el-tag>已办理</el-tag>
+            </el-table-column>
+            <el-table-column
+              prop="option"
+              label="操作"
+              width="180"
+              align="center"
+            >
+              <el-button type="text">编辑</el-button>
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -83,18 +114,22 @@ export default {
       ],
       tableData: [
         {
-          name: "青岛银行",
+          ID: "1",
+          name: "光大石材工程有限公司",
           relationship: "一级链属企业",
-          amount: "3695",
-          time: "2020-01 - 2020-12",
-          ccer: "1455.58",
+          amount: "5000",
+          time: "2022-01 - 2022-12",
+          ccer: "3000",
+          approved: true,
         },
         {
-          name: "青岛银行",
+          ID: "2",
+          name: "创浦机械有限公司",
           relationship: "一级链属企业",
           amount: "3695",
-          time: "2020-01 - 2020-12",
-          ccer: "1455.58",
+          time: "2022-01 - 2022-12",
+          ccer: "1456",
+          approved: false,
         },
       ],
     };

@@ -1,5 +1,4 @@
 <template>
-  
   <div class="sub-content-box">
     <header-title :headerTitle="headerTitle"></header-title>
 
@@ -12,19 +11,17 @@
       <div class="description-box">
         <el-descriptions>
           <el-descriptions-item label="配额所属供应链">
-            {{this.pledgeDetail.controlChain}}
+            {{ this.pledgeDetail.controlChain }}
           </el-descriptions-item>
           <el-descriptions-item label="配额量">
-            {{this.pledgeDetail.quotaQuantity}}
+            {{ this.pledgeDetail.quotaQuantity }}
           </el-descriptions-item>
-          <el-descriptions-item label="附件">
-            合同.pdf
-          </el-descriptions-item>
+          <el-descriptions-item label="附件"> 合同.pdf </el-descriptions-item>
           <el-descriptions-item label="配额所有者">
-            {{this.pledgeDetail.quotaOwner}}
+            {{ this.pledgeDetail.quotaOwner }}
           </el-descriptions-item>
           <el-descriptions-item label="资金用途">
-            {{this.pledgeDetail.fundUse}}
+            {{ this.pledgeDetail.fundUse }}
           </el-descriptions-item>
         </el-descriptions>
       </div>
@@ -34,8 +31,12 @@
         审批操作
       </div>
       <div class="radio-approval-box" @click="getId">
-        <el-radio v-model="radio" label="1" @change="updateComment(1)">审核</el-radio>
-        <el-radio v-model="radio" label="2" @change="updateComment(2)">拒绝</el-radio>
+        <el-radio v-model="radio" label="1" @change="updateComment(1)"
+          >审核</el-radio
+        >
+        <el-radio v-model="radio" label="2" @change="updateComment(2)"
+          >拒绝</el-radio
+        >
         <div class="radio-approval-comment-title">签署意见</div>
         <div class="radio-approval-comment-content">
           <el-input
@@ -66,7 +67,7 @@
               ></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary"  @click="submitForm(action)"
+              <el-button type="primary" @click="submitForm(action)"
                 >提交</el-button
               >
             </el-form-item>
@@ -80,7 +81,10 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import editableText from "@/components/editableText.vue";
-import {updateInstitutionPledgeExamination, loadSinglePledgeRow} from "@/utils/api.js";
+import {
+  updateInstitutionPledgeExamination,
+  loadSinglePledgeRow,
+} from "@/utils/api.js";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -94,10 +98,10 @@ export default {
       }
     };
     return {
-      institution:localStorage.getItem("name"),
-      id:'',
-      dialogVisible:false,
-      pledgeDetail:"",
+      institution: localStorage.getItem("name"),
+      id: "",
+      dialogVisible: false,
+      pledgeDetail: "",
       headerTitle: {
         largeTitle: "任务管理",
         smallTitle: "质押审批",
@@ -107,7 +111,7 @@ export default {
         {
           id: 1,
           label: "配额所属供应链",
-          input: this.institution
+          input: this.institution,
         },
         {
           id: 2,
@@ -130,12 +134,12 @@ export default {
           input: "无",
         },
       ],
-      action:{
-        accountName:localStorage.getItem("name"),
-        accountType:localStorage.getItem("accountType"),
-        actionPassword:"",
-        id:"",
-        comment:"",
+      action: {
+        accountName: localStorage.getItem("name"),
+        accountType: localStorage.getItem("accountType"),
+        actionPassword: "",
+        id: "",
+        comment: "",
       },
       radio: "1",
       textarea: "",
@@ -144,56 +148,55 @@ export default {
       },
     };
   },
-  async mounted(){
-    this.pledgeID = parseInt(this.$route.params.id)
-    const {data:res} = await this.$http.get("/pledgeSearch/" + this.pledgeID)
-    this.pledgeDetail = res.data
-    this.action.id = this.pledgeID
-    console.log(this.pledgeDetail)
-    console.log(res)
-    if(this.radio == "1"){
-      this.action.comment=true
+  async mounted() {
+    this.pledgeID = parseInt(this.$route.params.id);
+    const { data: res } = await this.$http.get(
+      "/pledgeSearch/" + this.pledgeID
+    );
+    this.pledgeDetail = res.data;
+    this.action.id = this.pledgeID;
+    console.log(this.pledgeDetail);
+    console.log(res);
+    if (this.radio == "1") {
+      this.action.comment = true;
+    } else {
+      this.action.comment = false;
     }
-    else{
-      this.action.comment=false
-    }
-    console.log(this.radio)
+    console.log(this.radio);
   },
 
   methods: {
-    updateComment(label){
-      this.action.comment = (label == 1)
-      console.log(this.action)
+    updateComment(label) {
+      this.action.comment = label == 1;
+      console.log(this.action);
     },
-    
-    getId(){
+
+    getId() {
       let currID = this.$route.params.id;
       this.id = currID;
     },
 
     submitForm(action) {
-      this.$refs.action.validate(async valid => {
+      this.$refs.action.validate(async (valid) => {
         if (valid) {
           this.dialogVisible = false;
-          this.$confirm("确认审批操作")
-            .then((_) => {
-              updateInstitutionPledgeExamination(action).then((data)=>{
-                console.log(data)
-                if (data.data.conde != 0){
-                  this.dialogVisible = false;
-                  this.$message({
+          this.$confirm("确认审批操作").then((_) => {
+            updateInstitutionPledgeExamination(action).then((data) => {
+              console.log(data);
+              if (data.data.conde != 0) {
+                this.dialogVisible = false;
+                this.$message({
                   message: "密码不正确",
                   type: "warning",
-                  });
-                }
-                else{
-                  this.$message({
+                });
+              } else {
+                this.$message({
                   message: "完成审批",
                   type: "success",
-                  });
-                }
-              })
-            })
+                });
+              }
+            });
+          });
         }
       });
     },

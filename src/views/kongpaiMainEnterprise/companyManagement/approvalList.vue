@@ -28,14 +28,39 @@
         </el-tab-pane>
 
         <!-- 标签栏2：展示待审批数据 -->
-        <el-tab-pane label="减排申报待审批" name="second"
-          >减排申报待审批</el-tab-pane
-        >
+        <el-tab-pane label="减排申报待审批" name="second">
+          <template>
+            <div>
+              <list-table :data="tableDataPending" :columns="column">
+                <!-- 插槽1：状态 -->
+                <template #status="{ row, $index }">
+                  <el-tag class="not-approved">待审批</el-tag>
+                </template>
+                <!-- 插槽2：选择 -->
+                <template #option="{ row, $index }">
+                  <el-checkbox @change="getrows(row)" name="type"></el-checkbox>
+                </template>
+              </list-table>
+            </div>
+          </template>
+          <div class="sub-content-import-export">
+            <button @click="sendRow()" class="button-style">查看</button>
+          </div>
+        </el-tab-pane>
 
         <!-- 标签栏3：展示已办理数据 -->
-        <el-tab-pane label="减排申报已办理" name="third"
-          >减排申报已办理</el-tab-pane
-        >
+        <el-tab-pane label="减排申报已办理" name="third">
+          <template>
+            <div>
+              <list-table :data="tableDataSubmitted" :columns="column">
+                <!-- 插槽1：状态 -->
+                <template #status="{ row, $index }">
+                  <el-tag class="not-approved">已办理</el-tag>
+                </template>
+              </list-table>
+            </div>
+          </template>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -94,21 +119,43 @@ export default {
       tableData: [
         {
           ID: "1",
-          name: "青岛银行",
+          name: "光大石材工程有限公司",
           relationship: "一级链属企业",
-          amount: "3695",
-          time: "2020-01 - 2020-12",
-          ccer: "1455.58",
+          amount: "5000",
+          time: "2022-01 - 2022-12",
+          ccer: "3000",
           approved: true,
         },
         {
           ID: "2",
-          name: "青岛银行",
+          name: "创浦机械有限公司",
           relationship: "一级链属企业",
           amount: "3695",
-          time: "2020-01 - 2020-12",
-          ccer: "1455.58",
+          time: "2022-01 - 2022-12",
+          ccer: "1456",
           approved: false,
+        },
+      ],
+      tableDataPending: [
+        {
+          ID: "2",
+          name: "创浦机械有限公司",
+          relationship: "一级链属企业",
+          amount: "3695",
+          time: "2022-01 - 2022-12",
+          ccer: "1456",
+          approved: false,
+        },
+      ],
+      tableDataSubmitted: [
+        {
+          ID: "1",
+          name: "光大石材工程有限公司",
+          relationship: "一级链属企业",
+          amount: "5000",
+          time: "2022-01 - 2022-12",
+          ccer: "3000",
+          approved: true,
         },
       ],
     };

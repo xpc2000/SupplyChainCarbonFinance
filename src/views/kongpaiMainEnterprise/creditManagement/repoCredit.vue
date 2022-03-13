@@ -15,13 +15,13 @@
               label-width="80px"
               :model="formLabelAlign"
             >
-            <el-form-item label="发行方全称">
-              <el-input
+              <el-form-item label="发行方全称">
+                <el-input
                   :disabled="true"
                   placeholder=""
                   v-model="formLabelAlign.sender"
                 ></el-input>
-            </el-form-item>
+              </el-form-item>
               <el-form-item label="碳信交易数额">
                 <el-input
                   placeholder="￥￥￥￥￥￥"
@@ -37,13 +37,13 @@
               label-width="80px"
               :model="formLabelAlign"
             >
-            <el-form-item label="发行方所属控排链">
-              <el-input
+              <el-form-item label="发行方所属控排链">
+                <el-input
                   :disabled="true"
                   placeholder=""
                   v-model="formLabelAlign.senderChain"
                 ></el-input>
-            </el-form-item>
+              </el-form-item>
               <el-form-item label="碳信回购日期">
                 <el-date-picker
                   v-model="formLabelAlign.repoDate"
@@ -81,10 +81,7 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button
-              type="primary"
-              @click="submitForm(formLabelAlign)"
-            >
+            <el-button type="primary" @click="submitForm(formLabelAlign)">
               提交
             </el-button>
           </el-form-item>
@@ -96,7 +93,7 @@
 </template>
 <script>
 import headerTitle from "@/components/headerTitle.vue";
-import {ticketRepurchase} from "@/utils/api.js"
+import { ticketRepurchase } from "@/utils/api.js";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -120,15 +117,15 @@ export default {
       labelPositionTabs: "right",
       labelPositionForm: "top",
       formLabelAlign: {
-        accountName:localStorage.getItem("name"),
-        accountType:parseInt(localStorage.getItem("accountType")),
-        actionPassword:"",
-        senderChain:localStorage.getItem("chain"),
-        sender:localStorage.getItem("name"),
-        receiverChain:"55555",
-        receiver:"55555",
-        num:0,
-        usage:"",
+        accountName: localStorage.getItem("name"),
+        accountType: parseInt(localStorage.getItem("accountType")),
+        actionPassword: "",
+        senderChain: localStorage.getItem("chain"),
+        sender: localStorage.getItem("name"),
+        receiverChain: "55555",
+        receiver: "55555",
+        num: 0,
+        usage: "",
       },
       rules: {
         actionPassword: [{ validator: validatePass, trigger: "blur" }],
@@ -137,34 +134,35 @@ export default {
   },
   methods: {
     submitForm(formLabelAlign) {
-      this.$refs.formLabelAlign.validate(async valid => {
+      this.formLabelAlign.num = parseInt(this.formLabelAlign.num);
+      this.$refs.formLabelAlign.validate(async (valid) => {
         if (valid) {
           //操作正确
-          console.log(formLabelAlign)
+          console.log(formLabelAlign);
           this.dialogVisible = false;
-          this.$confirm("确认回购碳信？")
-            .then((_) => {
-              ticketRepurchase(formLabelAlign).then((data)=>{
-                console.log(data)
-                if (data.data.conde != 0){
-                  this.dialogVisible = false;
-                  this.$message({
+          this.$confirm("确认回购碳信？").then((_) => {
+            ticketRepurchase(formLabelAlign).then((data) => {
+              console.log(data);
+              if (data.data.conde != 0) {
+                this.dialogVisible = false;
+                this.$message({
                   message: "密码不正确",
                   type: "warning",
-                  });
-                }
-                else{
-                  this.$message({
+                });
+              } else {
+                this.$message({
                   message: "碳信已回购",
                   type: "success",
-                  });
-                }
-              })
-            })
+                });
+              }
+            });
+          });
         }
-      }); 
-
+      });
     },
+  },
+  mounted() {
+    this.formLabelAlign.num = parseInt(this.formLabelAlign.num);
   },
   components: {
     headerTitle,

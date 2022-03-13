@@ -11,26 +11,24 @@
       <div class="description-box">
         <el-descriptions>
           <el-descriptions-item label="收款帐户">
-            {{this.pledgeDetail.account}}
+            {{ this.pledgeDetail.account }}
           </el-descriptions-item>
           <el-descriptions-item label="保理企业">
-            {{this.pledgeDetail.factoringCompany}}
+            {{ this.pledgeDetail.factoringCompany }}
           </el-descriptions-item>
           <el-descriptions-item label="融资企业全称">
-            {{this.pledgeDetail.company}}
+            {{ this.pledgeDetail.company }}
           </el-descriptions-item>
           <el-descriptions-item label="收款银行">
-            {{this.pledgeDetail.bank}}
+            {{ this.pledgeDetail.bank }}
           </el-descriptions-item>
           <el-descriptions-item label="资金用途">
-            {{this.pledgeDetail.fundUse}}
+            {{ this.pledgeDetail.fundUse }}
           </el-descriptions-item>
           <el-descriptions-item label="碳信数量">
-            {{this.pledgeDetail.amountCarbonTicket}}
+            {{ this.pledgeDetail.amountCarbonTicket }}
           </el-descriptions-item>
-          <el-descriptions-item label="附件">
-            发票.png
-          </el-descriptions-item>
+          <el-descriptions-item label="附件"> 发票.png </el-descriptions-item>
         </el-descriptions>
       </div>
 
@@ -85,7 +83,7 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import editableText from "@/components/editableText.vue";
-import {updateInstitutionFundExamination} from "@/utils/api.js"
+import { updateInstitutionFundExamination } from "@/utils/api.js";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -99,7 +97,7 @@ export default {
       }
     };
     return {
-      pledgeDetail:"",
+      pledgeDetail: "",
       headerTitle: {
         largeTitle: "融资管理",
         smallTitle: "保理审核",
@@ -153,59 +151,59 @@ export default {
       rules: {
         actionPassword: [{ validator: validatePass, trigger: "blur" }],
       },
-      action:{
-        accountName:localStorage.getItem("name"),
-        accountType:localStorage.getItem("accountType"),
-        actionPassword:"",
-        id:"",
-        comment:"",
+      action: {
+        accountName: localStorage.getItem("name"),
+        accountType: localStorage.getItem("accountType"),
+        actionPassword: "",
+        id: "",
+        comment: "",
       },
       radio: "1",
     };
   },
-  async mounted(){
-    this.pledgeID = parseInt(this.$route.params.id)
-    const {data:res} = await this.$http.get("/factorSearch/" + this.pledgeID)
-    this.pledgeDetail = res.data
-    this.action.id = this.pledgeID
-    console.log(this.pledgeDetail)
-    if(this.radio == "1"){
-      this.action.comment=true
+  async mounted() {
+    this.pledgeID = parseInt(this.$route.params.id);
+    const { data: res } = await this.$http.get(
+      "/factorSearch/" + this.pledgeID
+    );
+    this.pledgeDetail = res.data;
+    this.action.id = this.pledgeID;
+    console.log(this.pledgeDetail);
+    if (this.radio == "1") {
+      this.action.comment = true;
+    } else {
+      this.action.comment = false;
     }
-    else{
-      this.action.comment=false
-    }
-    console.log(this.radio)
+    console.log(this.radio);
   },
   methods: {
-    updateComment(label){
-      this.action.comment = (label == 1)
-      console.log(this.action)
+    updateComment(label) {
+      this.action.comment = label == 1;
+      console.log(this.action);
     },
-    
+
     submitForm(action) {
-      this.$refs.action.validate(async valid => {
+      this.$refs.action.validate(async (valid) => {
         if (valid) {
           this.dialogVisible = false;
-          this.$confirm("确认审核操作")
-            .then((_) => {
-              updateInstitutionFundExamination(action).then((data)=>{
-                console.log(data)
-                if (data.data.conde != 0){
-                  this.dialogVisible = false;
-                  this.$message({
+          console.log(action);
+          this.$confirm("确认审核操作").then((_) => {
+            updateInstitutionFundExamination(action).then((data) => {
+              console.log(data);
+              if (data.data.conde != 0) {
+                this.dialogVisible = false;
+                this.$message({
                   message: "密码不正确",
                   type: "warning",
-                  });
-                }
-                else{
-                  this.$message({
+                });
+              } else {
+                this.$message({
                   message: "完成审核",
                   type: "success",
-                  });
-                }
-              })
-            })
+                });
+              }
+            });
+          });
         }
       });
     },
