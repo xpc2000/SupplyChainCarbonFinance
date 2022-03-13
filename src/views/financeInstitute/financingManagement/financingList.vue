@@ -3,11 +3,11 @@
     <header-title :headerTitle="headerTitle"></header-title>
 
     <div class="sub-content-tabs">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="全部" name="first">
+      <el-tabs v-model="activeName">
+        <el-tab-pane label="保理待审批" name='first'>
           <template>
             <div>
-              <list-table :data="tableData" :columns="column">
+              <list-table :data="pendingData" :columns="column">
                 <!-- 插槽1：状态 -->
                 <template #status="{ row, $index }">
                   <el-tag v-if="row.approved" class="approved">已审核</el-tag>
@@ -23,8 +23,25 @@
             <button @click="sendRow()" class="button-style">查看</button>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="保理待审批" name="second">保理待审批</el-tab-pane>
-        <el-tab-pane label="保理已审批" name="third">保理已审批</el-tab-pane>
+        <el-tab-pane label="保理已审批">
+          <template>
+            <div>
+              <list-table :data="signingData" :columns="column">
+                <!-- 插槽1：状态 -->
+                <template #status="{ row, $index }">
+                  <el-tag class="approved">已审核</el-tag>
+                </template>
+                <template #option="{ row, $index }">
+                  <el-checkbox @change="getrows(row)" name="type"></el-checkbox>
+                </template>
+              </list-table>
+            </div>
+          </template>
+          <div class="sub-content-import-export">
+            <button @click="sendRow()" class="button-style">查看</button>
+          </div>
+        </el-tab-pane>
+        
       </el-tabs>
     </div>
   </div>
@@ -32,9 +49,11 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import ListTable from "@/components/ListTable";
+import {loadInstitutePendingFactors, loadInstituteApprovedFactors} from "@/utils/api.js"
 export default {
   data() {
     return {
+      institution:localStorage.getItem("name"),
       ID: [],
       row: {},
       headerTitle: {
@@ -52,7 +71,7 @@ export default {
         },
 
         {
-          prop: "name",
+          prop: "company",
           label: "融资企业",
           width: "",
         },
@@ -62,18 +81,8 @@ export default {
           width: "",
         },
         {
-          prop: "rate",
-          label: "利率",
-          width: "",
-        },
-        {
           prop: "date",
           label: "操作时间",
-          width: "",
-        },
-        {
-          prop: "usage",
-          label: "资金用途",
           width: "",
         },
         {
@@ -82,51 +91,37 @@ export default {
           customSlot: "status",
         },
       ],
-      tableData: [
-        {
-          ID: "1",
-          name: "青岛银行",
-          amount: "3000",
-          rate: "14",
-          date: "2022-03-03",
-          usage: "资金用途",
-          approved: true,
-        },
-        {
-          ID: "2",
-          name: "青岛银行",
-          amount: "3000",
-          rate: "14",
-          date: "2022-03-03",
-          usage: "资金用途",
-          approved: false,
-        },
-      ],
+      pendingData:[],
+      signingData:[],
     };
   },
+  async mounted() {
+    console.log(this.institution)
+    const {data:submitted} = await loadInstitutePendingFactors(this.institution)
+    this.pendingData = submitted.data
+    const {data:pending} = await loadInstituteApprovedFactors(this.institution)
+    this.signingData = pending.data
+    console.log(this.pendingData)
+  },
   methods: {
-    handleClick(tab, event) {
-      // //console.log(tab, event);
-    },
-
-    //获取单行数据
     getrows(row) {
       this.row = row;
       // //console.log(row.name);
     },
+
     // 发送ID
     sendRow() {
-      if (this.row.ID == "1") {
+      console.log(this.row.status)
+      if (this.row.status == 1) {
         this.$router.push({
-          path: "/financeInstitute/financingManagement/factoringBuying",
+          path: `/financeInstitute/financingManagement/factoringBuying/${this.row.id}`,
         });
-      } else if (this.row.ID == "2") {
+      } 
+      else{
         this.$router.push({
-          path: "/financeInstitute/financingManagement/factoringApproval",
+          path: `/financeInstitute/financingManagement/factoringApproval/${this.row.id}`,
         });
       }
-
-      // //console.log(this.row.name);
     },
   },
   components: {

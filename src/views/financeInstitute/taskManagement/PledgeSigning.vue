@@ -125,7 +125,7 @@ export default {
     return {
       pledgeDetail: {
         accountName:localStorage.getItem("name"),
-        accountType:localStorage.getItem("accountType"),
+        accountType:localStorage.getItem("name"),
         actionPassword:'',
         id:0,
         chain:'',
@@ -198,7 +198,6 @@ export default {
     console.log(this.pledgeDetail)
   },
   methods: {
-
     updateComment(label){
       this.action.comment = (label == 1)
       console.log(this.action)

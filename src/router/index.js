@@ -511,14 +511,14 @@ export const routes = [
         },
       },
       {
-        path: "/financeInstitute/financingManagement/factoringApproval",
+        path: "/financeInstitute/financingManagement/factoringApproval/:id",
         component: () => import("@/views/financeInstitute/financingManagement/factoringApproval.vue"),
         meta: {
           title: "保理审核",
         },
       },
       {
-        path: "/financeInstitute/financingManagement/factoringBuying",
+        path: "/financeInstitute/financingManagement/factoringBuying/:id",
         component: () => import("@/views/financeInstitute/financingManagement/factoringBuying.vue"),
         meta: {
           title: "保理买入",

@@ -144,6 +144,9 @@ export default {
       },
     };
   },
+  async mounted(){
+  },
+
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {

@@ -9,17 +9,34 @@
       </div>
 
       <div class="description-box">
-        <el-descriptions>
-          <el-descriptions-item
-            v-for="(item, index) in text"
-            :key="item.id"
-            :label="item.label"
-          >
-            {{ item.input }}
+        <el-descriptions model="factorVo">
+          <el-descriptions-item label="收款账户">
+            {{this.factorVo.bankAccount}}
+          </el-descriptions-item>
+          <el-descriptions-item label="融资企业全称">
+            {{this.factorVo.companyNeedFund}}
+          </el-descriptions-item>
+          <el-descriptions-item label="保理企业">
+            {{this.factorVo.companyOfferFund}}
+          </el-descriptions-item>
+          <el-descriptions-item label="碳信数量">
+            {{this.factorVo.num}}
+          </el-descriptions-item>
+          <el-descriptions-item label="收款银行">
+            {{this.factorVo.bank}}
+          </el-descriptions-item>
+          <el-descriptions-item label="操作日期">
+            {{this.factorVo.date}}
+          </el-descriptions-item>
+          <el-descriptions-item label="资金用途">
+            {{this.factorVo.usage}}
+          </el-descriptions-item>
+          <el-descriptions-item label="融资期限">
+            {{this.factorVo.factorDDL}}
           </el-descriptions-item>
           <el-descriptions-item
             v-for="(item, index) in editableText"
-            :key="item.id"
+            :key="item.prop"
             :label="item.label"
           >
             <span v-show="!item.edit">{{ item.input }}</span>
@@ -32,8 +49,6 @@
               @click="item.edit = !item.edit"
             ></i>
           </el-descriptions-item>
-
-          <el-descriptions-item label="附件"> 发票.png </el-descriptions-item>
         </el-descriptions>
       </div>
 
@@ -59,22 +74,22 @@
         <!-- 提交弹出操作密码面板 -->
         <el-dialog title="操作密码" :visible.sync="dialogVisible" width="30%">
           <el-form
-            :model="ruleForm"
+            :model="factorVo"
             status-icon
             :rules="rules"
-            ref="ruleForm"
+            ref="factorVo"
             label-width="100px"
-            class="demo-ruleForm"
+            class="demo-factorVo"
           >
-            <el-form-item label="密码" prop="pass">
+            <el-form-item label="密码" prop="actionPassword">
               <el-input
                 type="password"
-                v-model="ruleForm.pass"
+                v-model="factorVo.actionPassword"
                 autocomplete="off"
               ></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="submitForm('ruleForm')"
+              <el-button type="primary" @click="submitForm(factorVo)"
                 >提交</el-button
               >
             </el-form-item>
@@ -88,71 +103,42 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import editableText from "@/components/editableText.vue";
+import {updateInstitutionFundSigning} from "@/utils/api.js";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
+        if (this.factorVo.checkPass !== "") {
+          this.$refs.factorVo.validateField("checkPass");
         }
         callback();
       }
     };
     return {
+      factorVo:{
+        accountName:localStorage.getItem("name"),
+        accountType:localStorage.getItem("type"),
+        actionPassword:"",
+        companyNeedFund:"",
+        companyOfferFund:localStorage.getItem("name"),
+        num:0,
+        bankAccount:"",
+        date:"",
+        bank:"",
+        id:0,
+        fund:0,
+        interestRate:0.0,
+        serviceRate:0.0,
+        factorDDL:"",
+        usage:"",
+      },
       headerTitle: {
         largeTitle: "融资管理",
         smallTitle: "保理买入",
       },
       edit: false,
-      text: [
-        {
-          id: 1,
-          label: "融资企业所属减排链",
-          input: "某减排链",
-        },
-        {
-          id: 2,
-          label: "收款账户",
-          input: "某账户",
-        },
-        {
-          id: 3,
-          label: "操作日期",
-          input: "2022-03-03",
-        },
-        {
-          id: 4,
-          label: "融资企业全称",
-          input: "某企业",
-        },
-        {
-          id: 5,
-          label: "保理企业",
-          input: "某企业",
-        },
-        {
-          id: 6,
-          label: "碳信数量",
-          input: "2300",
-        },
-        {
-          id: 7,
-          label: "收款银行",
-          input: "某银行",
-        },
-        {
-          id: 8,
-          label: "资金用途",
-          input: "融资",
-        },
-        {
-          id: 9,
-          label: "融资期限",
-          input: "2022-03-03",
-        },
-      ],
       editableText: [
         {
           id: 6,
@@ -167,13 +153,13 @@ export default {
           edit: false,
         },
         {
-          id: 7,
+          id: 8,
           label: "融资金额",
           input: "可编辑",
           edit: false,
         },
         {
-          id: 7,
+          id: 9,
           label: "质押金额",
           input: "可编辑",
           edit: false,
@@ -182,28 +168,49 @@ export default {
       dialogVisible: false,
       radio: "1",
       textarea: "",
-      ruleForm: {
-        pass: "",
-      },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
+        actionPassword: [{ validator: validatePass, trigger: "blur" }],
       },
     };
   },
+  async mounted(){
+    this.factorVo.id = parseInt(this.$route.params.id)
+    const {data:res} = await this.$http.get("/factorSearch/" + this.factorVo.id)
+    console.log(res.data)
+    this.factorVo.bankAccount = res.data.account
+    this.factorVo.num = res.data.amountCarbonTicket
+    this.factorVo.usage = res.data.fundUse
+    this.factorVo.bank = res.data.bank
+    this.factorVo.companyNeedFund = res.data.company
+    this.factorVo.date = "2022-03-12 14:07:59"
+    this.factorVo.factorDDL = "2022-03-12 23:23:23"
+    console.log(this.factorVo)
+  },
+
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm(factorVo) {
+      this.$refs.factorVo.validate(async valid => {
         if (valid) {
-          //操作密码正确
           this.dialogVisible = false;
-          this.$message({
-            message: "完成签约",
-            type: "success",
-          });
-        } else {
-          //操作密码不正确
-          //console.log("error submit!!");
-          return false;
+          this.$confirm("确认签订操作")
+            .then((_) => {
+              updateInstitutionFundSigning(factorVo).then((data)=>{
+                console.log(data)
+                if (data.data.conde != 0){
+                  this.dialogVisible = false;
+                  this.$message({
+                  message: "密码不正确",
+                  type: "warning",
+                  });
+                }
+                else{
+                  this.$message({
+                  message: "完成签订",
+                  type: "success",
+                  });
+                }
+              })
+            })
         }
       });
     },

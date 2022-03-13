@@ -4,7 +4,7 @@
 
     <div class="sub-content-tabs">
       <el-tabs v-model="activeName">
-        <el-tab-pane label="质押已提交 待审批" name="first">
+        <el-tab-pane label="质押待审批" name="first">
           <template>
             <div>
               <list-table :data="submittedData" :columns="column">
@@ -23,7 +23,7 @@
           </template>
         </el-tab-pane>
         
-        <el-tab-pane label="质押已审批 待签约" name="second">
+        <el-tab-pane label="质押待签约" name="second">
             <template>
               <div>
                 <list-table :data="pendingData" :columns="column">

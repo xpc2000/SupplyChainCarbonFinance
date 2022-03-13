@@ -15,9 +15,13 @@
               label-width="80px"
               :model="formLabelAlign"
             >
-              <el-form-item label="配额所有者" prop="userEmail">
-                {{ this.company }}
-              </el-form-item>
+            <el-form-item label="配额所有者">
+              <el-input
+                  :disabled="true"
+                  placeholder=""
+                  v-model="this.company"
+                ></el-input>
+            </el-form-item>
                <el-form-item label="金融机构" prop="companyOfferFund">
                 <el-input
                   placeholder="金融机构"
@@ -33,9 +37,13 @@
               label-width="80px"
               :model="formLabelAlign"
             >
-            <el-form-item label="所属控排链" prop="chain">
-                {{ this.chain }}
-              </el-form-item>
+            <el-form-item label="所属控排链">
+              <el-input
+                  :disabled="true"
+                  placeholder=""
+                  v-model="this.chain"
+                ></el-input>
+            </el-form-item>
               <el-form-item label="配额量" prop="pledgeNum">
                 <el-input
                   placeholder="￥￥￥￥￥"

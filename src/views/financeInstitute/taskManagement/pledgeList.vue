@@ -87,18 +87,17 @@ export default {
           customSlot: "status",
         },
       ],
-      pendingTableData: [],
       pendingData:[],
       signingData:[],
     };
   },
   async mounted() {
     console.log(this.institution)
-    const {data:submitted} = await loadInstitutionPendingPledge(this.institution)
-    console.log(submitted.data)
+    const {data:submitted} = await loadInstitutionPendingPledge(this.institution) 
     this.pendingData = submitted.data
     const {data:pending} = await loadInstitutionSigningPledge(this.institution)
     this.signingData = pending.data
+    console.log(pending.data)
   },
   methods: {
     getrows(row) {

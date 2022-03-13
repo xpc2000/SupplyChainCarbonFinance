@@ -180,7 +180,7 @@ export async function submitCompanyFundApplication(data){
 // 金融机构对控排链企业的申请进行合规检查
 // datatype: ActionVo
 export async function updateInstitutionFundExamination(data){
-    return request.put(`/fund/Examination`, data);
+    return request.put(`/fund/examine`, data);
 }
 
 // 金融机构对供应链申请提出融资条件并签约

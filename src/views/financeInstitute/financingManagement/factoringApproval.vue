@@ -10,12 +10,26 @@
 
       <div class="description-box">
         <el-descriptions>
-          <el-descriptions-item
-            v-for="(item, index) in text"
-            :key="item.id"
-            :label="item.label"
-          >
-            {{ item.input }}
+          <el-descriptions-item label="收款帐户">
+            {{this.pledgeDetail.account}}
+          </el-descriptions-item>
+          <el-descriptions-item label="保理企业">
+            {{this.pledgeDetail.factoringCompany}}
+          </el-descriptions-item>
+          <el-descriptions-item label="融资企业全称">
+            {{this.pledgeDetail.company}}
+          </el-descriptions-item>
+          <el-descriptions-item label="收款银行">
+            {{this.pledgeDetail.bank}}
+          </el-descriptions-item>
+          <el-descriptions-item label="资金用途">
+            {{this.pledgeDetail.fundUse}}
+          </el-descriptions-item>
+          <el-descriptions-item label="碳信数量">
+            {{this.pledgeDetail.amountCarbonTicket}}
+          </el-descriptions-item>
+          <el-descriptions-item label="附件">
+            发票.png
           </el-descriptions-item>
         </el-descriptions>
       </div>
@@ -42,22 +56,22 @@
         <!-- 提交弹出操作密码面板 -->
         <el-dialog title="操作密码" :visible.sync="dialogVisible" width="30%">
           <el-form
-            :model="ruleForm"
+            :model="action"
             status-icon
             :rules="rules"
-            ref="ruleForm"
+            ref="action"
             label-width="100px"
-            class="demo-ruleForm"
+            class="demo-action"
           >
-            <el-form-item label="密码" prop="pass">
+            <el-form-item label="密码" prop="actionPassword">
               <el-input
                 type="password"
-                v-model="ruleForm.pass"
+                v-model="action.actionPassword"
                 autocomplete="off"
               ></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="submitForm('ruleForm')"
+              <el-button type="primary" @click="submitForm(action)"
                 >提交</el-button
               >
             </el-form-item>
@@ -71,19 +85,21 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import editableText from "@/components/editableText.vue";
+import {updateInstitutionFundExamination} from "@/utils/api.js"
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
+        if (this.action.checkPass !== "") {
+          this.$refs.action.validateField("checkPass");
         }
         callback();
       }
     };
     return {
+      pledgeDetail:"",
       headerTitle: {
         largeTitle: "融资管理",
         smallTitle: "保理审核",
@@ -134,28 +150,62 @@ export default {
       dialogVisible: false,
       radio: "1",
       textarea: "",
-      ruleForm: {
-        pass: "",
-      },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
+        actionPassword: [{ validator: validatePass, trigger: "blur" }],
       },
+      action:{
+        accountName:localStorage.getItem("name"),
+        accountType:localStorage.getItem("accountType"),
+        actionPassword:"",
+        id:"",
+        comment:"",
+      },
+      radio: "1",
     };
   },
+  async mounted(){
+    this.pledgeID = parseInt(this.$route.params.id)
+    const {data:res} = await this.$http.get("/factorSearch/" + this.pledgeID)
+    this.pledgeDetail = res.data
+    this.action.id = this.pledgeID
+    console.log(this.pledgeDetail)
+    if(this.radio == "1"){
+      this.action.comment=true
+    }
+    else{
+      this.action.comment=false
+    }
+    console.log(this.radio)
+  },
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+    updateComment(label){
+      this.action.comment = (label == 1)
+      console.log(this.action)
+    },
+    
+    submitForm(action) {
+      this.$refs.action.validate(async valid => {
         if (valid) {
-          //操作密码正确
           this.dialogVisible = false;
-          this.$message({
-            message: "完成签约",
-            type: "success",
-          });
-        } else {
-          //操作密码不正确
-          //console.log("error submit!!");
-          return false;
+          this.$confirm("确认签约操作")
+            .then((_) => {
+              updateInstitutionFundExamination(action).then((data)=>{
+                console.log(data)
+                if (data.data.conde != 0){
+                  this.dialogVisible = false;
+                  this.$message({
+                  message: "密码不正确",
+                  type: "warning",
+                  });
+                }
+                else{
+                  this.$message({
+                  message: "完成签约",
+                  type: "success",
+                  });
+                }
+              })
+            })
         }
       });
     },

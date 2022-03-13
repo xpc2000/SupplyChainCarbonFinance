@@ -15,12 +15,20 @@
               label-width="80px"
               :model="formLabelAlign"
             >
-              <el-form-item label="发行方全称">
-                {{formLabelAlign.sender}}
-              </el-form-item>
-              <el-form-item label="碳信余额">
-                {{avaliableCredit}}
-              </el-form-item>
+            <el-form-item label="发行方全称">
+              <el-input
+                  :disabled="true"
+                  placeholder=""
+                  v-model="formLabelAlign.sender"
+                ></el-input>
+            </el-form-item>
+            <el-form-item label="碳信余额">
+              <el-input
+                  :disabled="true"
+                  placeholder=""
+                  v-model="avaliableCredit"
+                ></el-input>
+            </el-form-item>
               <el-form-item label="资金用途说明">
                 <el-input
                   placeholder="资金用途详情"

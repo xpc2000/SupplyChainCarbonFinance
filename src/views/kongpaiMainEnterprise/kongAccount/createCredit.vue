@@ -13,14 +13,26 @@
             label-width="80px"
             :model="formLabelAlign"
           >
-            <el-form-item label="创建方所属控排链">
-              {{formLabelAlign.senderChain}}
-            </el-form-item>
+          <el-form-item label="创建方所属控排链">
+            <el-input
+                :disabled="true"
+                placeholder=""
+                v-model="formLabelAlign.senderChain"
+              ></el-input>
+          </el-form-item>
             <el-form-item label="签收方">
-              {{formLabelAlign.sender}}
+              <el-input
+              :disabled="true"
+              placeholder=""
+              v-model="formLabelAlign.sender"
+            ></el-input>
             </el-form-item>
             <el-form-item label="碳信额度">
-              {{avaliableCredit}}
+              <el-input
+                  :disabled="true"
+                  placeholder=""
+                  v-model="avaliableCredit"
+                ></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -31,7 +43,11 @@
             :model="formLabelAlign"
           >
             <el-form-item label="创建方">
-              {{formLabelAlign.sender}}
+              <el-input
+              :disabled="true"
+              placeholder=""
+              v-model="formLabelAlign.sender"
+            ></el-input>
             </el-form-item>
             <el-form-item label="款项额度">
               {{avaliableCredit}}

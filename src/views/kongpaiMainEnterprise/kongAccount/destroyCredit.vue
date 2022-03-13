@@ -14,10 +14,18 @@
             :model="formLabelAlign"
           >
             <el-form-item label="销毁方所属控排链">
-              {{formLabelAlign.senderChain}}
+              <el-input
+              :disabled="true"
+              placeholder=""
+              v-model="formLabelAlign.senderChain"
+            ></el-input>
             </el-form-item>
             <el-form-item label="款项额度">
-              {{avaliableCredit}}
+              <el-input
+              :disabled="true"
+              placeholder=""
+              v-model="avaliableCredit"
+            ></el-input>
             </el-form-item>
             <el-form-item label="碳信销毁日期">
               <el-date-picker
@@ -36,10 +44,18 @@
             :model="formLabelAlign"
           >
           <el-form-item label="销毁方">
-            {{formLabelAlign.sender}}
+            <el-input
+            :disabled="true"
+            placeholder=""
+            v-model="formLabelAlign.sender"
+          ></el-input>
           </el-form-item>
             <el-form-item label="碳信额度">
-              {{avaliableCredit}}
+              <el-input
+              :disabled="true"
+              placeholder=""
+              v-model="avaliableCredit"
+            ></el-input>
             </el-form-item>
             
           </el-form>

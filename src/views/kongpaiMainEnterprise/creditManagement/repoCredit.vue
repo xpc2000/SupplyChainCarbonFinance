@@ -15,9 +15,13 @@
               label-width="80px"
               :model="formLabelAlign"
             >
-              <el-form-item label="发行方全称">
-                {{formLabelAlign.sender}}
-              </el-form-item>
+            <el-form-item label="发行方全称">
+              <el-input
+                  :disabled="true"
+                  placeholder=""
+                  v-model="formLabelAlign.sender"
+                ></el-input>
+            </el-form-item>
               <el-form-item label="碳信交易数额">
                 <el-input
                   placeholder="￥￥￥￥￥￥"
@@ -33,9 +37,13 @@
               label-width="80px"
               :model="formLabelAlign"
             >
-              <el-form-item label="发行方所属控排链">
-                {{formLabelAlign.senderChain}}
-              </el-form-item>
+            <el-form-item label="发行方所属控排链">
+              <el-input
+                  :disabled="true"
+                  placeholder=""
+                  v-model="formLabelAlign.senderChain"
+                ></el-input>
+            </el-form-item>
               <el-form-item label="碳信回购日期">
                 <el-date-picker
                   v-model="formLabelAlign.repoDate"
