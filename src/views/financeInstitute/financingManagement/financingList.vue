@@ -4,7 +4,7 @@
 
     <div class="sub-content-tabs">
       <el-tabs v-model="activeName">
-        <el-tab-pane label="保理待审批" name='first'>
+        <el-tab-pane label="保理待审批" name="first">
           <template>
             <div>
               <list-table :data="pendingData" :columns="column">
@@ -41,7 +41,6 @@
             <button @click="sendRow()" class="button-style">查看</button>
           </div>
         </el-tab-pane>
-        
       </el-tabs>
     </div>
   </div>
@@ -49,11 +48,14 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import ListTable from "@/components/ListTable";
-import {loadInstitutePendingFactors, loadInstituteApprovedFactors} from "@/utils/api.js"
+import {
+  loadInstitutePendingFactors,
+  loadInstituteApprovedFactors,
+} from "@/utils/api.js";
 export default {
   data() {
     return {
-      institution:localStorage.getItem("name"),
+      institution: localStorage.getItem("name"),
       ID: [],
       row: {},
       headerTitle: {
@@ -81,7 +83,7 @@ export default {
           width: "",
         },
         {
-          prop: "date",
+          prop: "time",
           label: "操作时间",
           width: "",
         },
@@ -91,17 +93,21 @@ export default {
           customSlot: "status",
         },
       ],
-      pendingData:[],
-      signingData:[],
+      pendingData: [],
+      signingData: [],
     };
   },
   async mounted() {
-    console.log(this.institution)
-    const {data:submitted} = await loadInstitutePendingFactors(this.institution)
-    this.pendingData = submitted.data
-    const {data:pending} = await loadInstituteApprovedFactors(this.institution)
-    this.signingData = pending.data
-    console.log(this.pendingData)
+    console.log(this.institution);
+    const { data: submitted } = await loadInstitutePendingFactors(
+      this.institution
+    );
+    this.pendingData = submitted.data;
+    const { data: pending } = await loadInstituteApprovedFactors(
+      this.institution
+    );
+    this.signingData = pending.data;
+    console.log(this.pendingData);
   },
   methods: {
     getrows(row) {
@@ -111,13 +117,12 @@ export default {
 
     // 发送ID
     sendRow() {
-      console.log(this.row.status)
+      console.log(this.row.status);
       if (this.row.status == 1) {
         this.$router.push({
           path: `/financeInstitute/financingManagement/factoringBuying/${this.row.id}`,
         });
-      } 
-      else{
+      } else {
         this.$router.push({
           path: `/financeInstitute/financingManagement/factoringApproval/${this.row.id}`,
         });

@@ -11,28 +11,28 @@
       <div class="description-box">
         <el-descriptions model="factorVo">
           <el-descriptions-item label="收款账户">
-            {{this.factorVo.bankAccount}}
+            {{ this.factorVo.bankAccount }}
           </el-descriptions-item>
           <el-descriptions-item label="融资企业全称">
-            {{this.factorVo.companyNeedFund}}
+            {{ this.factorVo.companyNeedFund }}
           </el-descriptions-item>
           <el-descriptions-item label="保理企业">
-            {{this.factorVo.companyOfferFund}}
+            {{ this.factorVo.companyOfferFund }}
           </el-descriptions-item>
           <el-descriptions-item label="碳信数量">
-            {{this.factorVo.num}}
+            {{ this.factorVo.num }}
           </el-descriptions-item>
           <el-descriptions-item label="收款银行">
-            {{this.factorVo.bank}}
+            {{ this.factorVo.bank }}
           </el-descriptions-item>
           <el-descriptions-item label="操作日期">
-            {{this.factorVo.date}}
+            {{ this.factorVo.date }}
           </el-descriptions-item>
           <el-descriptions-item label="资金用途">
-            {{this.factorVo.usage}}
+            {{ this.factorVo.usage }}
           </el-descriptions-item>
           <el-descriptions-item label="融资期限">
-            {{this.factorVo.factorDDL}}
+            {{ this.factorVo.factorDDL }}
           </el-descriptions-item>
           <el-descriptions-item
             v-for="(item, index) in editableText"
@@ -103,7 +103,7 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import editableText from "@/components/editableText.vue";
-import {updateInstitutionFundSigning} from "@/utils/api.js";
+import { updateInstitutionFundSigning } from "@/utils/api.js";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -117,22 +117,22 @@ export default {
       }
     };
     return {
-      factorVo:{
-        accountName:localStorage.getItem("name"),
-        accountType:localStorage.getItem("type"),
-        actionPassword:"",
-        companyNeedFund:"",
-        companyOfferFund:localStorage.getItem("name"),
-        num:0,
-        bankAccount:"",
-        date:"",
-        bank:"",
-        id:0,
-        fund:0,
-        interestRate:0.0,
-        serviceRate:0.0,
-        factorDDL:"",
-        usage:"",
+      factorVo: {
+        accountName: localStorage.getItem("name"),
+        accountType: localStorage.getItem("type"),
+        actionPassword: "",
+        companyNeedFund: "",
+        companyOfferFund: localStorage.getItem("name"),
+        num: 0,
+        bankAccount: "",
+        date: "",
+        bank: "",
+        id: 0,
+        fund: 0,
+        interestRate: 0.0,
+        serviceRate: 0.0,
+        factorDDL: "",
+        usage: "",
       },
       headerTitle: {
         largeTitle: "融资管理",
@@ -142,21 +142,21 @@ export default {
       editableText: [
         {
           id: 6,
-          prop:"interestRate",
+          prop: "interestRate",
           label: "利率",
           input: "可编辑",
           edit: false,
         },
         {
           id: 7,
-          prop:"serviceRate",
+          prop: "serviceRate",
           label: "服务费率",
           input: "可编辑",
           edit: false,
         },
         {
           id: 8,
-          prop:"fund",
+          prop: "fund",
           label: "融资金额",
           input: "可编辑",
           edit: false,
@@ -170,47 +170,47 @@ export default {
       },
     };
   },
-  async mounted(){
-    this.factorVo.id = parseInt(this.$route.params.id)
-    const {data:res} = await this.$http.get("/factorSearch/" + this.factorVo.id)
-    console.log(res.data)
-    this.factorVo.bankAccount = res.data.account
-    this.factorVo.num = res.data.amountCarbonTicket
-    this.factorVo.usage = res.data.fundUse
-    this.factorVo.bank = res.data.bank
-    this.factorVo.companyNeedFund = res.data.company
-    this.factorVo.date = "2022-03-12 14:07:59"
-    this.factorVo.factorDDL = "2022-03-12 23:23:23"
-    console.log(this.factorVo)
+  async mounted() {
+    this.factorVo.id = parseInt(this.$route.params.id);
+    const { data: res } = await this.$http.get(
+      "/factorSearch/" + this.factorVo.id
+    );
+    console.log(res);
+    this.factorVo.bankAccount = res.data.account;
+    this.factorVo.num = res.data.amountCarbonTicket;
+    this.factorVo.usage = res.data.fundUse;
+    this.factorVo.bank = res.data.bank;
+    this.factorVo.companyNeedFund = res.data.company;
+    this.factorVo.date = "2022-03-12 14:07:59";
+    this.factorVo.factorDDL = "2022-03-12 23:23:23";
+    console.log(this.factorVo);
   },
 
   methods: {
     submitForm(factorVo) {
-      this.factorVo.interestRate = parseFloat(this.editableText[0].input)
-      this.factorVo.serviceRate = parseFloat(this.editableText[1].input)
-      this.factorVo.fund = parseInt(this.editableText[2].input)
-      this.$refs.factorVo.validate(async valid => {
+      this.factorVo.interestRate = parseFloat(this.editableText[0].input);
+      this.factorVo.serviceRate = parseFloat(this.editableText[1].input);
+      this.factorVo.fund = parseInt(this.editableText[2].input);
+      this.$refs.factorVo.validate(async (valid) => {
         if (valid) {
           this.dialogVisible = false;
-          this.$confirm("确认买入操作")
-            .then((_) => {
-              updateInstitutionFundSigning(factorVo).then((data)=>{
-                console.log(data)
-                if (data.data.conde != 0){
-                  this.dialogVisible = false;
-                  this.$message({
+          this.$confirm("确认买入操作").then((_) => {
+            updateInstitutionFundSigning(factorVo).then((data) => {
+              console.log(data);
+              if (data.data.conde != 0) {
+                this.dialogVisible = false;
+                this.$message({
                   message: "密码不正确",
                   type: "warning",
-                  });
-                }
-                else{
-                  this.$message({
+                });
+              } else {
+                this.$message({
                   message: "完成买入",
                   type: "success",
-                  });
-                }
-              })
-            })
+                });
+              }
+            });
+          });
         }
       });
     },

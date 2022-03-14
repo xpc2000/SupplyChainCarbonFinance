@@ -9,41 +9,37 @@
       </div>
 
       <div class="description-box">
-        <el-descriptions  >
-            <!-- "配额所有者 质押金额 贷款期限 操作日期 配额量 质押率 贷款利率 附件" -->
-            <el-descriptions-item label="配额所属供应链">
-              {{this.pledgeDetail.controlChain}}
-            </el-descriptions-item>
-            <el-descriptions-item label="配额所有者">
-              {{this.pledgeDetail.quotaOwner}}
-            </el-descriptions-item>
-            <el-descriptions-item label="质押金额">
-              {{this.pledgeDetail.pledgeAmount}}
-            </el-descriptions-item>
-            <el-descriptions-item label="贷款期限">
-              {{this.pledgeDetail.loanTerm}}
-            </el-descriptions-item>
-            <el-descriptions-item label="操作日期">
-              {{this.pledgeDetail.operationData}}
-            </el-descriptions-item>
-            <el-descriptions-item label="配额量">
-              {{this.pledgeDetail.quotaQuantity}}
-            </el-descriptions-item>
-            <el-descriptions-item label="质押率">
-              {{this.pledgeDetail.pledgeRate}}
-            </el-descriptions-item>
-            <el-descriptions-item label="贷款利率">
-              {{this.pledgeDetail.loanInterestRate}}
-            </el-descriptions-item>
-            <el-descriptions-item label="附件">
-              附件.pdf
-            </el-descriptions-item>
+        <el-descriptions>
+          <!-- "配额所有者 质押金额 贷款期限 操作日期 配额量 质押率 贷款利率 附件" -->
+          <el-descriptions-item label="配额所属供应链">
+            {{ this.pledgeDetail.controlChain }}
+          </el-descriptions-item>
+          <el-descriptions-item label="配额所有者">
+            {{ this.pledgeDetail.quotaOwner }}
+          </el-descriptions-item>
+          <el-descriptions-item label="质押金额">
+            {{ this.pledgeDetail.pledgeAmount }}
+          </el-descriptions-item>
+          <el-descriptions-item label="贷款期限">
+            {{ this.pledgeDetail.loanTerm }}
+          </el-descriptions-item>
+          <el-descriptions-item label="操作日期">
+            {{ this.pledgeDetail.operationData }}
+          </el-descriptions-item>
+          <el-descriptions-item label="配额量">
+            {{ this.pledgeDetail.quotaQuantity }}
+          </el-descriptions-item>
+          <el-descriptions-item label="质押率">
+            {{ this.pledgeDetail.pledgeRate }}
+          </el-descriptions-item>
+          <el-descriptions-item label="贷款利率">
+            {{ this.pledgeDetail.loanInterestRate }}
+          </el-descriptions-item>
+          <el-descriptions-item label="附件"> 附件.pdf </el-descriptions-item>
 
-            <!-- <el-descriptions-item v-for="(item,index) in editableText" :label="item.label">
+          <!-- <el-descriptions-item v-for="(item,index) in editableText" :label="item.label">
           {{item.input}}
           </el-descriptions-item> -->
-         
-           
         </el-descriptions>
       </div>
 
@@ -52,13 +48,16 @@
         意见
       </div>
       <div class="radio-approval-box">
-        <el-radio v-model="radio" label="1" @change="updateComment(1)">签署</el-radio>
-        <el-radio v-model="radio" label="2" @change="updateComment(2)">拒绝</el-radio>
+        <el-radio v-model="radio" label="1" @change="updateComment(1)"
+          >签署</el-radio
+        >
+        <el-radio v-model="radio" label="2" @change="updateComment(2)"
+          >拒绝</el-radio
+        >
         <div class="radio-approval-comment-title">签署意见</div>
         <div class="radio-approval-comment-content">
           <el-input
-     
-           type="textarea"
+            type="textarea"
             :rows="8"
             placeholder="请输入内容"
             v-model="textarea"
@@ -99,7 +98,7 @@
 <script>
 import headerTitle from "@/components/headerTitle.vue";
 import editableText from "@/components/editableText.vue";
-import {updateCompanyPledgeSigning} from "@/utils/api.js"
+import { updateCompanyPledgeSigning } from "@/utils/api.js";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -113,20 +112,20 @@ export default {
       }
     };
     return {
-      action:{
-        accountName:localStorage.getItem("name"),
-        accountType:localStorage.getItem("accountType"),
-        actionPassword:"",
-        id:'',
-        comment:"",
+      action: {
+        accountName: localStorage.getItem("name"),
+        accountType: localStorage.getItem("accountType"),
+        actionPassword: "",
+        id: "",
+        comment: "",
       },
-      pledgeID:-999,
+      pledgeID: -999,
       headerTitle: {
         largeTitle: "质押签约",
         smallTitle: "质押签订",
       },
       edit: false,
-      pledgeDetail:{},
+      pledgeDetail: {},
       dialogVisible: false,
       radio: "1",
       textarea: "",
@@ -135,44 +134,50 @@ export default {
       },
     };
   },
-  async mounted(){
-    this.pledgeID = parseInt(this.$route.params.id)
-    const {data:res} = await this.$http.get("/pledgeSearch/" + this.pledgeID)
-    this.pledgeDetail = res.data
-    this.action.id = this.pledgeID
-    if(this.radio == "1"){
-      this.action.comment=true
+  async mounted() {
+    this.pledgeID = parseInt(this.$route.params.id);
+
+    const { data: res } = await this.$http.get(
+      "/pledgeSearch/" + this.pledgeID
+    );
+    this.pledgeDetail = res.data;
+    this.pledgeDetail.operationData = "2022-03-12 14:07:59";
+    this.pledgeDetail.loanTerm = "2022-03-12 23:23:23";
+    this.action.id = this.pledgeID;
+    if (this.radio == "1") {
+      this.action.comment = true;
+    } else {
+      this.action.comment = false;
     }
-    else{
-      this.action.comment=false
-    }
-    console.log(this.pledgeDetail)
+    console.log(this.pledgeDetail);
   },
 
   methods: {
-    updateComment(label){
-      this.action.comment = (label == 1)
-      console.log(this.action)
+    updateComment(label) {
+      this.action.comment = label == 1;
+      console.log(this.action);
     },
     submitForm(action) {
-      this.$refs.action.validate(async valid => {
+      this.$refs.action.validate(async (valid) => {
         if (valid) {
-          console.log(action)
-          const {data:res} = await updateCompanyPledgeSigning(action, parseInt(this.$route.params.id))
-          console.log(res)
-          if(res.conde != 0){
+          console.log(action);
+          const { data: res } = await updateCompanyPledgeSigning(
+            action,
+            parseInt(this.$route.params.id)
+          );
+          console.log(res);
+          if (res.conde != 0) {
             this.dialogVisible = false;
             this.$message({
               message: "签约失败",
             });
-            return false
-          }
-          else{
+            return false;
+          } else {
             this.dialogVisible = false;
             this.$message({
-            message: "完成签约",
-            type: "success",
-          });
+              message: "完成签约",
+              type: "success",
+            });
           }
         }
       });
@@ -243,7 +248,7 @@ export default {
   margin: 20px 40px;
 }
 .button-style {
-  margin: 30px 20px 50px 0px ;
+  margin: 30px 20px 50px 0px;
   width: 100px;
   height: 33px;
   border-radius: 7px;
