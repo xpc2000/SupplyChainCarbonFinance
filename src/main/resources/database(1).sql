@@ -42,6 +42,8 @@ CREATE TABLE `carbon_quota_pledge_records`  (
 -- ----------------------------
 -- Records of carbon_quota_pledge_records
 -- ----------------------------
+-- insert into `carbon_quota_pledge_records` values (0, 100, "光大石材工程有限公司", "中信实业银行", 0.01, 90, "2022-09-01 01:01:01", 3.0, "2022-01-01 01:01:01", "阳光牌大理石瓷砖", "建造瓷砖", 1);
+
 
 -- ----------------------------
 -- Table structure for carbon_ticket_financing_records
@@ -117,7 +119,8 @@ CREATE TABLE `control_affiliated_company`  (
 -- Records of control_affiliated_company
 -- ----------------------------
 INSERT INTO `control_affiliated_company` VALUES ('创浦机械有限公司', 'abcdwacaa@163.com', '12345', '12345', '1235', '12345', '12345', '阳光牌大理石瓷砖', 0, 0, 0, 0, 'asdf456');
-INSERT INTO `control_affiliated_company` VALUES ('光大石材工程有限公司', 'qwewcadad@163.com', '11111', '11111', '11111', '11111', '11111', '阳光牌大理石瓷砖', 0, 0, 0, 0, 'dfgjw4587');
+-- INSERT INTO `control_affiliated_company` VALUES ('光大石材工程有限公司', 'qwewcadad@163.com', '11111', '11111', '11111', '11111', '11111', '阳光牌大理石瓷砖', 0, 0, 0, 0, 'dfgjw4587');
+INSERT INTO `control_affiliated_company` VALUES ('光大石材工程有限公司', 'controlAffiliate@163.com', '11111', '11111', '11111', '11111', '11111', '阳光牌大理石瓷砖', 0, 0, 0, 0, 'dfgjw4587');
 
 -- ----------------------------
 -- Table structure for control_chain
@@ -169,7 +172,8 @@ CREATE TABLE `control_core_company`  (
 -- ----------------------------
 -- Records of control_core_company
 -- ----------------------------
-INSERT INTO `control_core_company` VALUES ('阳光建材有限公司', '123456us78@163.com', '12345', '阳光牌大理石瓷砖', '12345', '12345', '12345', '12345', '12345', '12345', '12345', '12345', 0, 0, 0, 0, 'ABC123');
+-- INSERT INTO `control_core_company` VALUES ('阳光建材有限公司', '123456us78@163.com', '12345', '阳光牌大理石瓷砖', '12345', '12345', '12345', '12345', '12345', '12345', '12345', '12345', 0, 0, 0, 0, 'ABC123');
+INSERT INTO `control_core_company` VALUES ('阳光建材有限公司', 'controlCore@163.com', '12345', '阳光牌大理石瓷砖', '12345', '12345', '12345', '12345', '12345', '12345', '12345', '12345', 100, 100000000, 100000000, 0, 'ABC123');
 
 -- ----------------------------
 -- Table structure for financial_institution
@@ -194,7 +198,9 @@ CREATE TABLE `financial_institution`  (
 -- ----------------------------
 -- Records of financial_institution
 -- ----------------------------
-INSERT INTO `financial_institution` VALUES ('中信实业银行', 'xyzswasz@163.com', '123123', '国有', '12312', '123123', '123123', '1233123', 0, '123dsf');
+-- INSERT INTO `financial_institution` VALUES ('中信实业银行', 'xyzswasz@163.com', '22222', '国有', '22222', '22222', '22222', '22222', 0, '123dsf');
+INSERT INTO `financial_institution` VALUES ('中信实业银行', 'financeInstitution@163.com', '22222', '国有', '22222', '22222', '22222', '22222', 0, '123dsf');
+
 INSERT INTO `financial_institution` VALUES ('梅林银行', 'wzxcdssaw@163.com', 'ww', '外资', 'ww', 'ww', 'ww', 'ww', 0, '3567safv');
 
 -- ----------------------------
@@ -221,7 +227,8 @@ CREATE TABLE `reduce_affiliated_company`  (
 -- Records of reduce_affiliated_company
 -- ----------------------------
 INSERT INTO `reduce_affiliated_company` VALUES ('码农之家信息技术服务有限公司', 'pafdsan@163.com', '555', '555', '555', '12455', '12433', '智能碳核算系统', 0, 'dahjd86A');
-INSERT INTO `reduce_affiliated_company` VALUES ('云石物联网有限公司', 'nadfaf@163.com', '666', '666', '666', '23435', '12345', '智能碳核算系统', 0, 'sgdyuge239dh');
+-- INSERT INTO `reduce_affiliated_company` VALUES ('云石物联网有限公司', 'nadfaf@163.com', '666', '666', '666', '23435', '12345', '智能碳核算系统', 0, 'sgdyuge239dh');
+INSERT INTO `reduce_affiliated_company` VALUES ('云石物联网有限公司', 'reduceAffiliate@163.com', '666', '666', '666', '666', '666', '智能碳核算系统', 0, 'sgdyuge239dh');
 
 -- ----------------------------
 -- Table structure for reduce_chain
@@ -265,7 +272,8 @@ CREATE TABLE `reduce_core_company`  (
 -- ----------------------------
 -- Records of reduce_core_company
 -- ----------------------------
-INSERT INTO `reduce_core_company` VALUES ('绿色管家有限公司', 'zdsafa@163.com', '智能碳核算系统', '12355', '12455', '12355', '12345', '12345', '1234', 0, 'dhe346');
+-- INSERT INTO `reduce_core_company` VALUES ('绿色管家有限公司', 'zdsafa@163.com', '智能碳核算系统', '333', '333', '333', '333', '333', '333', 0, 'dhe346');
+INSERT INTO `reduce_core_company` VALUES ('绿色管家有限公司', 'reduceCore@163.com', '智能碳核算系统', '333', '333', '333', '333', '333', '333', 10000, 'dhe346');
 
 -- ----------------------------
 -- Table structure for reduce_plan

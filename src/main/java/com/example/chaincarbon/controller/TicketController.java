@@ -50,6 +50,8 @@ public class TicketController {
     public Result create(@RequestBody TicketVo table){
         boolean privilege=checkService.controlChainCheck(table.getAccountName(),table.getActionPassword(),0);
         if(!privilege) return new Result(ResponseCode.InsufficientPermissions);
+        if(!balanceService.createRece((table.getReceiver()), table.getNum()))
+            return new Result(ResponseCode.DataBaseError);
         //插入碳信创建记录，并修改各账户碳信余额
         Boolean dbResult=ticketService.insertTicketRecord(table,1);
         if (!dbResult) return new Result(ResponseCode.DataBaseError);
@@ -158,12 +160,12 @@ public class TicketController {
             if (!balanceService.receiveCore(reduceCore,ticketNum))
                 return new Result(ResponseCode.DataBaseError);
         }
-        else if(Objects.equals(table.getAccountType(), AccountType.ControlSub.getCode())){
+        else if(Objects.equals(table.getAccountType(), AccountType.ReduceSub.getCode())){
             reduceSub=userService.getRSAccount(table.getAccountName());
             if(reduceSub==null|| !Objects.equals(reduceSub.getCarbonTicketSign(), table.getActionPassword()))
                 return new Result(ResponseCode.InsufficientPermissions);
             //修改发行方碳信余额
-            if(!balanceService.transfetSub(reduceSub,ticketNum))
+            if(!balanceService.receiveSub(reduceSub,ticketNum))
                 return new Result(ResponseCode.DataBaseError);
         }
         Boolean dbResult=ticketService.updateTicket(table.getID(), table.getComment());

@@ -134,6 +134,7 @@ public class EmissionService {
             pledgeForInstitutionVo.setId(item.getId());
             pledgeForInstitutionVo.setChain(item.getControlChain());
             pledgeForInstitutionVo.setOwner(item.getQuotaOwner());
+//            pledgeForInstitutionVo.setTime(item.getOperationData());
             out.add(pledgeForInstitutionVo);
         }
         return out;

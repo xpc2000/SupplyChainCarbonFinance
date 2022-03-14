@@ -10,10 +10,7 @@ import com.example.chaincarbon.utils.AccountType;
 import com.example.chaincarbon.utils.ResponseCode;
 import com.example.chaincarbon.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
@@ -35,6 +32,54 @@ public class UserController {
 
     @Autowired
     ReduceSubDao reduceSubDao;
+
+    //get the company data
+    @RequestMapping(value = "/getCompanySummary",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
+    public Result getCompanySummary(@RequestParam String email, @RequestParam Integer type){
+        Result result=new Result(ResponseCode.LoginFailure);
+        if (type == 1) {
+            ControlCore controlCore = controlCoreDao.getControlCoreByEmail(email);
+            ControlVo controlVo = new ControlVo();
+            controlVo.setName(controlCore.getName());
+            controlVo.setChain(controlCore.getControlChain());
+            controlVo.setCarbonLimit(controlCore.getCarbontTicket());
+            controlVo.setEmissionPledged(controlCore.getNumberCarbonEmission());
+            controlVo.setTicketUnissued(controlCore.getUnissuedCarbonTicket());
+            controlVo.setTicketBuyback(controlCore.getRepurchasedCarbonTicket());
+            result.setData(controlVo);
+        }
+        else if (type == 2) {
+            ControlSub controlSub = controlSubDao.getControlSubByEmail(email);
+            ControlVo controlVo = new ControlVo();
+            controlVo.setName(controlSub.getName());
+            controlVo.setChain(controlSub.getControlChain());
+            controlVo.setCarbonLimit(controlSub.getCatbonTicket());
+            controlVo.setEmissionPledged(controlSub.getNumberCarbonEmission());
+            controlVo.setTicketUnissued(controlSub.getUnissuedCarbonTicket());
+            controlVo.setTicketBuyback(controlSub.getRepurchasedCarbonTicket());
+            result.setData(controlVo);
+        }
+        else if (type==3){
+            ReduceCore reduceCore = reduceCoreDao.getReduceCoreByEmail(email);
+            UserVo userVo=new UserVo();
+            userVo.setName(reduceCore.getName());
+            userVo.setChain(reduceCore.getReduceChain());
+            userVo.setCarbinTicket(reduceCore.getCarbonTicketBalance());
+            result.setData(userVo);
+        }
+        else if (type==4){
+            ReduceSub reduceSub = reduceSubDao.getReduceSubByEmail(email);
+            UserVo userVo=new UserVo();
+            userVo.setName(reduceSub.getName());
+            userVo.setChain(reduceSub.getReduceChain());
+            userVo.setCarbinTicket(reduceSub.getCarbonTicketBalance());
+            result.setData(userVo);
+        }
+
+        return result;
+    }
+
+
 
     /**
      * @Author: xpc2000

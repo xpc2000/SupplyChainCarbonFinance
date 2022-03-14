@@ -40,6 +40,7 @@ public class FundingService {
         factorRecord.setFundUse(applyFactorVo.getUsage());
         factorRecord.setBank(applyFactorVo.getBank());
         factorRecord.setAccount(applyFactorVo.getBankAccount());
+        factorRecord.setOperationTime(new Date());
         factorRecord.setStatus(0);
         int result=factorDao.insertFactor(factorRecord);
         return result!=-1;
@@ -130,8 +131,9 @@ public class FundingService {
             factorForInstitutionVo.setAmount(item.getAmountCarbonTicket());
             factorForInstitutionVo.setStatus(item.getStatus());
             factorForInstitutionVo.setId(item.getId());
-            if (item.getOperationTime()!=null)
-                factorForInstitutionVo.setTime(DateUtil.parseTime(item.getOperationTime()));
+            factorForInstitutionVo.setTime(item.getOperationTime());
+//            if (item.getOperationTime()!=null)
+//                factorForInstitutionVo.setTime(DateUtil.parseTime(item.getOperationTime()));
             factorForInstitutionVo.setCompany(item.getCompany());
             out.add(factorForInstitutionVo);
         }
@@ -151,8 +153,9 @@ public class FundingService {
             factorForCompanyVo.setAmount(item.getAmountCarbonTicket());
             factorForCompanyVo.setId(item.getId());
             factorForCompanyVo.setInstitution(item.getFactoringCompany());
-            if (item.getOperationTime()!=null)
-                factorForCompanyVo.setTime(DateUtil.parseTime(item.getOperationTime()));
+            factorForCompanyVo.setTime(item.getOperationTime());
+//            if (item.getOperationTime()!=null)
+//                factorForCompanyVo.setTime(DateUtil.parseTime(item.getOperationTime()));
             factorForCompanyVo.setStatus(item.getStatus());
             out.add(factorForCompanyVo);
         }

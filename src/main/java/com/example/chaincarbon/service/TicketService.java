@@ -78,6 +78,27 @@ public class TicketService {
         return financeName;
     }
 
+//    /**
+//     * @Author:周文峰
+//     * @Date:2022/2/28
+//     * @Param:企业所属减排链，企业名称，状态，类型，操作类型
+//     * @Return:List<TicketRecord>
+//     * @Description:获取减排链企业碳信记录
+//     */
+//    public List<TransferTicketVo> getTicketRecords(String supplyChain, String company, Integer state, Integer type, List<Integer> operation){
+//        List<TransferTicketVo> out = new LinkedList<>();
+//        for(TicketRecord item: ticketDao.getTicketRecords(supplyChain,company,state,type,operation)){
+//            TransferTicketVo transferTicketVo = new TransferTicketVo();
+//            transferTicketVo.setId(item.getId());
+//            transferTicketVo.setType(item.getOperation());
+//            transferTicketVo.setAmount(item.getAmountCarbonTicket());
+//            transferTicketVo.setSender(item.getInitiatorName());
+//            if(item.getOperationData()!=null)
+//                transferTicketVo.setTime(DateUtil.parseTime(item.getOperationData()));
+//            out.add(transferTicketVo);
+//        }
+//        return out;
+//    }
     /**
      * @Author:周文峰
      * @Date:2022/2/28
@@ -93,12 +114,12 @@ public class TicketService {
             transferTicketVo.setType(item.getOperation());
             transferTicketVo.setAmount(item.getAmountCarbonTicket());
             transferTicketVo.setSender(item.getInitiatorName());
-            if(item.getOperationData()!=null)
-                transferTicketVo.setTime(DateUtil.parseTime(item.getOperationData()));
+            transferTicketVo.setTime(item.getOperationData());
             out.add(transferTicketVo);
         }
         return out;
     }
+
     /**
      * @Author:周文峰
      * @Date:2022/2/28

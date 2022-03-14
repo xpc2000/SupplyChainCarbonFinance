@@ -1,5 +1,6 @@
 package com.example.chaincarbon.controller;
 
+import com.example.chaincarbon.model.vo.TransferTicketVo;
 import com.example.chaincarbon.service.EmissionService;
 import com.example.chaincarbon.service.FundingService;
 import com.example.chaincarbon.service.TicketService;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class SearchController {
@@ -39,6 +41,7 @@ public class SearchController {
         public Result getTicketRecord(@PathVariable Integer id){
             return new Result(ResponseCode.OK, ticketService.getTicketRecord(id));
         }
+
         /**
          * @Author:周文峰
          * @Date:2022/3/1
@@ -47,8 +50,21 @@ public class SearchController {
          */
         @RequestMapping(value = "/pending",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
         public Result getPendingTicketRecords(@RequestParam String chain, @RequestParam String company){
-            return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,0,0,Arrays.asList(1,2,3,4,5,6)));
+            List<TransferTicketVo> list=ticketService.getTicketRecords(chain,company,0,0,Arrays.asList(1,2,3,4,5,6));
+            Result result=new Result(ResponseCode.OK,list);
+            return result;
+//            return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,0,0,Arrays.asList(1,2,3,4,5,6)));
         }
+//        /**
+//         * @Author:周文峰
+//         * @Date:2022/3/1
+//         * @Param:企业所属减排链，企业名称
+//         * @Description:获取企业需要签收的碳信记录
+//         */
+//        @RequestMapping(value = "/pending",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
+//        public Result getPendingTicketRecords(@RequestParam String chain, @RequestParam String company){
+//            return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,0,0,Arrays.asList(1,2,3,4,5,6)));
+//        }
         /**
          * @Author:周文峰
          * @Date:2022/3/1
@@ -57,7 +73,7 @@ public class SearchController {
          */
         @RequestMapping(value = "/signed",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
         public Result getSignedTicketRecords(@RequestParam String chain, @RequestParam String company){
-            return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,3,0,Arrays.asList(2,3)));
+            return new Result(ResponseCode.OK, ticketService.getTicketRecords(chain,company,4,0,Arrays.asList(2,3)));
         }
         /**
          * @Author:周文峰
@@ -108,7 +124,6 @@ public class SearchController {
          */
         @RequestMapping(value = "/submit",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
         public Result getSubmitPledge(@RequestParam String chain, @RequestParam String company){
-            System.out.printf(chain, company);
             return new Result(ResponseCode.OK, emissionService.getCompanyPledgeRecords(chain,company,0));
         }
 //        /**
@@ -141,6 +156,7 @@ public class SearchController {
         public Result getPendingPledge(@RequestParam String company){
             return new Result(ResponseCode.OK, emissionService.getInstitutionPledgeRecords(company,0));
         }
+
         /**
          * @Author:周文峰
          * @Date:2022/3/1
