@@ -21,21 +21,6 @@
           <el-row :gutter="10">
             <el-row>
               <el-col :span="12">
-                <el-row class="detail-card-title">已融资碳配额</el-row>
-                <el-row class="detail-card-content">3802</el-row>
-              </el-col>
-              <el-col :span="12">
-                <el-row class="detail-card-title">可融资碳信余额</el-row>
-                <el-row class="detail-card-content">2048</el-row>
-              </el-col>
-            </el-row>
-
-            <el-row class="detail-card-margin">
-              <el-col :span="12">
-                <el-row class="detail-card-title">已转让碳信余额</el-row>
-                <el-row class="detail-card-content">8032</el-row>
-              </el-col>
-              <el-col :span="12">
                 <el-row class="detail-card-title">可转让碳信余额</el-row>
                 <el-row class="detail-card-content">{{ ticketBalance }}</el-row>
               </el-col>
@@ -66,6 +51,7 @@
 <script>
 import * as echarts from "echarts";
 import headerTitle from "@/components/headerTitle.vue";
+import {getCompanySummary} from "@/utils/api.js"
 export default {
   data() {
     return {
@@ -122,14 +108,19 @@ export default {
       ],
     };
   },
-  mounted() {
+  async mounted() {
     if (!this.mychart) {
       this.mychart = echarts.init(document.getElementById("main"));
     }
     this.init();
+    const{data:res} = await getCompanySummary(localStorage.getItem("userEmail"), localStorage.getItem("accountType"))
+    console.log("res.data:", res)
+    console.log(res.data)
+    localStorage.setItem("ticketBalance", res.data.carbinTicket)
   },
   methods: {
     refresh() {
+      this.$router.go()
       this.$message("已刷新数据");
     },
     init() {

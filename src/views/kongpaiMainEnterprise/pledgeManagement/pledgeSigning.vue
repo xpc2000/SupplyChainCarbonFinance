@@ -136,7 +136,6 @@ export default {
   },
   async mounted() {
     this.pledgeID = parseInt(this.$route.params.id);
-
     const { data: res } = await this.$http.get(
       "/pledgeSearch/" + this.pledgeID
     );
@@ -146,8 +145,6 @@ export default {
     this.action.id = this.pledgeID;
     if (this.radio == "1") {
       this.action.comment = true;
-    } else {
-      this.action.comment = false;
     }
     console.log(this.pledgeDetail);
   },

@@ -28,7 +28,8 @@
               ></el-input>
             </el-form-item>
             <el-form-item label="碳信额度">
-              <el-input placeholder="" v-model="avaliableCredit"></el-input>
+              <el-input placeholder="" 
+              v-model="creditAmount"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -46,7 +47,11 @@
               ></el-input>
             </el-form-item>
             <el-form-item label="款项额度">
-              <el-input placeholder="" v-model="avaliableCredit"></el-input>
+              <el-input
+                :disabled="true"
+                placeholder=""
+                v-model="avaliableCredit"
+              ></el-input>
             </el-form-item>
 
             <el-form-item label="碳信创建日期">
@@ -126,6 +131,7 @@ export default {
       }
     };
     return {
+      creditAmount:"",
       avaliableCredit: localStorage.getItem("carbonLimit"),
       headerTitle: {
         largeTitle: "碳控排链信账户",
@@ -197,8 +203,7 @@ export default {
   },
   methods: {
     submitForm(formLabelAlign) {
-      this.formLabelAlign.num = parseInt(this.avaliableCredit);
-
+      this.formLabelAlign.num = parseInt(this.creditAmount);
       console.log(this.formLabelAlign.num);
       this.$refs.formLabelAlign.validate(async (valid) => {
         if (valid) {
