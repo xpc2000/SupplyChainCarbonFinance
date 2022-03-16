@@ -136,13 +136,15 @@ public class BalanceService {
     public Boolean buyback( Integer num){
         List<ReduceSub> reduceSubList=reduceSubDao.getReduceSubHaveTicket();
         List<ReduceSub> reduceSubList1=new ArrayList<>();
+        Integer tmp=0;
         for (ReduceSub sub : reduceSubList) {
+            tmp=sub.getCarbonTicketBalance();
             if (sub.getCarbonTicketBalance() <= num)
                 sub.setCarbonTicketBalance(0);
             else sub.setCarbonTicketBalance(sub.getCarbonTicketBalance() - num);
-            num -= sub.getCarbonTicketBalance();
-            if (num <= 0) break;
+            num -= tmp;
             reduceSubList1.add(sub);
+            if (num <= 0) break;
         }
         for (ReduceSub reduceSub : reduceSubList1)
             reduceSubDao.updateReduceSub(reduceSub);
@@ -151,12 +153,13 @@ public class BalanceService {
             List<ReduceCore> reduceCoreList=reduceCoreDao.getReduceCoreHaveTicket();
             List<ReduceCore> reduceCoreList1=new ArrayList<>();
             for(ReduceCore core:reduceCoreList){
+                tmp=core.getCarbonTicketBalance();
                 if(core.getCarbonTicketBalance() <= num)
                     core.setCarbonTicketBalance(0);
                 else core.setCarbonTicketBalance(core.getCarbonTicketBalance()-num);
-                num-= core.getCarbonTicketBalance();
-                if(num<=0) break;
+                num-= tmp;
                 reduceCoreList1.add(core);
+                if(num<=0) break;
             }
             for(ReduceCore reduceCore:reduceCoreList1)
                 reduceCoreDao.updateReduceCore(reduceCore);
@@ -166,19 +169,19 @@ public class BalanceService {
             List<FinanceInstitution> financeInstitutionList=financeDao.getFinanceHaveTicket();
             List<FinanceInstitution> financeInstitutionList1=new ArrayList<>();
             for(FinanceInstitution finance:financeInstitutionList){
+                tmp=finance.getCarbonTicketNumber();
                 if(finance.getCarbonTicketNumber()<=num)
                     finance.setCarbonTicketNumber(0);
                 else finance.setCarbonTicketNumber(finance.getCarbonTicketNumber()-num);
-                num-=finance.getCarbonTicketNumber();
-                if(num<=0) break;
+                num-=tmp;
                 financeInstitutionList1.add(finance);
+                if(num<=0) break;
             }
 
             for(FinanceInstitution financeInstitution:financeInstitutionList1)
                 financeDao.updateFinance(financeInstitution);
         }
-        else return false;
-        return true;
+        return num <= 0;
     }
 
 
@@ -231,7 +234,9 @@ public class BalanceService {
      * @Description: 减排链链属企业签收碳信后账户余额变动
      */
     public Boolean receiveSub(ReduceSub reduceSub,Integer num){
-        reduceSub.setCarbonTicketBalance((reduceSub.getCarbonTicketBalance()+num));
+        System.out.println(reduceSub.getCarbonTicketBalance());
+        reduceSub.setCarbonTicketBalance(reduceSub.getCarbonTicketBalance()+num);
+        System.out.println(reduceSub.getCarbonTicketBalance());
         int result=reduceSubDao.updateReduceSub(reduceSub);
         return result!=-1;
     }
