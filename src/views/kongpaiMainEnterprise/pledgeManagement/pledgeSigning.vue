@@ -112,6 +112,7 @@ export default {
       }
     };
     return {
+      ticketNum: 0,
       action: {
         accountName: localStorage.getItem("name"),
         accountType: localStorage.getItem("accountType"),
@@ -140,6 +141,8 @@ export default {
       "/pledgeSearch/" + this.pledgeID
     );
     this.pledgeDetail = res.data;
+    this.ticketNum = this.pledgeDetail.quotaQuantity;
+    console.log("ticketNum" + this.ticketNum);
     this.pledgeDetail.operationData = "2022-03-12 14:07:59";
     this.pledgeDetail.loanTerm = "2022-03-12 23:23:23";
     this.action.id = this.pledgeID;
@@ -160,7 +163,7 @@ export default {
           console.log(action);
           const { data: res } = await updateCompanyPledgeSigning(
             action,
-            parseInt(this.$route.params.id)
+            this.ticketNum
           );
           console.log(res);
           if (res.conde != 0) {

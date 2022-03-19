@@ -223,6 +223,7 @@ export default {
   mounted(){
    
     this.formLabelAlign.num=parseInt(this.avaliableCredit)
+      // avaliableCredit: localStorage.getItem("carbonLimit")
      console.log(this.formLabelAlign)
   },
   components: {

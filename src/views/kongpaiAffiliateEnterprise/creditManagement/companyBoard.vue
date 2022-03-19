@@ -6,7 +6,7 @@
       <el-row class="subcontent-title">
         <el-col :span="12">碳控排链信账户款项流动仪表盘</el-col>
         <el-col :span="12" class="refresh-data">
-          <el-row>{{ companyName }} {{ chainName }}</el-row>
+          <el-row> {{ companyName }} {{ chainName }}</el-row>
           <el-row class="detail-card-title">
             <span class="refresh" @click="refresh">刷新</span>
             <i class="el-icon-refresh refresh"></i>
@@ -22,9 +22,9 @@
             <el-row>
               <el-col :span="12">
                 <el-row class="detail-card-title">质押碳配额数量</el-row>
-                <el-row class="detail-card-content">{{
-                  emissionPledged
-                }}</el-row>
+                <el-row class="detail-card-content">
+                  {{ emissionPledged }}
+                </el-row>
               </el-col>
               <el-col :span="12">
                 <el-row class="detail-card-title">已发行碳信余额</el-row>
@@ -70,7 +70,7 @@
 <script>
 import * as echarts from "echarts";
 import headerTitle from "@/components/headerTitle.vue";
-import {getCompanySummary} from "@/utils/api.js"
+import { getCompanySummary } from "@/utils/api.js";
 export default {
   data() {
     return {
@@ -82,8 +82,8 @@ export default {
       companyName: localStorage.getItem("name"),
       chainName: localStorage.getItem("chain"),
       headerTitle: {
-        largeTitle: "控排链碳信账户",
-        smallTitle: "账户信息",
+        largeTitle: "碳信管理",
+        smallTitle: "企业碳信账户",
       },
       mychart: null,
       column: [
@@ -128,27 +128,6 @@ export default {
           time: "28 一月, 12.30 AM",
           amount: "￥￥￥￥",
         },
-        {
-          sender: "核心企业名字",
-          receiver: "减排链核属企业A",
-          address: "123******EEE",
-          time: "28 一月, 12.30 AM",
-          amount: "￥￥￥￥",
-        },
-        {
-          sender: "核心企业名字",
-          receiver: "减排链核属企业A",
-          address: "123******EEE",
-          time: "28 一月, 12.30 AM",
-          amount: "￥￥￥￥",
-        },
-        {
-          sender: "核心企业名字",
-          receiver: "减排链核属企业A",
-          address: "123******EEE",
-          time: "28 一月, 12.30 AM",
-          amount: "￥￥￥￥",
-        },
       ],
     };
   },
@@ -157,21 +136,24 @@ export default {
       this.mychart = echarts.init(document.getElementById("main"));
     }
     this.init();
-    // console.log(localStorage);
-    this.carbonIssued = parseInt(this.carbonLimit) - parseInt(this.ticketBuyback) - parseInt(this.ticketUnissued)
-    // console.log(this.carbonIssued)
-    const{data:res} = await getCompanySummary(localStorage.getItem("userEmail"), localStorage.getItem("accountType"))
-    console.log("res.data:", res.data)  
+    const { data: res } = await getCompanySummary(
+      localStorage.getItem("userEmail"),
+      localStorage.getItem("accountType")
+    );
+    console.log("res.data:", res.data);
     localStorage.setItem("ticketBuyback", res.data.ticketBuyback);
     localStorage.setItem("ticketUnissued", res.data.ticketUnissued);
     localStorage.setItem("emissionPledged", res.data.emissionPledged);
-    localStorage.setItem("ticketUnissued", res.data.ticketUnissued)
-    this.carbonIssued = parseInt(this.carbonLimit) - parseInt(this.ticketBuyback) - parseInt(this.ticketUnissued)
-    
+    localStorage.setItem("carbonLimit", res.data.carbonLimit);
+    this.carbonIssued =
+      this.carbonLimit -
+      parseInt(this.ticketBuyback) -
+      parseInt(this.ticketUnissued);
+    this.$message("已刷新数据");
   },
   methods: {
-    async refresh() {
-      this.$router.go()
+    refresh() {
+      this.$router.go();
       this.$message("已刷新数据");
     },
     init() {

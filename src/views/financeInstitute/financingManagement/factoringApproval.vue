@@ -186,23 +186,23 @@ export default {
       this.$refs.action.validate(async (valid) => {
         if (valid) {
           this.dialogVisible = false;
-          console.log(action);
-          this.$confirm("确认审核操作").then((_) => {
-            updateInstitutionFundExamination(action).then((data) => {
-              console.log(data);
-              if (data.data.conde != 0) {
-                this.dialogVisible = false;
-                this.$message({
-                  message: "密码不正确",
-                  type: "warning",
-                });
-              } else {
-                this.$message({
-                  message: "完成审核",
-                  type: "success",
-                });
-              }
-            });
+          console.log(this.action);
+
+          updateInstitutionFundExamination(action).then((data) => {
+            console.log(data);
+
+            if (data.data.conde != 0) {
+              this.dialogVisible = false;
+              this.$message({
+                message: "密码不正确",
+                type: "warning",
+              });
+            } else {
+              this.$message({
+                message: "完成审核",
+                type: "success",
+              });
+            }
           });
         }
       });

@@ -134,17 +134,22 @@ export default {
   },
   methods: {
     submitForm(formLabelAlign) {
+      console.log(formLabelAlign);
       this.formLabelAlign.num = parseInt(this.formLabelAlign.num);
       this.$refs.formLabelAlign.validate(async (valid) => {
         if (valid) {
           //操作正确
-          console.log(formLabelAlign);
+
           this.dialogVisible = false;
           this.$confirm("确认回购碳信？").then((_) => {
             ticketRepurchase(formLabelAlign).then((data) => {
               console.log(data);
               if (data.data.conde != 0) {
                 this.dialogVisible = false;
+                // this.$message({
+                //   message: "碳信已回购",
+                //   type: "success",
+                // });
                 this.$message({
                   message: "密码不正确",
                   type: "warning",

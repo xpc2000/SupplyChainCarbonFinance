@@ -180,22 +180,22 @@ export default {
       this.$refs.action.validate(async (valid) => {
         if (valid) {
           this.dialogVisible = false;
-          this.$confirm("确认审批操作").then((_) => {
-            updateInstitutionPledgeExamination(action).then((data) => {
-              console.log(data);
-              if (data.data.conde != 0) {
-                this.dialogVisible = false;
-                this.$message({
-                  message: "密码不正确",
-                  type: "warning",
-                });
-              } else {
-                this.$message({
-                  message: "完成审批",
-                  type: "success",
-                });
-              }
-            });
+          console.log(this.action);
+
+          updateInstitutionPledgeExamination(action).then((data) => {
+            console.log(data);
+            if (data.data.conde != 0) {
+              this.dialogVisible = false;
+              this.$message({
+                message: "密码不正确",
+                type: "warning",
+              });
+            } else {
+              this.$message({
+                message: "完成审批",
+                type: "success",
+              });
+            }
           });
         }
       });

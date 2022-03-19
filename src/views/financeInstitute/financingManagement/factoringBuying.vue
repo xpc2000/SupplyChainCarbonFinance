@@ -194,22 +194,21 @@ export default {
       this.$refs.factorVo.validate(async (valid) => {
         if (valid) {
           this.dialogVisible = false;
-          this.$confirm("确认买入操作").then((_) => {
-            updateInstitutionFundSigning(factorVo).then((data) => {
-              console.log(data);
-              if (data.data.conde != 0) {
-                this.dialogVisible = false;
-                this.$message({
-                  message: "密码不正确",
-                  type: "warning",
-                });
-              } else {
-                this.$message({
-                  message: "完成买入",
-                  type: "success",
-                });
-              }
-            });
+
+          updateInstitutionFundSigning(factorVo).then((data) => {
+            console.log(data);
+            if (data.data.conde != 0) {
+              this.dialogVisible = false;
+              this.$message({
+                message: "密码不正确",
+                type: "warning",
+              });
+            } else {
+              this.$message({
+                message: "完成买入",
+                type: "success",
+              });
+            }
           });
         }
       });

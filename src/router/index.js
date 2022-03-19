@@ -11,10 +11,14 @@ export const routes = [
     path: "/",
     component: () => import("@/views/login.vue"),
   },
+  
   //控排链核心企业
   {
     path: "/index",
     component: () => import("@/layout/index"),
+    redirect:to=>{
+      return {path:'/homepage'}
+    },
     meta: {
       title: "链属企业管理",
       icon: "el-icon-user",
@@ -166,7 +170,10 @@ export const routes = [
       title: "碳信管理",
       icon: "el-icon-user",
     },
-    children: [
+    redirect: to=>{
+      return {path:'/homepage'}
+    },
+    children:[
       {
         path: "/kongpaiAffiliateEnterprise/creditManagement/companyBoard",
         component: () => import("@/views/kongpaiAffiliateEnterprise/creditManagement/companyBoard.vue"),
@@ -245,6 +252,9 @@ export const routes = [
   {
     path: "/jianpaiMain",
     component: () => import("@/layout/index"),
+    redirect: to=>{
+      return {path:'/homepage'}
+  },
     meta: {
       title: "链属企业管理",
       icon: "el-icon-user",
@@ -546,6 +556,19 @@ export const routes = [
       },
     ]
   },
+  {
+    path: "/homepage",
+    component: () => import("@/layout/index"),
+    children: [
+      {
+        path: "/homepage",
+        component: () => import("@/views/homepage.vue"),
+        
+      },
+    ]
+
+  },
+
   
 
   

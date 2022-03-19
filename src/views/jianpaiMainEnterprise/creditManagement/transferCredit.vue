@@ -58,7 +58,7 @@
                   v-model="formLabelAlign.num"
                 ></el-input>
               </el-form-item>
-              <el-form-item label="附件">
+              <el-form-item label="资金用途">
                 <span
                   style="
                     position: absolute;
@@ -69,7 +69,7 @@
                   >点击上传文件</span
                 >
                 <el-input
-                  placeholder="文件"
+                  placeholder="资金用途"
                   v-model="formLabelAlign.usage"
                 ></el-input>
               </el-form-item>

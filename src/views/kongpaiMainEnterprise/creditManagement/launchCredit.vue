@@ -164,7 +164,7 @@ export default {
         largeTitle: "碳信管理 ",
         smallTitle: "碳信发行 ",
       },
-      updatedUnissued:"",
+      updatedUnissued: "",
       active: 1,
       textarea: "",
       dialogVisible: false,
@@ -205,8 +205,14 @@ export default {
                   type: "warning",
                 });
               } else {
-                this.updatedUnissued = this.avaliableCredit - this.formLabelAlign.num
-                console.log("updatedunissued", this.updatedUnissued, "this.ticketUnissued - this.formLabelAlign.num", this.avaliableCredit - this.formLabelAlign.num)
+                this.updatedUnissued =
+                  this.avaliableCredit - this.formLabelAlign.num;
+                console.log(
+                  "updatedunissued",
+                  this.updatedUnissued,
+                  "this.ticketUnissued - this.formLabelAlign.num",
+                  this.avaliableCredit - this.formLabelAlign.num
+                );
                 // localStorage.setItem("ticketUnissued", this.updatedUnissued)
                 this.$message({
                   message: "碳信已发行",
@@ -220,7 +226,7 @@ export default {
     },
   },
   mounted() {
-    this.ticketUnissued = 
+    // this.ticketUnissued =
     this.formLabelAlign.num = parseInt(this.formLabelAlign.num);
     // this.avaliableCredit = this.ticketUnissued
   },

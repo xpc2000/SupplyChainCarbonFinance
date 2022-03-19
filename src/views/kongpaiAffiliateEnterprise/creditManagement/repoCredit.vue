@@ -125,7 +125,7 @@ export default {
         receiverChain: "55555",
         receiver: "55555",
         num: 0,
-        usage: "",
+        usage: " ",
       },
       rules: {
         actionPassword: [{ validator: validatePass, trigger: "blur" }],

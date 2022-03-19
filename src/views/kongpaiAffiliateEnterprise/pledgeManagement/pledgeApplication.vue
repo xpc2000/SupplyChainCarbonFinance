@@ -90,7 +90,7 @@
               autocomplete="off"
             ></el-input>
           </el-form-item>
-          <el-form-item label="提交" prop="submit">
+          <el-form-item prop="submit">
             <el-button type="primary" @click="submitForm(formLabelAlign)">
               提交
             </el-button>
@@ -166,7 +166,7 @@ export default {
             //操作密码不正确
             this.dialogVisible = false;
             this.$message({
-              message: "操作成功",
+              message: "申请成功",
               type: "success",
             });
           }

@@ -141,7 +141,9 @@ export default {
 </script>
 <style scoped>
 .content {
+  /* background: url("../assets/header-icon/bg.jpg"); */
   background: #156a59;
+
   width: 100vw;
   height: 100vh;
 }

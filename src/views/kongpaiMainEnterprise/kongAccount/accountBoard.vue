@@ -70,7 +70,7 @@
 <script>
 import * as echarts from "echarts";
 import headerTitle from "@/components/headerTitle.vue";
-import {getCompanySummary} from "@/utils/api.js"
+import { getCompanySummary } from "@/utils/api.js";
 export default {
   data() {
     return {
@@ -157,21 +157,31 @@ export default {
       this.mychart = echarts.init(document.getElementById("main"));
     }
     this.init();
-    // console.log(localStorage);
-    this.carbonIssued = parseInt(this.carbonLimit) - parseInt(this.ticketBuyback) - parseInt(this.ticketUnissued)
-    // console.log(this.carbonIssued)
-    const{data:res} = await getCompanySummary(localStorage.getItem("userEmail"), localStorage.getItem("accountType"))
-    console.log("res.data:", res.data)  
+    console.log(localStorage);
+    // this.carbonIssued =
+    //   parseInt(this.carbonLimit) -
+    //   parseInt(this.ticketBuyback) -
+    //   parseInt(this.ticketUnissued);
+    // console.log(this.carbonIssued);
+    const { data: res } = await getCompanySummary(
+      localStorage.getItem("userEmail"),
+      localStorage.getItem("accountType")
+    );
+    console.log("res.data:", res.data);
     localStorage.setItem("ticketBuyback", res.data.ticketBuyback);
     localStorage.setItem("ticketUnissued", res.data.ticketUnissued);
     localStorage.setItem("emissionPledged", res.data.emissionPledged);
-    localStorage.setItem("ticketUnissued", res.data.ticketUnissued)
-    this.carbonIssued = parseInt(this.carbonLimit) - parseInt(this.ticketBuyback) - parseInt(this.ticketUnissued)
-    
+    localStorage.setItem("carbonLimit", res.data.carbonLimit);
+    this.carbonIssued =
+      parseInt(this.carbonLimit) -
+      parseInt(this.ticketBuyback) -
+      parseInt(this.ticketUnissued);
+
+    this.$message("已刷新数据");
   },
   methods: {
     async refresh() {
-      this.$router.go()
+      this.$router.go();
       this.$message("已刷新数据");
     },
     init() {
